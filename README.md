@@ -1,6 +1,6 @@
 # Internal Certification Challenge
 
-A project to challenge ourself with specific web stack to achive the Internal Certification. 🚀
+A project to challenge ourself with specific web stack to achieve the Internal Certification. 🚀
 The requirement of this project is about extracting large amounts of data from the Google search result page.
 
 ## Prerequisite
