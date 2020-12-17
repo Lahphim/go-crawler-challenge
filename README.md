@@ -10,7 +10,7 @@ The requirement of this project is about extracting large amounts of data from t
 
 #### Clone the repository
 ```sh
-$ https://github.com/Lahphim/go-crawler-challenge.git
+$ git clone https://github.com/Lahphim/go-crawler-challenge.git
 ```
 
 #### Install development dependencies
