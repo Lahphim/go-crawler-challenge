@@ -1,4 +1,4 @@
-Solve https://github.com/Lahphim/go-crawler-challenge/issues/??
+Resolve https://github.com/Lahphim/go-crawler-challenge/issues/??
 
 ## What happened 👀
 
