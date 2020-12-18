@@ -28,11 +28,11 @@ func TestBeego(t *testing.T) {
 
 	log.Trace("testing", "TestBeego", "Code[%d]\n%s", w.Code, w.Body.String())
 
-	Convey("Subject: Test Station Endpoint\n", t, func() {
-		Convey("Status Code Should Be 200", func() {
+	Convey("Subject: Test station endpoint\n", t, func() {
+		Convey("Status code is 200", func() {
 			So(w.Code, ShouldEqual, 200)
 		})
-		Convey("The Result Should Not Be Empty", func() {
+		Convey("The result is not empty", func() {
 			So(w.Body.Len(), ShouldBeGreaterThan, 0)
 		})
 	})
