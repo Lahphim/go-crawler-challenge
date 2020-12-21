@@ -1,1 +1,27 @@
 name: Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - Test
+    branches:
+      - master
+      - development
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
+
+      - uses: akhileshns/heroku-deploy@v3.6.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "go-challenge"
+          heroku_email: "lahphim@gmail.com"
