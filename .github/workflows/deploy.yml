@@ -9,9 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - uses: akhileshns/heroku-deploy@v3.6.8
+      - uses: akhileshns/heroku-deploy@v3.7.8
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "go-challenge"
-          heroku_email: "lahphim@gmail.com"
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
+          env_file: ".env"
+        env:
+          APP_RUN_MODE: "prod"
