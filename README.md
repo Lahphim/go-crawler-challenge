@@ -1,7 +1,12 @@
 # Internal Certification Challenge
 
 A project to challenge ourself with specific web stack to achieve the Internal Certification. 🚀
+
 The requirement of this project is about extracting large amounts of data from the Google search result page.
+
+## Web Application
+- [Staging](https://go-challenge-staging.herokuapp.com/)
+- [Production](https://go-challenge.herokuapp.com/)
 
 ## Prerequisite
 * [Go - 1.15](https://golang.org/doc/go1.15)
