@@ -1,0 +1,17 @@
+{
+  "name": "go-crawler-challenge",
+  "version": "1.0.0",
+  "description": "A project to challenge ourself with specific web stack to achieve the Internal Certification.",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lahphim/go-crawler-challenge.git"
+  },
+  "keywords": [],
+  "author": "Somsak Arnon <somsak@nimblehq.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lahphim/go-crawler-challenge/issues"
+  },
+  "homepage": "https://github.com/Lahphim/go-crawler-challenge#readme"
+}

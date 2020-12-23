@@ -36,7 +36,16 @@ Visting http://localhost:8080/ with a web browser will display the application. 
 $ make test
 ````
 
+## License
+This project is Copyright (c) 2014-2020 Nimble. It is free software,
+and may be redistributed under the terms specified in the [LICENSE] file.
+
+[LICENSE]: /LICENSE
+
+
 ## About
 ![Nimble](https://assets.nimblehq.co/logo/dark/logo-dark-text-160.png)
 
-This project is created to complete **Web Certification Path** using **Go** at [Nimble](https://nimblehq.co)
+This project is created to complete **Web Certification Path** using **Go** at [Nimble][nimble]
+
+[nimble]: https://nimblehq.co
