@@ -24,6 +24,7 @@ $ make install-dependencies
 ```
 All dependencies:
 - [Bee - Bee CLI](https://github.com/beego/bee)
+- [Forego - Foreman in Go](https://github.com/ddollar/forego)
 
 #### Run the application with development mode
 ```sh
