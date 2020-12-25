@@ -2,7 +2,9 @@
   "name": "go-crawler-challenge",
   "version": "1.0.0",
   "description": "A project to challenge ourself with specific web stack to achieve the Internal Certification.",
-  "scripts": {},
+  "scripts": {
+    "dev": "webpack --watch --config conf/webpack/development.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lahphim/go-crawler-challenge.git"
@@ -13,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/Lahphim/go-crawler-challenge/issues"
   },
-  "homepage": "https://github.com/Lahphim/go-crawler-challenge#readme"
+  "homepage": "https://github.com/Lahphim/go-crawler-challenge#readme",
+  "devDependencies": {
+    "autoprefixer": "10.1.0",
+    "clean-webpack-plugin": "3.0.0",
+    "postcss": "8.2.1",
+    "postcss-import": "14.0",
+    "tailwindcss": "2.0.2",
+    "webpack": "5.11",
+    "webpack-cli": "4.2",
+    "webpack-dev-server": "3.11"
+  }
 }
