@@ -1,17 +1,11 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge');
+const common = require('./common.js');
+const webpack = require("webpack");
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
-  entry: {
-    application: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'application.js')
-  },
   devtool: 'inline-source-map',
   plugins: [
-    new CleanWebpackPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ],
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, '../..', 'static', 'js')
-  }
-};
+});
