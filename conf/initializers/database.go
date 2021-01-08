@@ -1,0 +1,36 @@
+package initializers
+
+import (
+	"fmt"
+
+	orm "github.com/beego/beego/v2/client/orm"
+	log "github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
+	_ "github.com/lib/pq"
+)
+
+func SetUpDatabase() {
+	dbURL, err := beego.AppConfig.String("dburl")
+	if err != nil {
+		log.Critical(fmt.Sprintf("Database URL not found: %v", err))
+	}
+
+	err = orm.RegisterDriver("postgres", orm.DRPostgres)
+	if err != nil {
+		log.Critical(fmt.Sprintf("Postgres Driver registration failed: %v", err))
+	}
+
+	err = orm.RegisterDataBase("default", "postgres", dbURL)
+	if err != nil {
+		log.Critical(fmt.Sprintf("Database Registration failed: %v", err))
+	}
+
+	err = orm.RunSyncdb("default", false, true)
+	if err != nil {
+		log.Critical(fmt.Sprintf("Sync the database failed: %v", err))
+	}
+
+	if beego.AppConfig.DefaultString("runmode", "dev") == "dev" {
+		orm.Debug = true
+	}
+}

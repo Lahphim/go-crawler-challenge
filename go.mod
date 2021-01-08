@@ -6,6 +6,7 @@ require github.com/beego/beego/v2 v2.0.1
 
 require (
 	github.com/ddollar/forego v0.16.1 // indirect
+	github.com/lib/pq v1.9.0
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/sys v0.0.0-20201214210602-f9fddec55a1e // indirect
