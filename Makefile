@@ -1,9 +1,12 @@
-.PHONY: dev test
+.PHONY: envsetup dev test
 
 install-dependencies:
 	go get github.com/beego/bee/v2
 	go get github.com/ddollar/forego
 	go mod tidy
+
+envsetup:
+	docker-compose -f docker-compose.dev.yml up -d
 
 dev:
 	forego start
