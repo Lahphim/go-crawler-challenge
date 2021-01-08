@@ -7,6 +7,7 @@ install-dependencies:
 
 envsetup:
 	docker-compose -f docker-compose.dev.yml up -d
+	npm i
 
 dev:
 	forego start

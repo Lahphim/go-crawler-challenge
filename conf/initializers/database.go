@@ -9,6 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// SetUpDatabase : Set up database connection with Postgres driver
 func SetUpDatabase() {
 	dbURL, err := beego.AppConfig.String("dburl")
 	if err != nil {
@@ -30,7 +31,9 @@ func SetUpDatabase() {
 		log.Critical(fmt.Sprintf("Sync the database failed: %v", err))
 	}
 
-	if beego.AppConfig.DefaultString("runmode", "dev") == "dev" {
+	if beego.AppConfig.DefaultString("runmode", "dev") == "prod" {
+		orm.Debug = false
+	} else {
 		orm.Debug = true
 	}
 }
