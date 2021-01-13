@@ -14,7 +14,7 @@ func init() {
 	m := &Sample_20210112_170701{}
 	m.Created = "20210112_170701"
 
-	migration.Register("Sample_20210112_170701", m)
+	_ = migration.Register("Sample_20210112_170701", m)
 }
 
 // Up : Run the migrations
