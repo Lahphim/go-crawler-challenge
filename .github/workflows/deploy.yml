@@ -1,15 +1,6 @@
 name: Deploy
 
-on:
-  workflow_run:
-    workflows:
-      - Test
-    branches:
-      - main
-      - development
-    types:
-      - completed
-  workflow_dispatch:
+on: push
 
 jobs:
   deploy:
@@ -35,14 +26,14 @@ jobs:
           fi
 
       - name: Set production environment variables
-        if [[ $BRANCH_TAG = "latest" ]]
+        if: ${{ env.BRANCH_TAG == 'latest' }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
         run: |
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
 
       - name: Set staging environment variables
-        if [[ $BRANCH_TAG != "latest" ]]
+        if: ${{ env.BRANCH_TAG != 'latest' }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
         run: |
