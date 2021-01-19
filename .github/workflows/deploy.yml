@@ -46,15 +46,12 @@ jobs:
           echo "PORT=$PORT" >> .env
           echo "DATABASE_URL=$DATABASE_URL" >> .env
 
-
       - uses: akhileshns/heroku-deploy@v3.7.8
         env:
           APP_RUN_MODE: "prod"
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
         with:
-          heroku_api_key: $HEROKU_API_KEY
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: $HEROKU_APP_NAME
-          heroku_email: $HEROKU_EMAIL
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
           env_file: ".env"
