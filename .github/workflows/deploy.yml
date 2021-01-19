@@ -8,6 +8,7 @@ on:
       - main
       - development
       - chore/6-setup-basic-backend
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -35,7 +36,7 @@ jobs:
       - name: Set production environment variables
         if [[ $BRANCH_TAG = "latest" ]]
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+          DATABASE_URL: ${{ secrets.DB_URL_PRODUCTION }}
         run: |
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
 
