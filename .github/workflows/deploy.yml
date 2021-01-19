@@ -1,6 +1,15 @@
 name: Deploy
 
-on: push
+on:
+  workflow_run:
+    workflows:
+      - Test
+    branches:
+      - main
+      - development
+    types:
+      - completed
+  workflow_dispatch:
 
 jobs:
   deploy:
