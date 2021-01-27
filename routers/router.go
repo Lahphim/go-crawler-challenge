@@ -10,5 +10,5 @@ func init() {
 	web.Router("/", &controllers.MainController{})
 
 	web.Router("/user/signup", &controllers.UserController{}, "get:New")
-	web.Router("/user/signup", &controllers.UserController{}, "post:Create")
+	web.Router("/user/create", &controllers.UserController{}, "post:Create")
 }
