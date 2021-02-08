@@ -6,7 +6,7 @@ import (
 
 // Sample : Sample model
 type Sample struct {
-	Id          int64  `orm:"auto"`
+	Id          int64
 	Title       string `orm:"size(128)"`
 	Description string `orm:"type(longtext)"`
 }

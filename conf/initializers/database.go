@@ -26,11 +26,6 @@ func SetUpDatabase() {
 		log.Critical(fmt.Sprintf("Database Registration failed: %v", err))
 	}
 
-	err = orm.RunSyncdb("default", false, true)
-	if err != nil {
-		log.Critical(fmt.Sprintf("Sync the database failed: %v", err))
-	}
-
 	if beego.AppConfig.DefaultString("runmode", "dev") == "prod" {
 		orm.Debug = false
 	} else {
