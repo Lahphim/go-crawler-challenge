@@ -43,7 +43,6 @@ and may be redistributed under the terms specified in the [LICENSE] file.
 
 [LICENSE]: /LICENSE
 
-
 ## About
 ![Nimble](https://assets.nimblehq.co/logo/dark/logo-dark-text-160.png)
 
