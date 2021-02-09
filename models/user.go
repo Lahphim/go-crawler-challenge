@@ -16,12 +16,20 @@ func init() {
 	orm.RegisterModel(new(User))
 }
 
-// GetUserByEmail retrieves User by email and returns error if the email doesn't exist.
-func GetUserByEmail(email string) (user *User, err error) {
+// AddUser insert a new User into database and returns last inserted Id on success.
+func AddUser(user *User) (id int64, err error) {
 	ormer := orm.NewOrm()
-	user = &User{Email: email}
+	id, err = ormer.Insert(user)
 
-	err = ormer.QueryTable(User{}).Filter("Email", email).RelatedSel().One(user)
+	return id, err
+}
+
+// GetUserById retrieves User by Id and returns error if Id doesn't exist
+func GetUserById(id int64) (user *User, err error) {
+	ormer := orm.NewOrm()
+	user = &User{}
+
+	err = ormer.QueryTable(User{}).Filter("Id", id).RelatedSel().One(user)
 	if err != nil {
 		return nil, err
 	}
@@ -29,10 +37,15 @@ func GetUserByEmail(email string) (user *User, err error) {
 	return user, nil
 }
 
-// AddUser insert a new User into database and returns last inserted Id on success.
-func AddUser(user *User) (id int64, err error) {
+// GetUserByEmail retrieves User by email and returns error if the email doesn't exist.
+func GetUserByEmail(email string) (user *User, err error) {
 	ormer := orm.NewOrm()
-	id, err = ormer.Insert(user)
+	user = &User{}
 
-	return id, err
+	err = ormer.QueryTable(User{}).Filter("Email", email).RelatedSel().One(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

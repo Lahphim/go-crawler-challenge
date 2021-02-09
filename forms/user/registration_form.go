@@ -57,7 +57,12 @@ func (form RegistrationForm) Create() (user *models.User, errors []error) {
 		Email:             form.Email,
 		EncryptedPassword: encryptedPassword,
 	}
-	id, err := models.AddUser(user)
+	userId, err := models.AddUser(user)
+	if err != nil {
+		return nil, []error{err}
+	}
+
+	user, err = models.GetUserById(userId)
 	if err != nil {
 		return nil, []error{err}
 	}
