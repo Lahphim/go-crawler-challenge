@@ -2,11 +2,11 @@ package helpers
 
 import "golang.org/x/crypto/bcrypt"
 
-// EncryptPassword encrypts plain password with bcrypt adaptive hashing algorithm.
-func EncryptPassword(plainPassword string) (encryptedPassword string, err error) {
+// HashPassword hashes plain password with bcrypt adaptive hashing algorithm.
+func HashPassword(plainPassword string) (hashedPassword string, err error) {
 	bytePassword := []byte(plainPassword)
 	hashPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-	encryptedPassword = string(hashPassword)
+	hashedPassword = string(hashPassword)
 
-	return encryptedPassword, err
+	return hashedPassword, err
 }

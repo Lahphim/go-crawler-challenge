@@ -32,14 +32,12 @@ func (form *RegistrationForm) Valid(validation *validation.Validation) {
 
 // Create handles validation and creating a new user from the registration form.
 // If there are some invalid cases, it will returns with set of errors to the controller.
-func (form RegistrationForm) Create() (id int64, errors []error) {
+func (form RegistrationForm) Create() (user *models.User, errors []error) {
 	validation := validation.Validation{}
 
 	valid, err := validation.Valid(&form)
 	if err != nil {
-		errors = append(errors, err)
-
-		return 0, errors
+		return nil, []error{err}
 	}
 
 	if !valid {
@@ -47,26 +45,22 @@ func (form RegistrationForm) Create() (id int64, errors []error) {
 			errors = append(errors, err)
 		}
 
-		return 0, errors
+		return nil, errors
 	}
 
-	encryptedPassword, err := helpers.EncryptPassword(form.Password)
+	encryptedPassword, err := helpers.HashPassword(form.Password)
 	if err != nil {
-		errors = append(errors, err)
-
-		return 0, errors
+		return nil, []error{err}
 	}
 
-	user := models.User{
+	user = &models.User{
 		Email:             form.Email,
 		EncryptedPassword: encryptedPassword,
 	}
-	id, err = models.AddUser(&user)
+	id, err := models.AddUser(user)
 	if err != nil {
-		errors = append(errors, err)
-
-		return 0, errors
+		return nil, []error{err}
 	}
 
-	return id, errors
+	return user, errors
 }

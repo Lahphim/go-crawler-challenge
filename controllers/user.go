@@ -2,16 +2,17 @@ package controllers
 
 import (
 	"fmt"
-	forms "go-crawler-challenge/forms/user"
 	"net/http"
 
+	forms "go-crawler-challenge/forms/user"
+
 	log "github.com/beego/beego/v2/core/logs"
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web"
 )
 
 //  UserController operations for User
 type UserController struct {
-	beego.Controller
+	web.Controller
 }
 
 // URLMapping ...

@@ -5,13 +5,13 @@ import (
 
 	orm "github.com/beego/beego/v2/client/orm"
 	log "github.com/beego/beego/v2/core/logs"
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web"
 	_ "github.com/lib/pq"
 )
 
 // SetUpDatabase : Set up database connection with Postgres driver
 func SetUpDatabase() {
-	dbURL, err := beego.AppConfig.String("dburl")
+	dbURL, err := web.AppConfig.String("dburl")
 	if err != nil {
 		log.Critical(fmt.Sprintf("Database URL not found: %v", err))
 	}
@@ -26,7 +26,7 @@ func SetUpDatabase() {
 		log.Critical(fmt.Sprintf("Database Registration failed: %v", err))
 	}
 
-	if beego.AppConfig.DefaultString("runmode", "dev") == "prod" {
+	if web.AppConfig.DefaultString("runmode", "dev") == "prod" {
 		orm.Debug = false
 	} else {
 		orm.Debug = true

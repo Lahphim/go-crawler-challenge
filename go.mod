@@ -5,6 +5,7 @@ go 1.15
 require github.com/beego/beego/v2 v2.0.1
 
 require (
+	github.com/astaxie/beego v1.12.3
 	github.com/lib/pq v1.9.0
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/prometheus/common v0.10.0
