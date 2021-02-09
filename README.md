@@ -38,7 +38,7 @@ $ make test
 ````
 
 ## License
-This project is Copyright (c) 2014-2020 Nimble. It is free software,
+This project is Copyright (c) 2014-2021 Nimble. It is free software,
 and may be redistributed under the terms specified in the [LICENSE] file.
 
 [LICENSE]: /LICENSE
