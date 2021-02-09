@@ -2,9 +2,7 @@ FROM node:15.5.1-alpine AS assets-builder
 
 WORKDIR /assets
 
-COPY ./package.json ./package-lock.json ./
-COPY ./conf/webpack/. ./conf/webpack/
-COPY ./assets/. ./assets/
+COPY . .
 
 RUN npm install && npm run build
 
@@ -36,7 +34,7 @@ RUN go build -o main .
 EXPOSE 8080
 
 # Copy all built files from the `assets-builder` into `app`
-COPY --from=assets-builder /assets/static/. ./static/
+COPY --from=assets-builder /assets/static ./static
 
 # Run the executable
 CMD ["./main"]
