@@ -34,12 +34,35 @@ jobs:
             echo "HEROKU_APP_NAME=${{ secrets.HEROKU_APP_NAME }}-staging" >> $GITHUB_ENV
           fi
 
+      - name: Set production environment variables
+        if: ${{ env.BRANCH_TAG == 'latest' }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+        run: |
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+
+      - name: Set staging environment variables
+        if: ${{ env.BRANCH_TAG != 'latest' }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+        run: |
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+
+      - name: Add general environment variables to .env file
+        env:
+          PORT: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          echo "PORT=$PORT" >> .env
+          echo "DATABASE_URL=$DATABASE_URL" >> .env
+
       - uses: akhileshns/heroku-deploy@v3.7.8
+        env:
+          APP_RUN_MODE: "prod"
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: $HEROKU_APP_NAME
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
+          docker_build_args: |
+            DATABASE_URL
           env_file: ".env"
-        env:
-          APP_RUN_MODE: "prod"

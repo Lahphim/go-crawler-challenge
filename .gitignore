@@ -17,6 +17,9 @@
 # Mac OS files
 .DS_Store
 
+# Environment variables
+.env
+
 # Node packages
 node_modules/
 
