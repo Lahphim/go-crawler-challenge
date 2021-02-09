@@ -1,3 +1,7 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 body {
   font-family: Georgia, sans-serif;
   line-height: 2rem;
@@ -12,6 +16,15 @@ main {
   margin: 0 auto 2rem;
   padding: 1rem 0 0;
   text-align: center;
+
+  > p,
+  > h1 {
+    margin: 1rem 0;
+  }
+
+  img {
+    display: initial;
+  }
 }
 
 h1 {

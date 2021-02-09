@@ -2,10 +2,11 @@
 
 install-dependencies:
 	go get github.com/beego/bee/v2
+	go get github.com/ddollar/forego
 	go mod tidy
 
 dev:
-	bee run
+	forego start
 
 test:
 	go test -v -p 1 ./...

@@ -17,6 +17,10 @@
 # Mac OS files
 .DS_Store
 
+# Node packages
+node_modules/
+
 # Beego compiled files
 go-crawler-challenge
 lastupdate.tmp
+static/

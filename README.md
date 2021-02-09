@@ -24,6 +24,7 @@ $ make install-dependencies
 ```
 All dependencies:
 - [Bee - Bee CLI](https://github.com/beego/bee)
+- [Forego - Foreman in Go](https://github.com/ddollar/forego)
 
 #### Run the application with development mode
 ```sh
@@ -36,7 +37,15 @@ Visting http://localhost:8080/ with a web browser will display the application. 
 $ make test
 ````
 
+## License
+This project is Copyright (c) 2014-2021 Nimble. It is free software,
+and may be redistributed under the terms specified in the [LICENSE] file.
+
+[LICENSE]: /LICENSE
+
 ## About
 ![Nimble](https://assets.nimblehq.co/logo/dark/logo-dark-text-160.png)
 
-This project is created to complete **Web Certification Path** using **Go** at [Nimble](https://nimblehq.co)
+This project is created to complete **Web Certification Path** using **Go** at [Nimble][nimble]
+
+[nimble]: https://nimblehq.co
