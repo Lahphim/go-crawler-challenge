@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	forms "go-crawler-challenge/forms/user"
+	form "go-crawler-challenge/forms/user"
 
 	log "github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
@@ -38,14 +38,14 @@ func (c *UserController) New() {
 // @Failure 302 edirect to the signup page and print some error messages
 // @router / [post]
 func (c *UserController) Create() {
-	form := forms.RegistrationForm{}
+	registrationForm := form.RegistrationForm{}
 
-	err := c.ParseForm(&form)
+	err := c.ParseForm(&registrationForm)
 	if err != nil {
 		log.Info(fmt.Sprintf("%v", err.Error()))
 	}
 
-	_, errors := form.Create()
+	_, errors := registrationForm.Create()
 	if len(errors) > 0 {
 		for _, err := range errors {
 			log.Info(fmt.Sprintf("%v", err))

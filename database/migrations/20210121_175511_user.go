@@ -23,7 +23,7 @@ func (m *User_20210121_175511) Up() {
 		(
 			id SERIAL,
 			email varchar(128) NOT NULL,
-			encrypted_password varchar(128) NOT NULL,
+			hashed_password varchar(128) NOT NULL,
 			created_at timestamp NOT NULL,
 			updated_at timestamp NOT NULL,
 			PRIMARY KEY (id),
