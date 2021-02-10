@@ -14,25 +14,25 @@ type RegistrationForm struct {
 }
 
 var ValidationMessages = map[string]string{
-	"ExistedEmail":      "Email is already in use",
-	"ConfirmationMatch": "Confirm password confirmation must match",
+	"ExistingEmail":   "Email is already in use",
+	"ConfirmPassword": "Confirm password confirmation must match",
 }
 
 // Valid handles some custom form validations and sets some errors for the invalid case
 func (form *RegistrationForm) Valid(validation *validation.Validation) {
 	existedUser, _ := models.GetUserByEmail(form.Email)
 	if existedUser != nil {
-		_ = validation.SetError("Email", ValidationMessages["ExistedEmail"])
+		_ = validation.SetError("Email", ValidationMessages["ExistingEmail"])
 	}
 
 	if form.Password != form.ConfirmPassword {
-		_ = validation.SetError("ConfirmPassword", ValidationMessages["ConfirmationMatch"])
+		_ = validation.SetError("ConfirmPassword", ValidationMessages["ConfirmPassword"])
 	}
 }
 
 // Create handles validation and creating a new user from the registration form.
 // If there are some invalid cases, it will returns with set of errors to the controller.
-func (form RegistrationForm) Create() (user *models.User, errors []error) {
+func (form *RegistrationForm) Create() (user *models.User, errors []error) {
 	validator := validation.Validation{}
 
 	valid, err := validator.Valid(&form)
