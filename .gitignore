@@ -23,6 +23,9 @@
 # Node packages
 node_modules/
 
+# JetBrains IDEs
+.idea/*
+
 # Beego compiled files
 go-crawler-challenge
 lastupdate.tmp
