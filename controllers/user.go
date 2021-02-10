@@ -7,12 +7,11 @@ import (
 	form "go-crawler-challenge/forms/user"
 
 	log "github.com/beego/beego/v2/core/logs"
-	"github.com/beego/beego/v2/server/web"
 )
 
 //  UserController operations for User
 type UserController struct {
-	web.Controller
+	BaseController
 }
 
 // URLMapping ...

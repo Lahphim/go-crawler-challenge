@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="stylesheet" href="/static/stylesheets/application.css">
+    {{ assets_css "/static/stylesheets/application.css" }}
   </head>
 
-  <body>
+  <body class="{{.ControllerName}} {{.ActionName}}">
     <main>
       {{.LayoutContent}}
     </main>
 
-    <script src="/static/javascripts/application.js"></script>
+    {{ assets_js "/static/javascripts/application.js" }}
   </body>
 </html>
