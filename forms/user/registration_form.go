@@ -35,7 +35,7 @@ func (form *RegistrationForm) Valid(validation *validation.Validation) {
 func (form *RegistrationForm) Create() (user *models.User, errors []error) {
 	validator := validation.Validation{}
 
-	valid, err := validator.Valid(&form)
+	valid, err := validator.Valid(form)
 	if err != nil {
 		return nil, []error{err}
 	}
