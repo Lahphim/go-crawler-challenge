@@ -3,9 +3,12 @@ package routers
 import (
 	"go-crawler-challenge/controllers"
 
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web"
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	web.Router("/", &controllers.MainController{})
+
+	web.Router("/user/signup", &controllers.UserController{}, "get:New")
+	web.Router("/user/create", &controllers.UserController{}, "post:Create")
 }
