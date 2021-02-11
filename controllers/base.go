@@ -11,6 +11,7 @@ type BaseController struct {
 	web.Controller
 }
 
-func (this *BaseController) Prepare() {
-	helpers.SetControllerAttributes(&this.Controller)
+func (c *BaseController) Prepare() {
+	helpers.SetControllerAttributes(&c.Controller)
+	helpers.SetFlashMessageLayout(&c.Controller)
 }

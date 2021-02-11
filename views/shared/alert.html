@@ -1,0 +1,13 @@
+{{ range $type, $message := .flash }}
+  {{ if $message }}
+    <div class="alert alert--{{ $type }}">
+      <div class="alert__bullet">*</div>
+      <div class="alert__detail">
+        <div class="alert__title">{{ $type }}</div>
+        <div class="alert__message">
+          {{ $message }}
+        </div>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}

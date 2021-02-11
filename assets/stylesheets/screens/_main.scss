@@ -7,7 +7,7 @@ body.main.get {
   padding: 0;
   color: #000;
 
-  main {
+  .app-content {
     margin: 0 auto 2rem;
     padding: 1rem 0 0;
     text-align: center;
@@ -20,25 +20,25 @@ body.main.get {
     img {
       display: initial;
     }
-  }
 
-  h1 {
-    font-weight: normal;
-    line-height: 2.8rem;
-    font-size: 2.5rem;
-    letter-spacing: -1px;
-    color: #000;
-  }
-
-  @media only screen and (max-width: 500px) {
     h1 {
-      font-size: 2rem;
+      font-weight: normal;
+      line-height: 2.8rem;
+      font-size: 2.5rem;
+      letter-spacing: -1px;
+      color: #000;
     }
-  }
 
-  .welcome {
-    width: 37.5rem;
-    max-width: 100%;
-    height: auto;
+    @media only screen and (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .welcome {
+      width: 37.5rem;
+      max-width: 100%;
+      height: auto;
+    }
   }
 }

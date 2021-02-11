@@ -26,10 +26,10 @@ $button-color: (
 
 // Alert
 $alert-color: (
-  'success':  hsl(93, 57%, 35%),  // #548c26
+  'error':    hsl(1, 66%, 59%),   // #db5451
   'info':     hsl(205, 61%, 52%), // #3a91cf
-  'warning':  hsl(49, 66%, 40%),  // #a89022
-  'error':    hsl(1, 66%, 59%)    // #db5451
+  'success':  hsl(93, 57%, 35%),  // #548c26
+  'warning':  hsl(49, 66%, 40%)   // #a89022
 );
 
 $base-font-size: 16px;

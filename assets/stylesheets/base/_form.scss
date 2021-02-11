@@ -7,7 +7,7 @@
 }
 
 .form__headline {
-  @apply border-b border-dashed mb-8 pb-4;
+  @apply border-b border-dashed mb-8 pb-4 w-full;
 
   border-bottom-color: map-get($brand-gray, 300);
 

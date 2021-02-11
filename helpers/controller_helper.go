@@ -7,6 +7,10 @@ import (
 	"github.com/iancoleman/strcase"
 )
 
+type NestPreparer interface {
+	NestPrepare()
+}
+
 // SetControllerAttributes sets some attributes for controller
 func SetControllerAttributes(controller *web.Controller) {
 	controllerName, actionName := controller.GetControllerAndAction()
@@ -16,4 +20,15 @@ func SetControllerAttributes(controller *web.Controller) {
 
 	controller.Data["ControllerName"] = strcase.ToKebab(controllerName)
 	controller.Data["ActionName"] = strcase.ToKebab(actionName)
+}
+
+// SetFlashMessageLayout sets flash menssage layout for controller
+func SetFlashMessageLayout(controller *web.Controller) {
+	controller.LayoutSections = make(map[string]string)
+	controller.LayoutSections["FlashMessage"] = "shared/alert.html"
+
+	app, ok := controller.AppController.(NestPreparer)
+	if ok {
+		app.NestPrepare()
+	}
 }

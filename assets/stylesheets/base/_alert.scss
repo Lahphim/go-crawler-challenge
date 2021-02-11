@@ -9,7 +9,7 @@
   }
 
   &__title {
-    @apply text-xl mb-2;
+    @apply text-xl uppercase mb-2;
   }
 
   &__message {
@@ -18,15 +18,15 @@
 }
 
 @each $color, $value in $alert-color {
-  .alert__#{$color} {
+  .alert--#{$color} {
     border-color: $value;
   }
 
-  .alert__#{$color} .alert__bullet {
+  .alert--#{$color} .alert__bullet {
     background-color: $value;
   }
 
-  .alert__#{$color} .alert__title {
+  .alert--#{$color} .alert__title {
     color: $value;
   }
 }
