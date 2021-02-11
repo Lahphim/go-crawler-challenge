@@ -1,0 +1,30 @@
+// Colors
+// Brand palette (using http://chir.ag/projects/name-that-color/)
+$brand-color: (
+  alabaster:  hsl(0, 0%, 97%),    // #f8f8f8
+  shark:      hsl(225, 14%, 11%)  // #181a20
+);
+
+$brand-gray: (
+  100: hsl(210, 8%, 95%), // #f2f3f4,
+  200: hsl(192, 7%, 86%), // #dadedf,
+  300: hsl(195, 7%, 77%), // #c1c7c9,
+  400: hsl(196, 7%, 68%), // #a7afb2,
+  500: hsl(193, 6%, 58%), // #8c979a,
+  600: hsl(194, 7%, 47%), // #6f7c80,
+  700: hsl(190, 7%, 36%), // #555f61,
+  800: hsl(195, 7%, 23%), // #373d3f,
+  900: hsl(200, 7%, 8%)   // #131516
+);
+
+$primary-color: map-get($brand-color, 'shark');
+
+// Button
+$button-color: (
+  'primary': $primary-color
+);
+
+$base-font-size: 16px;
+$base-font-family: 'JetBrains Mono', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+$base-line-height: 1;
+$base-font-color: map-get($brand-color, 'shark');

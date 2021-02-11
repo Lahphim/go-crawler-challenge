@@ -25,6 +25,7 @@ node_modules/
 
 # JetBrains IDEs
 .idea/*
+report.**.json
 
 # Beego compiled files
 go-crawler-challenge

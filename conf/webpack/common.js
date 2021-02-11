@@ -18,6 +18,12 @@ module.exports = {
           'postcss-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(woff2|ttf)$/,
+        use: [
+          'url-loader'
+        ]
       }
     ]
   },

@@ -1,0 +1,22 @@
+.button {
+  @apply inline-block rounded-3xl capitalize cursor-pointer outline-none border-solid px-4 py-2;
+
+  border-width: 3px;
+}
+
+// Alternate buttons
+@each $color, $value in $button-color {
+  .button--#{$color} {
+    color: hsl(0, 0%, 100%);
+    background-color: $value;
+    border-color: $value;
+  }
+}
+
+@each $color, $value in $button-color {
+  .button-outline--#{$color} {
+    color: $value;
+    background-color: hsl(0, 0%, 100%);
+    border-color: $value;
+  }
+}
