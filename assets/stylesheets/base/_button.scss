@@ -1,5 +1,5 @@
 .button {
-  @apply inline-block rounded-3xl capitalize cursor-pointer outline-none border-solid px-4 py-2;
+  @apply inline-block rounded-3xl capitalize cursor-pointer focus:outline-none border-solid px-4 py-2;
 
   border-width: 3px;
 }
