@@ -6,6 +6,10 @@ type MainController struct {
 	BaseController
 }
 
+func (c *MainController) NestPrepare() {
+	c.requireAuthenticatedUser = true
+}
+
 func (c *MainController) Get() {
 	web.ReadFromRequest(&c.Controller)
 

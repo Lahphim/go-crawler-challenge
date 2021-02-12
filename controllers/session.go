@@ -8,9 +8,14 @@ import (
 	"github.com/beego/beego/v2/server/web"
 )
 
-//  SessionController operations for User's session
+// SessionController operations for User's session
 type SessionController struct {
 	BaseController
+}
+
+// NestPrepare prepares some configurations to the controller
+func (c *SessionController) NestPrepare() {
+	c.requireGuestUser = true
 }
 
 // URLMapping maps session controller actions to functions

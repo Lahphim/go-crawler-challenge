@@ -8,9 +8,14 @@ import (
 	"github.com/beego/beego/v2/server/web"
 )
 
-//  UserController operations for User
+// UserController operations for User
 type UserController struct {
 	BaseController
+}
+
+// NestPrepare prepares some configurations to the controller
+func (c *UserController) NestPrepare() {
+	c.requireGuestUser = true
 }
 
 // URLMapping maps user controller actions to functions
