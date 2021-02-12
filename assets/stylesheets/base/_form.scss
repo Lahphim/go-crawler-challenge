@@ -34,8 +34,6 @@
   }
 
   &::placeholder {
-    @apply capitalize opacity-100;
-
     color: map-get($brand-gray, 300);
   }
 }
