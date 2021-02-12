@@ -12,7 +12,15 @@
   border-bottom-color: map-get($brand-gray, 300);
 
   > strong {
-    @apply block text-2xl mt-2;
+    @apply block text-2xl my-2;
+
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
   }
 }
 

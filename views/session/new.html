@@ -1,11 +1,22 @@
-<form action="/session/create" method="post">
-    <label for="user_email">email: </label>
-    <input type="email" name="email" id="user_email" placeholder="Your email address">
-    <br>
+<form class="form form--right-align" action="/session/create" method="post">
+  <fieldset>
+    <legend class="form__headline">
+      <strong>Sign in to continue :)</strong>
+      New to this site? <a class="link link--primary" href="/user/sign_up">Sign Up</a>
+    </legend>
 
-    <label for="user_password">password: </label>
-    <input type="password" name="password"  id="user_password" placeholder="Password">
-    <br>
+    <div class="form__group">
+      <label class="form__label" for="user_email">email: </label>
+      <input class="form__input" type="email" name="email" id="user_email" placeholder="Your email address">
+    </div>
 
-    <button type="submit" class="button">submit</button>
+    <div class="form__group">
+      <label class="form__label" for="user_password">password: </label>
+      <input class="form__input" type="password" name="password" id="user_password" placeholder="Password">
+    </div>
+
+    <div class="form__group">
+      <button type="submit" class="button button--primary">Sign In</button>
+    </div>
+  </fieldset>
 </form>
