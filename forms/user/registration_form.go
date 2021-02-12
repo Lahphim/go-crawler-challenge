@@ -8,7 +8,7 @@ import (
 )
 
 type RegistrationForm struct {
-	Email           string `form:"email" valid:"Required; MaxSize(100)"`
+	Email           string `form:"email" valid:"Required; Email; MaxSize(100)"`
 	Password        string `form:"password" valid:"Required; MinSize(6); MaxSize(12)"`
 	ConfirmPassword string `form:"confirm_password" valid:"Required; MinSize(6); MaxSize(12)"`
 }
