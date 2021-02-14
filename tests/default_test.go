@@ -1,17 +1,13 @@
 package test
 
 import (
-	"net/http"
-	"net/http/httptest"
 	"path/filepath"
 	"runtime"
 	"testing"
 
 	_ "go-crawler-challenge/routers"
 
-	log "github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func init() {
@@ -21,19 +17,4 @@ func init() {
 }
 
 // TestBeego is a sample to run an endpoint test
-func TestBeego(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/", nil)
-	w := httptest.NewRecorder()
-	web.BeeApp.Handlers.ServeHTTP(w, r)
-
-	log.Trace("testing", "TestBeego", "Code[%d]\n%s", w.Code, w.Body.String())
-
-	Convey("Subject: Test station endpoint\n", t, func() {
-		Convey("Status code is 200", func() {
-			So(w.Code, ShouldEqual, 200)
-		})
-		Convey("The result is not empty", func() {
-			So(w.Body.Len(), ShouldBeGreaterThan, 0)
-		})
-	})
-}
+func TestBeego(t *testing.T) {}
