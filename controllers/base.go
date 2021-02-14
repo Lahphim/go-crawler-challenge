@@ -74,18 +74,12 @@ func (c *BaseController) handleAuthorizeRequest() {
 
 func (c *BaseController) ensureAuthenticatedUser() bool {
 	currentUser := c.GetSessionCurrentUser()
-	if currentUser == nil {
-		return false
-	}
 
-	return true
+	return currentUser != nil
 }
 
 func (c *BaseController) ensureGuestUser() bool {
 	currentUser := c.GetSessionCurrentUser()
-	if currentUser != nil {
-		return false
-	}
 
-	return true
+	return currentUser == nil
 }
