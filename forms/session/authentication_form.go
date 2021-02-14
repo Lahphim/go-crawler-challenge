@@ -9,7 +9,7 @@ import (
 
 type AuthenticationForm struct {
 	Email    string `form:"email" valid:"Required; Email; MaxSize(100)"`
-	Password string `form:"password" valid:"Required; MinSize(6); MaxSize(12)"`
+	Password string `form:"password" valid:"Required;"`
 }
 
 var ValidationMessages = map[string]string{

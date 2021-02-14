@@ -56,7 +56,7 @@ func (c *SessionController) Create() {
 	if len(errors) > 0 {
 		flash.Error(errors[0].Error())
 	} else {
-		c.SetCurrentUser(user)
+		c.SetSessionCurrentUser(user)
 
 		flash.Success("You have successfully signed in")
 		redirectPath = "/"

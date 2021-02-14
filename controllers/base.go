@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"net/http"
 
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
@@ -24,16 +25,28 @@ type BaseController struct {
 func (c *BaseController) Prepare() {
 	helpers.SetControllerAttributes(&c.Controller)
 	helpers.SetFlashMessageLayout(&c.Controller)
+
+	c.handleAuthorizeRequest()
 }
 
-func (c *BaseController) SetCurrentUser(user *models.User) {
-	err := c.SetSession(currentUserKey, user.Id)
-	if err != nil {
-		log.Critical(fmt.Sprintf("Set session failed: %v", err))
+func (c *BaseController) SetSessionCurrentUser(user *models.User) {
+	if user != nil {
+		err := c.SetSession(currentUserKey, user.Id)
+		if err != nil {
+			log.Critical(fmt.Sprintf("Set session failed: %v", err))
+		}
+	} else {
+		err := c.DelSession(currentUserKey)
+		if err != nil {
+			log.Critical(fmt.Sprintf("Delete session failed: %v", err))
+		}
 	}
+
+	c.Data["CurrentUser"] = user
+	c.CurrentUser = user
 }
 
-func (c *BaseController) GetCurrentUser() (user *models.User) {
+func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
 	userId := c.GetSession(currentUserKey)
 	if userId == nil {
 		return nil
@@ -45,4 +58,34 @@ func (c *BaseController) GetCurrentUser() (user *models.User) {
 	}
 
 	return user
+}
+
+func (c *BaseController) handleAuthorizeRequest() {
+	if c.requireGuestUser && !c.ensureGuestUser() {
+		c.Redirect("/", http.StatusFound)
+	}
+
+	if c.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {
+		c.SetSessionCurrentUser(nil)
+
+		c.Redirect("/user/sign_in", http.StatusFound)
+	}
+}
+
+func (c *BaseController) ensureAuthenticatedUser() bool {
+	currentUser := c.GetSessionCurrentUser()
+	if currentUser == nil {
+		return false
+	}
+
+	return true
+}
+
+func (c *BaseController) ensureGuestUser() bool {
+	currentUser := c.GetSessionCurrentUser()
+	if currentUser != nil {
+		return false
+	}
+
+	return true
 }
