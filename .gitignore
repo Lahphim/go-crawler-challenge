@@ -23,7 +23,7 @@
 # Node packages
 node_modules/
 
-# JetBrains IDEs
+# JetBrains IDE files
 .idea/*
 report.**.json
 

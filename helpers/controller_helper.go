@@ -22,7 +22,7 @@ func SetControllerAttributes(controller *web.Controller) {
 	controller.Data["ActionName"] = strcase.ToKebab(actionName)
 }
 
-// SetFlashMessageLayout sets flash menssage layout for controller
+// SetFlashMessageLayout sets flash message layout for controller
 func SetFlashMessageLayout(controller *web.Controller) {
 	controller.LayoutSections = make(map[string]string)
 	controller.LayoutSections["FlashMessage"] = "shared/alert.html"
