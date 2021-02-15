@@ -1,9 +1,12 @@
 package forms
 
 import (
+	"fmt"
+
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
+	log "github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 )
 
@@ -22,11 +25,17 @@ var ValidationMessages = map[string]string{
 func (form *RegistrationForm) Valid(validation *validation.Validation) {
 	existedUser, _ := models.GetUserByEmail(form.Email)
 	if existedUser != nil {
-		_ = validation.SetError("Email", ValidationMessages["ExistingEmail"])
+		err := validation.SetError("Email", ValidationMessages["ExistingEmail"])
+		if err != nil {
+			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+		}
 	}
 
 	if form.Password != form.ConfirmPassword {
-		_ = validation.SetError("ConfirmPassword", ValidationMessages["ConfirmPassword"])
+		err := validation.SetError("ConfirmPassword", ValidationMessages["ConfirmPassword"])
+		if err != nil {
+			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+		}
 	}
 }
 

@@ -12,7 +12,5 @@ func HashPassword(plainPassword string) (hashedPassword string, err error) {
 
 // CheckMatchPassword checks match password between plain password and hashed password
 func CheckMatchPassword(hashedPassword string, plainPassword string) (err error) {
-	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
-
-	return err
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 }
