@@ -26,14 +26,14 @@ func (form *AuthenticationForm) Valid(validation *validation.Validation) {
 	user, _ := models.GetUserByEmail(form.Email)
 	if user == nil {
 		err := validation.SetError("Email", ValidationMessages["InvalidCredential"])
-		if err != nil {
+		if err == nil {
 			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
 	} else {
 		err := helpers.CheckMatchPassword(user.HashedPassword, form.Password)
 		if err != nil {
 			err = validation.SetError("Email", ValidationMessages["InvalidCredential"])
-			if err != nil {
+			if err == nil {
 				log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 			}
 		} else {

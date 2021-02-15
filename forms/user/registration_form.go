@@ -26,14 +26,14 @@ func (form *RegistrationForm) Valid(validation *validation.Validation) {
 	existedUser, _ := models.GetUserByEmail(form.Email)
 	if existedUser != nil {
 		err := validation.SetError("Email", ValidationMessages["ExistingEmail"])
-		if err != nil {
+		if err == nil {
 			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
 	}
 
 	if form.Password != form.ConfirmPassword {
 		err := validation.SetError("ConfirmPassword", ValidationMessages["ConfirmPassword"])
-		if err != nil {
+		if err == nil {
 			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
 	}
