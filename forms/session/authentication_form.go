@@ -6,7 +6,7 @@ import (
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
-	log "github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 )
 
@@ -27,14 +27,14 @@ func (form *AuthenticationForm) Valid(validation *validation.Validation) {
 	if user == nil {
 		err := validation.SetError("Email", ValidationMessages["InvalidCredential"])
 		if err == nil {
-			log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
 	} else {
 		err := helpers.CheckMatchPassword(user.HashedPassword, form.Password)
 		if err != nil {
 			err = validation.SetError("Email", ValidationMessages["InvalidCredential"])
 			if err == nil {
-				log.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+				logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 			}
 		} else {
 			currentUser = user

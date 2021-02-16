@@ -3,6 +3,7 @@ version: "3.8"
 services:
   database:
     image: postgres:12
+    container_name: go_challenge_database_development
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
