@@ -7,7 +7,7 @@ import (
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
-	log "github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
 )
 
@@ -33,12 +33,12 @@ func (c *BaseController) SetSessionCurrentUser(user *models.User) {
 	if user != nil {
 		err := c.SetSession(CurrentUserKey, user.Id)
 		if err != nil {
-			log.Critical(fmt.Sprintf("Set session failed: %v", err))
+			logs.Critical(fmt.Sprintf("Set session failed: %v", err))
 		}
 	} else {
 		err := c.DelSession(CurrentUserKey)
 		if err != nil {
-			log.Critical(fmt.Sprintf("Delete session failed: %v", err))
+			logs.Critical(fmt.Sprintf("Delete session failed: %v", err))
 		}
 	}
 

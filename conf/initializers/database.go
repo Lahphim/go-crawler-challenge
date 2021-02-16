@@ -31,9 +31,9 @@ func SetUpDatabase() {
 		logs.Critical(fmt.Sprintf("Sync the database failed: %v", err))
 	}
 
-	if web.AppConfig.DefaultString("runmode", "dev") == "prod" {
-		orm.Debug = false
-	} else {
+	if web.AppConfig.DefaultString("runmode", "dev") == "dev" {
 		orm.Debug = true
+	} else {
+		orm.Debug = false
 	}
 }

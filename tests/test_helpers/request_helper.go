@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
+	"strings"
 
 	"go-crawler-challenge/controllers"
 	"go-crawler-challenge/models"
@@ -12,6 +14,17 @@ import (
 	"github.com/beego/beego/v2/server/web"
 	"github.com/onsi/ginkgo"
 )
+
+// GenerateRequestBody returns a request body
+func GenerateRequestBody(data map[string]string) (body io.Reader) {
+	rawData := url.Values{}
+	for k, v := range data {
+		rawData.Set(k, v)
+	}
+	body = strings.NewReader(rawData.Encode())
+
+	return body
+}
 
 // GetCurrentPath gets current path from HTTP response and return the current url path
 func GetCurrentPath(response *http.Response) string {
