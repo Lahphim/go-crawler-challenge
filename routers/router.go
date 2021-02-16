@@ -9,6 +9,6 @@ import (
 func init() {
 	web.Router("/", &controllers.MainController{})
 
-	web.Router("/user/signup", &controllers.UserController{}, "get:New")
+	web.Router("/user/sign_up", &controllers.UserController{}, "get:New")
 	web.Router("/user/create", &controllers.UserController{}, "post:Create")
 }

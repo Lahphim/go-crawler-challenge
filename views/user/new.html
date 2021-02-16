@@ -1,12 +1,24 @@
-<form action="/user/create" method="post">
-  <label for="user_email">email: </label>
-  <input type="email" name="Email" id="user_email">
-  <br/>
-  <label for="user_password">password: </label>
-  <input type="password" name="Password" id="user_password">
-  <br/>
-  <label for="user_confirm_password">confirm password: </label>
-  <input type="password" name="ConfirmPassword" id="user_confirm_password">
-  <br/>
-  <input type="submit" value="submit">
+<form class="form form--right-align" action="/user/create" method="post">
+  <fieldset>
+    <legend class="form__headline">Not signed up yet?<strong>Create a new account :)</strong></legend>
+
+    <div class="form__group">
+      <label class="form__label" for="user_email">email: </label>
+      <input class="form__input" type="email" name="email" id="user_email" placeholder="Your email address" required>
+    </div>
+
+    <div class="form__group">
+      <label class="form__label" for="user_password">password: </label>
+      <input class="form__input" type="password" name="password" id="user_password" placeholder="Password" required>
+    </div>
+
+    <div class="form__group">
+      <label class="form__label" for="user_confirm_password">confirm password: </label>
+      <input class="form__input" type="password" name="confirm_password" id="user_confirm_password" placeholder="Confirm password" required>
+    </div>
+
+    <div class="form__action">
+      <button type="submit" class="button button--primary">submit</button>
+    </div>
+  </fieldset>
 </form>

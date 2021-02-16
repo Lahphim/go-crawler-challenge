@@ -8,9 +8,9 @@ import (
 )
 
 type RegistrationForm struct {
-	Email           string `valid:"Required; MaxSize(100)"`
-	Password        string `valid:"Required; MinSize(6); MaxSize(12)"`
-	ConfirmPassword string `valid:"Required; MinSize(6); MaxSize(12)"`
+	Email           string `form:"email" valid:"Required; Email; MaxSize(100)"`
+	Password        string `form:"password" valid:"Required; MinSize(6); MaxSize(12)"`
+	ConfirmPassword string `form:"confirm_password" valid:"Required; MinSize(6); MaxSize(12)"`
 }
 
 var ValidationMessages = map[string]string{

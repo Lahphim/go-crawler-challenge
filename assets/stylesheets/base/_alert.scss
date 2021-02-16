@@ -1,0 +1,32 @@
+.alert {
+  @apply fixed flex w-full sm:w-96 top-0 sm:top-4 sm:right-4 p-4 border border-l-8 bg-white border-black shadow-2xl z-50;
+
+  &__bullet {
+    @apply flex justify-center items-center mr-4 w-8 h-8 rounded-2xl text-white bg-black;
+
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  &__title {
+    @apply text-xl uppercase mb-2;
+  }
+
+  &__message {
+    @apply font-thin;
+  }
+}
+
+@each $color, $value in $alert-color {
+  .alert--#{$color} {
+    border-color: $value;
+  }
+
+  .alert--#{$color} .alert__bullet {
+    background-color: $value;
+  }
+
+  .alert--#{$color} .alert__title {
+    color: $value;
+  }
+}

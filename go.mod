@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/beego/beego/v2 v2.0.1
+	github.com/iancoleman/strcase v0.1.3
 	github.com/lib/pq v1.9.0
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4

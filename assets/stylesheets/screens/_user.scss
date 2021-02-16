@@ -1,0 +1,12 @@
+body.user.new {
+  .app-content {
+    @apply min-h-screen flex justify-center items-center p-4;
+  }
+
+  .form {
+    @apply max-w-2xl border border-dashed rounded-3xl p-8;
+
+    border-color: map-get($brand-color, 'shark');
+    border-width: 3px;
+  }
+}

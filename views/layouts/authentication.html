@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="layout-default">
+<html lang="en" class="layout-authentication">
   <head>
     <title>Internal Certification : Go + Beego</title>
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
@@ -10,9 +10,7 @@
   </head>
 
   <body class="{{.ControllerName}} {{.ActionName}}">
-    <main class="app-content">
-      {{.LayoutContent}}
-    </main>
+    <main class="app-content">{{ .FlashMessage }}{{ .LayoutContent }}</main>
 
     {{ assets_js "/static/javascripts/application.js" }}
   </body>
