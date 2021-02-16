@@ -10,7 +10,9 @@
   </head>
 
   <body class="{{.ControllerName}} {{.ActionName}}">
-    <main class="app-content">{{ .FlashMessage }}{{ .LayoutContent }}</main>
+    {{ .FlashMessage }}
+
+    <main class="app-content">{{ .LayoutContent }}</main>
 
     {{ assets_js "/static/javascripts/application.js" }}
   </body>

@@ -1,16 +1,16 @@
 body.main.get {
-  font-family: Georgia, sans-serif;
-  line-height: 2rem;
-  font-size: 1.3rem;
   background-color: #fff;
   margin: 0;
   padding: 0;
-  color: #000;
 
   .app-content {
+    font-family: Georgia, sans-serif;
+    line-height: 2rem;
+    font-size: 1.3rem;
     margin: 0 auto 2rem;
     padding: 1rem 0 0;
     text-align: center;
+    color: #000;
 
     > p,
     > h1 {
