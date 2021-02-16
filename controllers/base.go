@@ -11,7 +11,7 @@ import (
 	"github.com/beego/beego/v2/server/web"
 )
 
-const currentUserKey = "CURRENT_USER_ID"
+const CurrentUserKey = "CURRENT_USER_ID"
 
 //  BaseController operations for all controller
 type BaseController struct {
@@ -31,12 +31,12 @@ func (c *BaseController) Prepare() {
 
 func (c *BaseController) SetSessionCurrentUser(user *models.User) {
 	if user != nil {
-		err := c.SetSession(currentUserKey, user.Id)
+		err := c.SetSession(CurrentUserKey, user.Id)
 		if err != nil {
 			log.Critical(fmt.Sprintf("Set session failed: %v", err))
 		}
 	} else {
-		err := c.DelSession(currentUserKey)
+		err := c.DelSession(CurrentUserKey)
 		if err != nil {
 			log.Critical(fmt.Sprintf("Delete session failed: %v", err))
 		}
@@ -47,7 +47,7 @@ func (c *BaseController) SetSessionCurrentUser(user *models.User) {
 }
 
 func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
-	userId := c.GetSession(currentUserKey)
+	userId := c.GetSession(CurrentUserKey)
 	if userId == nil {
 		return nil
 	}

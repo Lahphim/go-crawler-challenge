@@ -6,5 +6,6 @@ import (
 )
 
 func init() {
+	LoadAppConfig()
 	SetUpDatabase()
 }

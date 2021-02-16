@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  database_test:
+    image: postgres:12
+    container_name: go_challenge_database_test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=go_crawler_challenge_test
+    ports:
+      - "5432:5432"
