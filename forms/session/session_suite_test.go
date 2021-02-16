@@ -11,5 +11,5 @@ import (
 
 func TestSession(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Form Session Suite")
+	RunSpecs(t, "Forms/Session Suite")
 }
