@@ -1,4 +1,9 @@
+# Include variables from ENV file
+ENV =
 -include .env
+ifdef ENV
+-include .env.$(ENV)
+endif
 export
 
 .PHONY: envsetup dev db/setup db/migrate db/rollback install/package test test/run
