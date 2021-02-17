@@ -1,13 +1,13 @@
 package forms_test
 
 import (
-	form "go-crawler-challenge/forms/session"
-	. "go-crawler-challenge/tests/test_helpers"
-	. "go-crawler-challenge/tests/test_helpers/fabricators"
-
 	"github.com/beego/beego/v2/core/validation"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	form "go-crawler-challenge/forms/session"
+	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
+	"strings"
 )
 
 var _ = Describe("Session/AuthenticationForm", func() {
@@ -143,6 +143,102 @@ var _ = Describe("Session/AuthenticationForm", func() {
 					_, errors := form.Authenticate()
 
 					Expect(errors[0].Error()).To(Equal("Your email or password is incorrect"))
+				})
+			})
+
+			Context("given NO email", func() {
+				It("does NOT return a user object", func() {
+					form := form.AuthenticationForm{
+						Email:    "",
+						Password: "password",
+					}
+
+					currentUser, _ := form.Authenticate()
+
+					Expect(currentUser).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.AuthenticationForm{
+						Email:    "",
+						Password: "password",
+					}
+
+					_, errors := form.Authenticate()
+
+					Expect(errors[0].Error()).To(Equal("Email can not be empty"))
+				})
+			})
+
+			Context("given INVALID email", func() {
+				It("does NOT return a user object", func() {
+					form := form.AuthenticationForm{
+						Email:    "INVALID_EMAIL",
+						Password: "password",
+					}
+
+					currentUser, _ := form.Authenticate()
+
+					Expect(currentUser).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.AuthenticationForm{
+						Email:    "INVALID_EMAIL",
+						Password: "password",
+					}
+
+					_, errors := form.Authenticate()
+
+					Expect(errors[0].Error()).To(Equal("Email must be a valid email address"))
+				})
+			})
+
+			Context("given email length is over than 100", func() {
+				It("does NOT return a user object", func() {
+					form := form.AuthenticationForm{
+						Email:    "dev" + strings.Repeat("*", 100) + "@nimblehq.co",
+						Password: "password",
+					}
+
+					currentUser, _ := form.Authenticate()
+
+					Expect(currentUser).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.AuthenticationForm{
+						Email:    "dev" + strings.Repeat("*", 100) + "@nimblehq.co",
+						Password: "password",
+					}
+
+					_, errors := form.Authenticate()
+
+					Expect(errors[0].Error()).To(Equal("Email maximum size is 100"))
+				})
+			})
+
+			Context("given NO password", func() {
+				It("does NOT return a user object", func() {
+					form := form.AuthenticationForm{
+						Email:    "dev@nimblehq.co",
+						Password: "",
+					}
+
+					currentUser, _ := form.Authenticate()
+
+					Expect(currentUser).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.AuthenticationForm{
+						Email:    "dev@nimblehq.co",
+						Password: "",
+					}
+
+					_, errors := form.Authenticate()
+
+					Expect(errors[0].Error()).To(Equal("Password can not be empty"))
 				})
 			})
 		})

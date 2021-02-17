@@ -2,8 +2,9 @@ package forms_test
 
 import (
 	form "go-crawler-challenge/forms/user"
-	. "go-crawler-challenge/tests/test_helpers"
-	. "go-crawler-challenge/tests/test_helpers/fabricators"
+	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
+	"strings"
 
 	"github.com/beego/beego/v2/core/validation"
 	. "github.com/onsi/ginkgo"
@@ -128,6 +129,32 @@ var _ = Describe("User/RegistrationForm", func() {
 				})
 			})
 
+			Context("given NO email", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "",
+						Password:        "password",
+						ConfirmPassword: "password",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "",
+						Password:        "password",
+						ConfirmPassword: "password",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("Email can not be empty"))
+				})
+			})
+
 			Context("given an INVALID email", func() {
 				It("does NOT return a user object", func() {
 					form := form.RegistrationForm{
@@ -151,6 +178,32 @@ var _ = Describe("User/RegistrationForm", func() {
 					_, errors := form.Create()
 
 					Expect(errors[0].Error()).To(Equal("Email must be a valid email address"))
+				})
+			})
+
+			Context("given email length is over than 100", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev" + strings.Repeat("*", 100) + "@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "password",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev" + strings.Repeat("*", 100) + "@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "password",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("Email maximum size is 100"))
 				})
 			})
 
@@ -180,12 +233,38 @@ var _ = Describe("User/RegistrationForm", func() {
 				})
 			})
 
+			Context("given NO password", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "",
+						ConfirmPassword: "password",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "",
+						ConfirmPassword: "password",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("Password can not be empty"))
+				})
+			})
+
 			Context("given password length is less than 6", func() {
 				It("does NOT return a user object", func() {
 					form := form.RegistrationForm{
 						Email:           "dev@nimblehq.co",
 						Password:        "pass",
-						ConfirmPassword: "pass",
+						ConfirmPassword: "password",
 					}
 
 					user, _ := form.Create()
@@ -197,12 +276,116 @@ var _ = Describe("User/RegistrationForm", func() {
 					form := form.RegistrationForm{
 						Email:           "dev@nimblehq.co",
 						Password:        "pass",
-						ConfirmPassword: "pass",
+						ConfirmPassword: "password",
 					}
 
 					_, errors := form.Create()
 
 					Expect(errors[0].Error()).To(Equal("Password minimum size is 6"))
+				})
+			})
+
+			Context("given password length is over than 12", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password" + strings.Repeat("*", 12),
+						ConfirmPassword: "password",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password" + strings.Repeat("*", 12),
+						ConfirmPassword: "password",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("Password maximum size is 12"))
+				})
+			})
+
+			Context("given NO confirm password", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("ConfirmPassword can not be empty"))
+				})
+			})
+
+			Context("given confirm password length is less than 6", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "pass",
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "pass",
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("ConfirmPassword minimum size is 6"))
+				})
+			})
+
+			Context("given confirm password length is over than 12", func() {
+				It("does NOT return a user object", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "password" + strings.Repeat("*", 12),
+					}
+
+					user, _ := form.Create()
+
+					Expect(user).To(BeNil())
+				})
+
+				It("produces an error", func() {
+					form := form.RegistrationForm{
+						Email:           "dev@nimblehq.co",
+						Password:        "password",
+						ConfirmPassword: "password" + strings.Repeat("*", 12),
+					}
+
+					_, errors := form.Create()
+
+					Expect(errors[0].Error()).To(Equal("ConfirmPassword maximum size is 12"))
 				})
 			})
 		})
