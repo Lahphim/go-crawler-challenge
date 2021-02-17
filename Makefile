@@ -1,10 +1,4 @@
-# Include variables from ENV file
-ENV =
 -include .env
-ifdef ENV
--include .env.$(ENV)
-endif
-export
 
 .PHONY: envsetup dev db/setup db/migrate db/rollback install/package test test/run
 
@@ -38,6 +32,5 @@ test:
 
 test/run:
 	docker-compose -f docker-compose.test.yml up -d
-	make db/migrate
 	APP_RUN_MODE=test go test -v -p 1 ./...
 	docker-compose -f docker-compose.test.yml down
