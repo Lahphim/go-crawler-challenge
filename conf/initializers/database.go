@@ -32,7 +32,9 @@ func SetUpDatabase() {
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Database Registration failed: %v", err))
 	} else {
-		SetUpSession(dbURL)
+		if runMode != "test" {
+			SetUpSession(dbURL)
+		}
 	}
 
 	err = orm.RunSyncdb("default", false, true)
