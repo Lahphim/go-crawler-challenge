@@ -4,21 +4,21 @@ import (
 	"github.com/beego/beego/v2/client/orm/migration"
 )
 
-// Session_00000000_000000 : DO NOT MODIFY
-type Session_00000000_000000 struct {
+// Session_20060102_150405 : DO NOT MODIFY
+type Session_20060102_150405 struct {
 	migration.Migration
 }
 
 // DO NOT MODIFY
 func init() {
-	m := &Session_00000000_000000{}
-	m.Created = "00000000_000000"
+	m := &Session_20060102_150405{}
+	m.Created = "20060102_150405"
 
-	_ = migration.Register("Session_00000000_000000", m)
+	_ = migration.Register("Session_20060102_150405", m)
 }
 
 // Up : Run the migrations
-func (m *Session_00000000_000000) Up() {
+func (m *Session_20060102_150405) Up() {
 	m.SQL(`CREATE TABLE "session"
 		(
 			session_key char(64) NOT NULL,
@@ -29,6 +29,6 @@ func (m *Session_00000000_000000) Up() {
 }
 
 // Down : Reverse the migrations
-func (m *Session_00000000_000000) Down() {
+func (m *Session_20060102_150405) Down() {
 	m.SQL(`DROP TABLE "session"`)
 }
