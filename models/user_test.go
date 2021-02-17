@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"go-crawler-challenge/models"
-	. "go-crawler-challenge/tests/test_helpers"
-	. "go-crawler-challenge/tests/test_helpers/fabricators"
+	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
