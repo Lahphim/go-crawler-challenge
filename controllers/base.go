@@ -13,6 +13,10 @@ import (
 
 const CurrentUserKey = "CURRENT_USER_ID"
 
+type NestPreparer interface {
+	NestPrepare()
+}
+
 //  BaseController operations for all controller
 type BaseController struct {
 	web.Controller
@@ -24,9 +28,10 @@ type BaseController struct {
 
 func (c *BaseController) Prepare() {
 	helpers.SetControllerAttributes(&c.Controller)
-	helpers.SetFlashMessageLayout(&c.Controller)
 
 	c.handleAuthorizeRequest()
+	c.setCurrentUserData()
+	c.setCustomLayout()
 }
 
 func (c *BaseController) SetSessionCurrentUser(user *models.User) {
@@ -41,9 +46,6 @@ func (c *BaseController) SetSessionCurrentUser(user *models.User) {
 			logs.Critical(fmt.Sprintf("Delete session failed: %v", err))
 		}
 	}
-
-	c.Data["CurrentUser"] = user
-	c.CurrentUser = user
 }
 
 func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
@@ -58,6 +60,10 @@ func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
 	}
 
 	return user
+}
+
+func (c *BaseController) RevokeSessionCurrentUser() error {
+	return c.DelSession(CurrentUserKey)
 }
 
 func (c *BaseController) handleAuthorizeRequest() {
@@ -82,4 +88,22 @@ func (c *BaseController) ensureGuestUser() bool {
 	currentUser := c.GetSessionCurrentUser()
 
 	return currentUser == nil
+}
+
+func (c *BaseController) setCurrentUserData() {
+	currentUser := c.GetSessionCurrentUser()
+
+	c.Data["CurrentUser"] = currentUser
+	c.CurrentUser = currentUser
+}
+
+func (c *BaseController) setCustomLayout() {
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["FlashMessage"] = "shared/alert.html"
+	c.LayoutSections["HeaderContent"] = "shared/header.html"
+
+	app, ok := c.AppController.(NestPreparer)
+	if ok {
+		app.NestPrepare()
+	}
 }

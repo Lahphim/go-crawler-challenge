@@ -6,11 +6,17 @@ type MainController struct {
 	BaseController
 }
 
-func (c *MainController) NestPrepare() {
-	c.requireAuthenticatedUser = true
+// URLMapping maps main controller actions to functions
+func (c *MainController) URLMapping() {
+	c.Mapping("Index", c.Index)
 }
 
-func (c *MainController) Get() {
+// Index handles public landing page
+// @Title Index
+// @Description show website objective
+// @Success 200
+// @router / [get]
+func (c *MainController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
 	c.Layout = "layouts/application.html"
