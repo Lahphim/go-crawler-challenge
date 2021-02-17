@@ -11,6 +11,13 @@ import (
 
 // SetUpDatabase : Set up database connection with Postgres driver
 func SetUpDatabase() {
+	runMode := web.AppConfig.DefaultString("runmode", "dev")
+	if runMode == "dev" {
+		orm.Debug = true
+	} else {
+		orm.Debug = false
+	}
+
 	dbURL, err := web.AppConfig.String("dburl")
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Database URL not found: %v", err))
@@ -24,16 +31,12 @@ func SetUpDatabase() {
 	err = orm.RegisterDataBase("default", "postgres", dbURL)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Database Registration failed: %v", err))
+	} else {
+		SetUpSession(dbURL)
 	}
 
 	err = orm.RunSyncdb("default", false, true)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Sync the database failed: %v", err))
-	}
-
-	if web.AppConfig.DefaultString("runmode", "dev") == "dev" {
-		orm.Debug = true
-	} else {
-		orm.Debug = false
 	}
 }
