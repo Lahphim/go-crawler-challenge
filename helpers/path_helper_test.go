@@ -1,9 +1,10 @@
 package helpers_test
 
 import (
+	"go-crawler-challenge/helpers"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"go-crawler-challenge/helpers"
 )
 
 var _ = Describe("PathHelper", func() {
