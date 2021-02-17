@@ -26,11 +26,6 @@ func SetUpDatabase() {
 		logs.Critical(fmt.Sprintf("Database Registration failed: %v", err))
 	}
 
-	err = orm.RunSyncdb("default", false, true)
-	if err != nil {
-		logs.Critical(fmt.Sprintf("Sync the database failed: %v", err))
-	}
-
 	if web.AppConfig.DefaultString("runmode", "dev") == "dev" {
 		orm.Debug = true
 	} else {
