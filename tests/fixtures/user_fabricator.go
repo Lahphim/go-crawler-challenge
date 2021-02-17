@@ -1,11 +1,10 @@
-package fabricators
+package fixtures
 
 import (
-	"golang.org/x/crypto/bcrypt"
-
 	"go-crawler-challenge/models"
 
 	"github.com/onsi/ginkgo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func FabricateUser(email string, plainPassword string) (user *models.User) {

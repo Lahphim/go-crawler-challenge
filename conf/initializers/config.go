@@ -2,10 +2,10 @@ package initializers
 
 import (
 	"fmt"
+	"log"
 
 	"go-crawler-challenge/helpers"
 
-	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
 )
 
@@ -14,6 +14,6 @@ func LoadAppConfig() {
 	err := web.LoadAppConfig("ini", configPath)
 
 	if err != nil {
-		logs.Error(fmt.Sprintf("Load configuration failed: %v", err))
+		log.Fatal(fmt.Sprintf("Load configuration failed: %v", err))
 	}
 }

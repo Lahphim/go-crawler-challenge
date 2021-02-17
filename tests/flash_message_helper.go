@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
+	"github.com/onsi/ginkgo"
 )
 
 // GetFlashMessage gets Beego flash message from http cookie
@@ -33,7 +33,7 @@ func GetFlashMessage(cookies []*http.Cookie) *web.FlashData {
 func decodeQueryString(encodedString string) string {
 	decodedString, err := url.QueryUnescape(encodedString)
 	if err != nil {
-		logs.Critical(fmt.Sprintf("Decode query string failed: %v", err))
+		ginkgo.Fail(fmt.Sprintf("Decode query string failed: %v", err))
 
 		return ""
 	}
