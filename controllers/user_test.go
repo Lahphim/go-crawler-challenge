@@ -3,8 +3,8 @@ package controllers_test
 import (
 	"net/http"
 
-	. "go-crawler-challenge/tests/test_helpers"
-	. "go-crawler-challenge/tests/test_helpers/fabricators"
+	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -84,7 +84,7 @@ var _ = Describe("UserController", func() {
 					Expect(currentPath).To(Equal("/user/sign_up"))
 				})
 
-				It("shows a error message", func() {
+				It("shows an error message", func() {
 					body := GenerateRequestBody(map[string]string{
 						"email":            "",
 						"password":         "",

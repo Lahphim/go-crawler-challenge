@@ -1,11 +1,11 @@
 package controllers_test
 
 import (
-	"go-crawler-challenge/controllers"
 	"net/http"
 
-	. "go-crawler-challenge/tests/test_helpers"
-	. "go-crawler-challenge/tests/test_helpers/fabricators"
+	"go-crawler-challenge/controllers"
+	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -98,7 +98,7 @@ var _ = Describe("SessionController", func() {
 						Expect(currentPath).To(Equal("/user/sign_in"))
 					})
 
-					It("shows a error message", func() {
+					It("shows an error message", func() {
 						body := GenerateRequestBody(map[string]string{
 							"email":    "dev@nimblehq.co",
 							"password": "password",
@@ -139,7 +139,7 @@ var _ = Describe("SessionController", func() {
 						Expect(currentPath).To(Equal("/user/sign_in"))
 					})
 
-					It("shows a error message", func() {
+					It("shows an error message", func() {
 						_ = FabricateUser("dev@nimblehq.co", "password")
 						body := GenerateRequestBody(map[string]string{
 							"email":    "dev@nimblehq.co",
