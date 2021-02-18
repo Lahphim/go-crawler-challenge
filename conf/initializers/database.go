@@ -10,14 +10,7 @@ import (
 )
 
 // SetUpDatabase : Set up database connection with Postgres driver
-func SetUpDatabase() error {
-	runMode := web.AppConfig.DefaultString("runmode", "dev")
-	if runMode == "dev" {
-		orm.Debug = true
-	} else {
-		orm.Debug = false
-	}
-
+func SetUpDatabase() {
 	dbURL, err := web.AppConfig.String("dburl")
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Database URL not found: %v", err))
@@ -38,5 +31,9 @@ func SetUpDatabase() error {
 		logs.Critical(fmt.Sprintf("Sync the database failed: %v", err))
 	}
 
-	return err
+	if web.AppConfig.DefaultString("runmode", "dev") == "dev" {
+		orm.Debug = true
+	} else {
+		orm.Debug = false
+	}
 }
