@@ -20,6 +20,9 @@
 # Environment variables
 .env
 
+# Except the environment file for test
+!.env.test
+
 # Node packages
 node_modules/
 
