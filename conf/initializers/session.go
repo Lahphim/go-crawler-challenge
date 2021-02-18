@@ -9,13 +9,20 @@ import (
 )
 
 // SetUpSession : Set up session with Postgres
-func SetUpSession(dbURL string) {
-	sessionOn, err := web.AppConfig.Bool("SessionOn")
+func SetUpSession() {
+	runMode := web.AppConfig.DefaultString("runmode", "dev")
+
+	dbURL, err := web.AppConfig.String("dburl")
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Database URL not found: %v", err))
 	}
 
-	if sessionOn {
+	sessionOn, err := web.AppConfig.Bool("SessionOn")
+	if err != nil {
+		logs.Critical(fmt.Sprintf("Session flag not found: %v", err))
+	}
+
+	if runMode != "test" && sessionOn {
 		web.BConfig.WebConfig.Session.SessionProvider = "postgresql"
 		web.BConfig.WebConfig.Session.SessionProviderConfig = dbURL
 	}

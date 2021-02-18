@@ -7,5 +7,10 @@ import (
 
 func init() {
 	LoadAppConfig()
-	SetUpDatabase()
+
+	err := SetUpDatabase()
+	if err == nil {
+
+		SetUpSession()
+	}
 }
