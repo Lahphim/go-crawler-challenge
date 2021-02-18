@@ -21,17 +21,30 @@ type NestPreparer interface {
 type BaseController struct {
 	web.Controller
 
-	CurrentUser              *models.User
+	CurrentUser  *models.User
+	actionPolicy map[string]Policy
+}
+
+type Policy struct {
 	requireAuthenticatedUser bool
 	requireGuestUser         bool
 }
 
 func (c *BaseController) Prepare() {
 	helpers.SetControllerAttributes(&c.Controller)
+	c.applyCustomLayout()
+	c.initActionPolicy()
+
+	app, ok := c.AppController.(NestPreparer)
+	if ok {
+		app.NestPrepare()
+	}
 
 	c.handleAuthorizeRequest()
-	c.setCurrentUserData()
-	c.setCustomLayout()
+}
+
+func (c *BaseController) MappingPolicy(method string, policy Policy) {
+	c.actionPolicy[method] = policy
 }
 
 func (c *BaseController) SetSessionCurrentUser(user *models.User) {
@@ -67,15 +80,20 @@ func (c *BaseController) RevokeSessionCurrentUser() error {
 }
 
 func (c *BaseController) handleAuthorizeRequest() {
-	if c.requireGuestUser && !c.ensureGuestUser() {
+	_, actionName := c.GetControllerAndAction()
+	actionPolicy := c.actionPolicy[actionName]
+
+	if actionPolicy.requireGuestUser && !c.ensureGuestUser() {
 		c.Redirect("/", http.StatusFound)
 	}
 
-	if c.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {
+	if actionPolicy.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {
 		c.SetSessionCurrentUser(nil)
 
 		c.Redirect("/user/sign_in", http.StatusFound)
 	}
+
+	c.updateCurrentUserData()
 }
 
 func (c *BaseController) ensureAuthenticatedUser() bool {
@@ -90,20 +108,19 @@ func (c *BaseController) ensureGuestUser() bool {
 	return currentUser == nil
 }
 
-func (c *BaseController) setCurrentUserData() {
+func (c *BaseController) applyCustomLayout() {
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["FlashMessage"] = "shared/alert.html"
+	c.LayoutSections["HeaderContent"] = "shared/header.html"
+}
+
+func (c *BaseController) initActionPolicy() {
+	c.actionPolicy = make(map[string]Policy)
+}
+
+func (c *BaseController) updateCurrentUserData() {
 	currentUser := c.GetSessionCurrentUser()
 
 	c.Data["CurrentUser"] = currentUser
 	c.CurrentUser = currentUser
-}
-
-func (c *BaseController) setCustomLayout() {
-	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["FlashMessage"] = "shared/alert.html"
-	c.LayoutSections["HeaderContent"] = "shared/header.html"
-
-	app, ok := c.AppController.(NestPreparer)
-	if ok {
-		app.NestPrepare()
-	}
 }

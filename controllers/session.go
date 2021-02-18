@@ -16,7 +16,7 @@ type SessionController struct {
 
 // NestPrepare prepares some configurations to the controller
 func (c *SessionController) NestPrepare() {
-	c.requireGuestUser = true
+	c.actionPolicyMapping()
 }
 
 // URLMapping maps session controller actions to functions
@@ -24,6 +24,13 @@ func (c *SessionController) URLMapping() {
 	c.Mapping("New", c.New)
 	c.Mapping("Create", c.Create)
 	c.Mapping("Delete", c.Delete)
+}
+
+// actionPolicyMapping maps session controller actions to policies
+func (c *SessionController) actionPolicyMapping() {
+	c.MappingPolicy("New", Policy{requireGuestUser: true})
+	c.MappingPolicy("Create", Policy{requireGuestUser: true})
+	c.MappingPolicy("Delete", Policy{requireAuthenticatedUser: true})
 }
 
 // New handles a form for signing in
@@ -79,9 +86,7 @@ func (c *SessionController) Delete() {
 	redirectPath := "/"
 
 	u, err := url.Parse(c.Ctx.Request.Header.Get("Referer"))
-	if err != nil {
-		flash.Error(err.Error())
-	} else {
+	if err == nil {
 		redirectPath = u.Path
 	}
 

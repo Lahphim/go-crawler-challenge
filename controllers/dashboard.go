@@ -11,12 +11,17 @@ type DashboardController struct {
 
 // NestPrepare prepares some configurations to the controller
 func (c *DashboardController) NestPrepare() {
-	c.requireAuthenticatedUser = true
+	c.actionPolicyMapping()
 }
 
 // URLMapping maps dashboard controller actions to functions
 func (c *DashboardController) URLMapping() {
 	c.Mapping("Index", c.Index)
+}
+
+// actionPolicyMapping maps dashboard controller actions to policies
+func (c *DashboardController) actionPolicyMapping() {
+	c.MappingPolicy("Index", Policy{requireAuthenticatedUser: true})
 }
 
 // Index handles dashboard with handy widgets
