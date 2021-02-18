@@ -17,14 +17,9 @@ func FabricateUser(email string, plainPassword string) (user *models.User) {
 		Email:          email,
 		HashedPassword: string(hashPassword),
 	}
-	userId, err := models.AddUser(user)
+	_, err = models.AddUser(user)
 	if err != nil {
 		ginkgo.Fail("Add user failed: " + err.Error())
-	}
-
-	user, err = models.GetUserById(userId)
-	if err != nil {
-		ginkgo.Fail("Get user failed: " + err.Error())
 	}
 
 	return user
