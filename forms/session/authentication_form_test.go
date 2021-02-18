@@ -1,13 +1,15 @@
 package forms_test
 
 import (
-	"github.com/beego/beego/v2/core/validation"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"strings"
+
 	form "go-crawler-challenge/forms/session"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
-	"strings"
+
+	"github.com/beego/beego/v2/core/validation"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Session/AuthenticationForm", func() {
@@ -48,7 +50,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 				})
 			})
 
-			Context("given an mismatch password", func() {
+			Context("given a mismatch password", func() {
 				It("produces an error", func() {
 					_ = FabricateUser("dev@nimblehq.co", "password")
 					form := form.AuthenticationForm{
@@ -120,7 +122,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 				})
 			})
 
-			Context("given an mismatch password", func() {
+			Context("given a mismatch password", func() {
 				It("does NOT return a user object", func() {
 					_ = FabricateUser("dev@nimblehq.co", "password")
 					form := form.AuthenticationForm{

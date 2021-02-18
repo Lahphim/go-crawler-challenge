@@ -1,10 +1,11 @@
 package forms_test
 
 import (
+	"strings"
+
 	form "go-crawler-challenge/forms/user"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
-	"strings"
 
 	"github.com/beego/beego/v2/core/validation"
 	. "github.com/onsi/ginkgo"
@@ -35,9 +36,10 @@ var _ = Describe("User/RegistrationForm", func() {
 		Context("given INVALID params", func() {
 			Context("given an existing email", func() {
 				It("produces an error", func() {
-					_ = FabricateUser("dev@nimblehq.co", "password")
+					email := "dev@nimblehq.co"
+					_ = FabricateUser(email, "password")
 					form := form.RegistrationForm{
-						Email:           "dev@nimblehq.co",
+						Email:           email,
 						Password:        "password",
 						ConfirmPassword: "password",
 					}
@@ -103,9 +105,10 @@ var _ = Describe("User/RegistrationForm", func() {
 		Context("given INVALID params", func() {
 			Context("given an existing email", func() {
 				It("does NOT return a user object", func() {
-					_ = FabricateUser("dev@nimblehq.co", "password")
+					email := "dev@nimblehq.co"
+					_ = FabricateUser(email, "password")
 					form := form.RegistrationForm{
-						Email:           "dev@nimblehq.co",
+						Email:           email,
 						Password:        "password",
 						ConfirmPassword: "password",
 					}
@@ -116,7 +119,8 @@ var _ = Describe("User/RegistrationForm", func() {
 				})
 
 				It("produces an error", func() {
-					_ = FabricateUser("dev@nimblehq.co", "password")
+					email := "dev@nimblehq.co"
+					_ = FabricateUser(email, "password")
 					form := form.RegistrationForm{
 						Email:           "dev@nimblehq.co",
 						Password:        "password",
