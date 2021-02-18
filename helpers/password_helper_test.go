@@ -29,7 +29,7 @@ var _ = Describe("PasswordHelper", func() {
 
 	Describe("#CheckMatchPassword", func() {
 		Context("given valid hashed and plain password", func() {
-			It("returns an error", func() {
+			It("does NOT return an error", func() {
 				plainPassword := "password"
 				hashedPassword, err := bcrypt.GenerateFromPassword([]byte(plainPassword), bcrypt.DefaultCost)
 				if err != nil {
@@ -43,7 +43,7 @@ var _ = Describe("PasswordHelper", func() {
 		})
 
 		Context("given INVALID hashed and plain password", func() {
-			It("returns false", func() {
+			It("returns an error", func() {
 				plainPassword := "password"
 				mismatchPassword := "mismatch-password"
 				hashedPassword, err := bcrypt.GenerateFromPassword([]byte(mismatchPassword), bcrypt.DefaultCost)

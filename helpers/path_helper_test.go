@@ -11,7 +11,7 @@ var _ = Describe("PathHelper", func() {
 	Describe("#RootDir", func() {
 		Context("given the current file", func() {
 			It("returns root directory of this project", func() {
-				Expect(helpers.RootDir()).To(ContainSubstring("go-crawler-challenge"))
+				Expect(helpers.RootDir()).To(HaveSuffix("go-crawler-challenge"))
 			})
 		})
 	})
