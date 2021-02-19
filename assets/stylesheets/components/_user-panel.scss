@@ -9,6 +9,10 @@
 
   &__action {
     @apply flex mt-4;
+
+    &:first-child {
+      @apply mt-0;
+    }
   }
 
   &__link {
