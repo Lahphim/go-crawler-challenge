@@ -1,6 +1,6 @@
 {{ range $type, $message := .flash }}
   {{ if $message }}
-    <div class="alert alert--{{ $type }}">
+    <div class="alert alert--{{ $type }} alert--hide">
       <div class="alert__bullet">*</div>
       <div class="alert__detail">
         <div class="alert__title">{{ $type }}</div>
