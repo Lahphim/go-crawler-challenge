@@ -1,4 +1,4 @@
-<form class="form form--right-align" action="/user/create" method="post">
+<form class="form form--right-align" action="{{ urlfor `UserController.Create` }}" method="post">
   <fieldset>
     <legend class="form__headline">Not signed up yet?<strong>Create a new account :)</strong></legend>
 
@@ -18,7 +18,7 @@
     </div>
 
     <div class="form__action">
-      <button type="submit" class="button button--primary">Sign Up</button>
+      <button type="submit" class="button button--primary">SignUp</button>
     </div>
   </fieldset>
 </form>

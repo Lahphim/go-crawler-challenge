@@ -1,23 +1,36 @@
-<div class="greeting">
-  {{ if .CurrentUser }}
-    <div class="greeting__message">Hi, {{ .CurrentUser.Email }} :)</div>
-    <div class="greeting__action">
-      <div class="greeting__link">
-        <a class="link link--primary" href="/dashboard">Dashboard</a>
-      </div>
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_out">Sign Out</a>
-      </div>
+<nav class="navbar">
+  <div class="navbar__brand">
+    <a class="logo" href="{{ urlfor `MainController.Index` }}" title="X42">
+      <img width="48" height="48" class="logo__icon" src="/assets/images/favicon.svg" alt="X42">
+      <span class="logo__name">X42</span>
+    </a>
+  </div>
+
+  <div class="navbar__navigation">
+    <div class="profile">
+      {{ if .CurrentUser }}
+        <img width="40" height="40" class="profile__avatar" title="{{ .CurrentUser.Email }}" src="https://www.gravatar.com/avatar/{{ .CurrentUser.Email | hashEmail }}?d=retro&f=y" alt="avatar">
+        <ul class="profile__action">
+          <li class="profile__link">
+            <a class="link link--primary" href="{{ urlfor `MainController.Index` }}">Home</a>
+          </li>
+          <li class="profile__link">
+            <a class="link link--primary" href="{{ urlfor `DashboardController.Index` }}">Dashboard</a>
+          </li>
+          <li class="profile__link">
+            <a class="link link--primary" href="{{ urlfor `SessionController.Delete` }}">SignOut</a>
+          </li>
+        </ul>
+      {{ else }}
+        <ul class="profile__action">
+          <li class="profile__link">
+            <a class="link link--primary" href="{{ urlfor `SessionController.New` }}">SignIn</a>
+          </li>
+          <li class="profile__link">
+            <a class="link link--primary" href="{{ urlfor `UserController.New` }}">SignUp</a>
+          </li>
+        </ul>
+      {{ end }}
     </div>
-  {{ else }}
-    <div class="greeting__message">Hi, anonymous!!</div>
-    <div class="greeting__action">
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_in">Sign In</a>
-      </div>
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_up">Sign Up</a>
-      </div>
-    </div>
-  {{ end }}
-</div>
+  </div>
+</nav>

@@ -1,0 +1,30 @@
+.profile {
+  @apply flex flex-col items-end;
+
+  &__avatar {
+    @apply w-10 h-10 border-2 border-transparent rounded-full cursor-pointer;
+
+    border-color: map-get($brand-color, 'shark');
+  }
+
+  &__action {
+    @apply flex mt-4;
+  }
+
+  &__link {
+    &:before {
+      @apply relative;
+
+      content: "\00B7";
+      left: 5px;
+    }
+
+    &:first-of-type:before {
+      content: "";
+    }
+
+    &:last-of-type > .link {
+      @apply pr-0;
+    }
+  }
+}

@@ -10,4 +10,5 @@ import (
 func init() {
 	LoadAppConfig()
 	SetUpDatabase()
+	SetUpTemplate()
 }
