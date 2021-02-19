@@ -1,0 +1,23 @@
+<div class="greeting">
+  {{ if .CurrentUser }}
+    <div class="greeting__message">Hi, {{ .CurrentUser.Email }} :)</div>
+    <div class="greeting__action">
+      <div class="greeting__link">
+        <a class="link link--primary" href="/dashboard">Dashboard</a>
+      </div>
+      <div class="greeting__link">
+        <a class="link link--primary" href="/user/sign_out">Sign Out</a>
+      </div>
+    </div>
+  {{ else }}
+    <div class="greeting__message">Hi, anonymous!!</div>
+    <div class="greeting__action">
+      <div class="greeting__link">
+        <a class="link link--primary" href="/user/sign_in">Sign In</a>
+      </div>
+      <div class="greeting__link">
+        <a class="link link--primary" href="/user/sign_up">Sign Up</a>
+      </div>
+    </div>
+  {{ end }}
+</div>

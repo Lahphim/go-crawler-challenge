@@ -7,7 +7,10 @@ import (
 )
 
 func init() {
-	web.Router("/", &controllers.MainController{})
+	web.Router("/", &controllers.MainController{}, "get:Index")
+
+	// Dashboard
+	web.Router("/dashboard", &controllers.DashboardController{}, "get:Index")
 
 	// User management
 	web.Router("/user/sign_up", &controllers.UserController{}, "get:New")
@@ -15,5 +18,6 @@ func init() {
 
 	// Session management
 	web.Router("/user/sign_in", &controllers.SessionController{}, "get:New")
+	web.Router("/user/sign_out", &controllers.SessionController{}, "get:Delete")
 	web.Router("/session/create", &controllers.SessionController{}, "post:Create")
 }

@@ -15,13 +15,19 @@ type UserController struct {
 
 // NestPrepare prepares some configurations to the controller
 func (c *UserController) NestPrepare() {
-	c.requireGuestUser = true
+	c.actionPolicyMapping()
 }
 
 // URLMapping maps user controller actions to functions
 func (c *UserController) URLMapping() {
 	c.Mapping("New", c.New)
 	c.Mapping("Create", c.Create)
+}
+
+// actionPolicyMapping maps user controller actions to policies
+func (c *UserController) actionPolicyMapping() {
+	c.MappingPolicy("New", Policy{requireGuestUser: true})
+	c.MappingPolicy("Create", Policy{requireGuestUser: true})
 }
 
 // New handles a form for creating a new user

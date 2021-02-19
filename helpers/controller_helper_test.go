@@ -27,20 +27,4 @@ var _ = Describe("ControllerHelper", func() {
 			})
 		})
 	})
-
-	Describe("#SetFlashMessageLayout", func() {
-		Context("given a valid controller", func() {
-			type TestController struct {
-				controllers.BaseController
-			}
-
-			It("sets flash message layout section", func() {
-				testController := TestController{}
-				testController.Init(context.NewContext(), "TestController", "ActionName", web.BeeApp)
-				helpers.SetFlashMessageLayout(&testController.Controller)
-
-				Expect(testController.LayoutSections["FlashMessage"]).To(Equal("shared/alert.html"))
-			})
-		})
-	})
 })

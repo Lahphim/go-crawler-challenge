@@ -33,7 +33,39 @@ var _ = Describe("SessionController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
+				Expect(currentPath).To(Equal("/dashboard"))
+			})
+		})
+	})
+
+	Describe("GET /user/sign_out", func() {
+		Context("when the user has NOT signed in yet", func() {
+			It("redirects to sign-in page", func() {
+				response := MakeRequest("GET", "/user/sign_out", nil)
+				currentPath := GetCurrentPath(response)
+
+				Expect(response.StatusCode).To(Equal(http.StatusFound))
+				Expect(currentPath).To(Equal("/user/sign_in"))
+			})
+		})
+
+		Context("when the user has already signed in", func() {
+			It("redirects to root page", func() {
+				user := FabricateUser("dev@nimblehq.co", "password")
+				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, user)
+				currentPath := GetCurrentPath(response)
+
+				Expect(response.StatusCode).To(Equal(http.StatusFound))
 				Expect(currentPath).To(Equal("/"))
+			})
+
+			It("shows a success message", func() {
+				user := FabricateUser("dev@nimblehq.co", "password")
+				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, user)
+				flash := GetFlashMessage(response.Cookies())
+
+				Expect(flash.Data["success"]).To(Equal("You have successfully signed out"))
+				Expect(flash.Data["error"]).To(BeEmpty())
 			})
 		})
 	})
@@ -52,7 +84,7 @@ var _ = Describe("SessionController", func() {
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
-					Expect(currentPath).To(Equal("/"))
+					Expect(currentPath).To(Equal("/dashboard"))
 				})
 
 				It("shows a success message", func() {
@@ -181,7 +213,7 @@ var _ = Describe("SessionController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/"))
+				Expect(currentPath).To(Equal("/dashboard"))
 			})
 		})
 	})

@@ -12,6 +12,7 @@
   <body class="{{.ControllerName}} {{.ActionName}}">
     {{ .FlashMessage }}
 
+    <header class="app-header">{{ .HeaderContent }}</header>
     <main class="app-content">{{ .LayoutContent }}</main>
 
     {{ assets_js "/static/javascripts/application.js" }}

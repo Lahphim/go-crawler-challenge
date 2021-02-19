@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"net/url"
 
 	form "go-crawler-challenge/forms/session"
 
@@ -15,13 +16,21 @@ type SessionController struct {
 
 // NestPrepare prepares some configurations to the controller
 func (c *SessionController) NestPrepare() {
-	c.requireGuestUser = true
+	c.actionPolicyMapping()
 }
 
 // URLMapping maps session controller actions to functions
 func (c *SessionController) URLMapping() {
 	c.Mapping("New", c.New)
 	c.Mapping("Create", c.Create)
+	c.Mapping("Delete", c.Delete)
+}
+
+// actionPolicyMapping maps session controller actions to policies
+func (c *SessionController) actionPolicyMapping() {
+	c.MappingPolicy("New", Policy{requireGuestUser: true})
+	c.MappingPolicy("Create", Policy{requireGuestUser: true})
+	c.MappingPolicy("Delete", Policy{requireAuthenticatedUser: true})
 }
 
 // New handles a form for signing in
@@ -59,6 +68,33 @@ func (c *SessionController) Create() {
 		c.SetSessionCurrentUser(user)
 
 		flash.Success("You have successfully signed in")
+		redirectPath = "/dashboard"
+	}
+
+	flash.Store(&c.Controller)
+	c.Redirect(redirectPath, http.StatusFound)
+}
+
+// Delete handles revoke a session for an authenticated user
+// @Title Delete
+// @Description revoke a session
+// @Success 302 redirect to root path with success message
+// @Failure 302 redirect to current path with error message
+// @router / [get]
+func (c *SessionController) Delete() {
+	flash := web.NewFlash()
+	redirectPath := "/"
+
+	u, err := url.Parse(c.Ctx.Request.Header.Get("Referer"))
+	if err == nil {
+		redirectPath = u.Path
+	}
+
+	err = c.RevokeSessionCurrentUser()
+	if err != nil {
+		flash.Error("Sign out failed")
+	} else {
+		flash.Success("You have successfully signed out")
 		redirectPath = "/"
 	}
 

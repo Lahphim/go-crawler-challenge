@@ -17,12 +17,10 @@ var _ = Describe("MainController", func() {
 
 	Describe("GET /", func() {
 		Context("when the user has NOT signed in yet", func() {
-			It("redirects to sign-in page", func() {
+			It("renders with status 200", func() {
 				response := MakeRequest("GET", "/", nil)
-				currentPath := GetCurrentPath(response)
 
-				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/user/sign_in"))
+				Expect(response.StatusCode).To(Equal(http.StatusOK))
 			})
 		})
 

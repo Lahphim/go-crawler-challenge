@@ -13,20 +13,38 @@ import (
 
 const CurrentUserKey = "CURRENT_USER_ID"
 
+type NestPreparer interface {
+	NestPrepare()
+}
+
 //  BaseController operations for all controller
 type BaseController struct {
 	web.Controller
 
-	CurrentUser              *models.User
+	CurrentUser  *models.User
+	actionPolicy map[string]Policy
+}
+
+type Policy struct {
 	requireAuthenticatedUser bool
 	requireGuestUser         bool
 }
 
 func (c *BaseController) Prepare() {
 	helpers.SetControllerAttributes(&c.Controller)
-	helpers.SetFlashMessageLayout(&c.Controller)
+	c.applyCustomLayout()
+	c.initActionPolicy()
+
+	app, ok := c.AppController.(NestPreparer)
+	if ok {
+		app.NestPrepare()
+	}
 
 	c.handleAuthorizeRequest()
+}
+
+func (c *BaseController) MappingPolicy(method string, policy Policy) {
+	c.actionPolicy[method] = policy
 }
 
 func (c *BaseController) SetSessionCurrentUser(user *models.User) {
@@ -41,9 +59,6 @@ func (c *BaseController) SetSessionCurrentUser(user *models.User) {
 			logs.Critical(fmt.Sprintf("Delete session failed: %v", err))
 		}
 	}
-
-	c.Data["CurrentUser"] = user
-	c.CurrentUser = user
 }
 
 func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
@@ -60,16 +75,25 @@ func (c *BaseController) GetSessionCurrentUser() (user *models.User) {
 	return user
 }
 
+func (c *BaseController) RevokeSessionCurrentUser() error {
+	return c.DelSession(CurrentUserKey)
+}
+
 func (c *BaseController) handleAuthorizeRequest() {
-	if c.requireGuestUser && !c.ensureGuestUser() {
-		c.Redirect("/", http.StatusFound)
+	_, actionName := c.GetControllerAndAction()
+	actionPolicy := c.actionPolicy[actionName]
+
+	if actionPolicy.requireGuestUser && !c.ensureGuestUser() {
+		c.Redirect("/dashboard", http.StatusFound)
 	}
 
-	if c.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {
+	if actionPolicy.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {
 		c.SetSessionCurrentUser(nil)
 
 		c.Redirect("/user/sign_in", http.StatusFound)
 	}
+
+	c.assignCurrentUser()
 }
 
 func (c *BaseController) ensureAuthenticatedUser() bool {
@@ -82,4 +106,21 @@ func (c *BaseController) ensureGuestUser() bool {
 	currentUser := c.GetSessionCurrentUser()
 
 	return currentUser == nil
+}
+
+func (c *BaseController) applyCustomLayout() {
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["FlashMessage"] = "shared/alert.html"
+	c.LayoutSections["HeaderContent"] = "shared/header.html"
+}
+
+func (c *BaseController) initActionPolicy() {
+	c.actionPolicy = make(map[string]Policy)
+}
+
+func (c *BaseController) assignCurrentUser() {
+	currentUser := c.GetSessionCurrentUser()
+
+	c.Data["CurrentUser"] = currentUser
+	c.CurrentUser = currentUser
 }

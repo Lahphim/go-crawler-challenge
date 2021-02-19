@@ -7,6 +7,24 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
+		beego.ControllerComments{
+			Method:           "Index",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:MainController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:MainController"],
+		beego.ControllerComments{
+			Method:           "Index",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
 		beego.ControllerComments{
 			Method:           "New",
@@ -21,6 +39,15 @@ func init() {
 			Method:           "Create",
 			Router:           "/",
 			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
+		beego.ControllerComments{
+			Method:           "Delete",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
