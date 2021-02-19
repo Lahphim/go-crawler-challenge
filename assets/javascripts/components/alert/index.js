@@ -3,7 +3,7 @@
 export const DEFAULT_SELECTOR = 'div.alert';
 
 const DEFAULT_OPTIONS = {
-    hideAfter: 5000,
+    hideAfter: 3000,
     hideAlertClass: 'alert--hide'
 };
 
