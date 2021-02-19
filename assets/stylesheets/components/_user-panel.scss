@@ -16,6 +16,8 @@
   }
 
   &__link {
+    @apply text-sm sm:text-base;
+
     &:before {
       @apply relative;
 
