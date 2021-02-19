@@ -32,7 +32,7 @@ var _ = Describe("UserController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/"))
+				Expect(currentPath).To(Equal("/dashboard"))
 			})
 		})
 	})
@@ -113,7 +113,7 @@ var _ = Describe("UserController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/"))
+				Expect(currentPath).To(Equal("/dashboard"))
 			})
 		})
 	})

@@ -84,7 +84,7 @@ func (c *BaseController) handleAuthorizeRequest() {
 	actionPolicy := c.actionPolicy[actionName]
 
 	if actionPolicy.requireGuestUser && !c.ensureGuestUser() {
-		c.Redirect("/", http.StatusFound)
+		c.Redirect("/dashboard", http.StatusFound)
 	}
 
 	if actionPolicy.requireAuthenticatedUser && !c.ensureAuthenticatedUser() {

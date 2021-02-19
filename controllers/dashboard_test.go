@@ -15,7 +15,7 @@ var _ = Describe("DashboardController", func() {
 		TruncateTable("user")
 	})
 
-	Describe("GET /", func() {
+	Describe("GET /dashboard", func() {
 		Context("when the user has already signed in", func() {
 			It("renders with status 200", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")

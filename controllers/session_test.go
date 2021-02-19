@@ -33,7 +33,7 @@ var _ = Describe("SessionController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/"))
+				Expect(currentPath).To(Equal("/dashboard"))
 			})
 		})
 	})
@@ -84,7 +84,7 @@ var _ = Describe("SessionController", func() {
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
-					Expect(currentPath).To(Equal("/"))
+					Expect(currentPath).To(Equal("/dashboard"))
 				})
 
 				It("shows a success message", func() {
@@ -213,7 +213,7 @@ var _ = Describe("SessionController", func() {
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
-				Expect(currentPath).To(Equal("/"))
+				Expect(currentPath).To(Equal("/dashboard"))
 			})
 		})
 	})

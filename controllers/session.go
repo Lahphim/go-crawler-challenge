@@ -68,7 +68,7 @@ func (c *SessionController) Create() {
 		c.SetSessionCurrentUser(user)
 
 		flash.Success("You have successfully signed in")
-		redirectPath = "/"
+		redirectPath = "/dashboard"
 	}
 
 	flash.Store(&c.Controller)
