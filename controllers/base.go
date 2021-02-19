@@ -93,7 +93,7 @@ func (c *BaseController) handleAuthorizeRequest() {
 		c.Redirect("/user/sign_in", http.StatusFound)
 	}
 
-	c.updateCurrentUserData()
+	c.assignCurrentUser()
 }
 
 func (c *BaseController) ensureAuthenticatedUser() bool {
@@ -118,7 +118,7 @@ func (c *BaseController) initActionPolicy() {
 	c.actionPolicy = make(map[string]Policy)
 }
 
-func (c *BaseController) updateCurrentUserData() {
+func (c *BaseController) assignCurrentUser() {
 	currentUser := c.GetSessionCurrentUser()
 
 	c.Data["CurrentUser"] = currentUser
