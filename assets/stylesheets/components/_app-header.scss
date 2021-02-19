@@ -1,7 +1,5 @@
 .app-header {
-  @apply fixed top-0 w-screen flex justify-center items-center p-4 border-dashed bg-white;
+  @apply fixed top-0 w-screen flex justify-center items-center p-4 border-dashed bg-white shadow-sm;
 
   min-height: 6.875rem;
-  border-bottom-width: 3px;
-  border-color: map-get($brand-color, 'shark');
 }
