@@ -1,0 +1,22 @@
+.navigation-menu {
+  @apply relative left-1 flex mt-4;
+
+  &:first-child {
+    @apply mt-0;
+  }
+
+  &__link {
+    @apply text-sm sm:text-base;
+
+    &:before {
+      @apply relative;
+
+      content: "\00B7";
+      left: 5px;
+    }
+
+    &:first-of-type:before {
+      content: "";
+    }
+  }
+}

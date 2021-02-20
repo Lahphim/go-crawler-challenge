@@ -1,23 +1,35 @@
-<div class="greeting">
-  {{ if .CurrentUser }}
-    <div class="greeting__message">Hi, {{ .CurrentUser.Email }} :)</div>
-    <div class="greeting__action">
-      <div class="greeting__link">
-        <a class="link link--primary" href="/dashboard">Dashboard</a>
-      </div>
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_out">Sign Out</a>
-      </div>
-    </div>
-  {{ else }}
-    <div class="greeting__message">Hi, anonymous!!</div>
-    <div class="greeting__action">
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_in">Sign In</a>
-      </div>
-      <div class="greeting__link">
-        <a class="link link--primary" href="/user/sign_up">Sign Up</a>
-      </div>
-    </div>
-  {{ end }}
-</div>
+<nav class="navbar-panel">
+  <div class="navbar-panel__brand">
+    <a class="brand-logo" href="{{ urlfor `MainController.Index` }}" title="X42">
+      <img width="48" height="48" class="brand-logo__icon" src="/assets/images/favicon.svg" alt="X42">
+      <span class="brand-logo__name">X42</span>
+    </a>
+  </div>
+
+  <div class="navbar-panel__navigation">
+    {{ if .CurrentUser }}
+      <img width="40" height="40" class="user-avatar" title="{{ .CurrentUser.Email }}" src="https://www.gravatar.com/avatar/{{ .CurrentUser.Email | hashEmail }}?d=retro&f=y" alt="avatar">
+    {{ end }}
+
+    <ul class="navigation-menu">
+      {{ if .CurrentUser }}
+        <li class="navigation-menu__link">
+          <a class="link link--primary" href="{{ urlfor `MainController.Index` }}">Home</a>
+        </li>
+        <li class="navigation-menu__link">
+          <a class="link link--primary" href="{{ urlfor `DashboardController.Index` }}">Dashboard</a>
+        </li>
+        <li class="navigation-menu__link">
+          <a class="link link--primary" href="{{ urlfor `SessionController.Delete` }}">SignOut</a>
+        </li>
+      {{ else }}
+        <li class="navigation-menu__link">
+          <a class="link link--primary" href="{{ urlfor `SessionController.New` }}">SignIn</a>
+        </li>
+        <li class="navigation-menu__link">
+          <a class="link link--primary" href="{{ urlfor `UserController.New` }}">SignUp</a>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</nav>

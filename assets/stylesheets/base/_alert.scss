@@ -1,5 +1,5 @@
 .alert {
-  @apply fixed flex w-full sm:w-96 top-0 sm:top-4 sm:right-4 p-4 border border-l-8 bg-white border-black shadow-2xl z-50;
+  @apply fixed flex w-full sm:w-96 top-0 sm:top-4 sm:right-4 p-4 border border-l-8 bg-white border-black shadow-xl z-50 transition-transform duration-500;
 
   &__bullet {
     @apply flex justify-center items-center mr-4 w-8 h-8 rounded-2xl text-white bg-black;
@@ -13,7 +13,11 @@
   }
 
   &__message {
-    @apply font-thin;
+    @apply font-thin text-sm;
+  }
+
+  &--hide {
+    transform: translateY(-15rem);
   }
 }
 

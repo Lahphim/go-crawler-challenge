@@ -5,9 +5,11 @@ module.exports = {
   entry: {
     application: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'application.js')
   },
+
   plugins: [
     new CleanWebpackPlugin()
   ],
+
   module: {
     rules: [
       {
@@ -27,8 +29,16 @@ module.exports = {
       }
     ]
   },
+
   output: {
     filename: 'javascripts/[name].js',
     path: path.resolve(__dirname, '../..', 'static')
+  },
+
+  resolve: {
+    alias: {
+      Components: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'components')
+    },
+    extensions: ['.js']
   }
 };

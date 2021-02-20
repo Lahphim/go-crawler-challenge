@@ -1,0 +1,13 @@
+.brand-logo {
+  @apply inline-flex justify-center items-center;
+
+  min-height: 2.5rem;
+
+  &__icon {
+    @apply w-12 h-12 mr-1;
+  }
+
+  &__name {
+    @apply font-bold text-3xl;
+  }
+}
