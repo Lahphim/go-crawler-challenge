@@ -50,12 +50,12 @@ jobs:
 
       - name: Add general environment variables to .env file
         env:
-          PORT: ${{ secrets.HEROKU_API_KEY }}
+          PORT: ${{ secrets.PORT }}
         run: |
           echo "PORT=$PORT" >> .env
           echo "DATABASE_URL=$DATABASE_URL" >> .env
 
-      - uses: akhileshns/heroku-deploy@v3.7.8
+      - uses: akhileshns/heroku-deploy@v3.11.10
         env:
           APP_RUN_MODE: "prod"
         with:
