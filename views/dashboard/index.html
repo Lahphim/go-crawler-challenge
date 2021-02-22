@@ -1,1 +1,9 @@
-Welcome to dashboard!!
+<br/>
+<br/>
+<form action="{{ urlfor `ScraperController.Create` }}" method="post">
+  <label for="scrapper_keyword">keyword: </label>
+  <input type="text" id="scrapper_keyword" name="keyword" placeholder="Search keyword here..." required>
+  <br/>
+  <br/>
+  <button type="submit" class="button button--primary">Search</button>
+</form>
