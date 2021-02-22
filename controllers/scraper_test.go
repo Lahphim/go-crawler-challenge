@@ -1,7 +1,9 @@
 package controllers_test
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
@@ -11,6 +13,14 @@ import (
 )
 
 var _ = Describe("ScraperController", func() {
+	BeforeEach(func() {
+		keyword := "keyword"
+		visitURL := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", url.QueryEscape(keyword))
+		cassetteName := "scraper/success_valid_params"
+
+		RecordCassette(cassetteName, visitURL)
+	})
+
 	AfterEach(func() {
 		TruncateTable("user")
 	})
@@ -18,7 +28,7 @@ var _ = Describe("ScraperController", func() {
 	Describe("POST /scraper/keyword", func() {
 		Context("when the user has already signed in", func() {
 			Context("given a valid param", func() {
-				XIt("renders with status 302", func() {
+				It("renders with status 302", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
@@ -28,7 +38,7 @@ var _ = Describe("ScraperController", func() {
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
 				})
 
-				XIt("shows  a success message", func() {
+				It("shows  a success message", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
@@ -40,7 +50,7 @@ var _ = Describe("ScraperController", func() {
 					Expect(flash.Data["error"]).To(BeEmpty())
 				})
 
-				XIt("redirects to dashboard page", func() {
+				It("redirects to dashboard page", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
