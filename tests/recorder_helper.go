@@ -13,7 +13,12 @@ func RecordCassette(cassetteName string, visitURL string) {
 	if err != nil {
 		Fail(err.Error())
 	}
-	defer rec.Stop()
+	defer func() {
+		err := rec.Stop()
+		if err != nil {
+			Fail(err.Error())
+		}
+	}()
 
 	// Create an HTTP client and inject our transport
 	client := &http.Client{Transport: rec}
