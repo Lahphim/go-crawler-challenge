@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"go-crawler-challenge/helpers"
+
 	"github.com/dnaeon/go-vcr/recorder"
 	. "github.com/onsi/ginkgo"
 )
 
 func RecordCassette(cassetteName string, visitURL string) {
-	rec, err := recorder.New(fmt.Sprintf("fixtures/vcr/%s", cassetteName))
+	rec, err := recorder.New(fmt.Sprintf("%s/tests/fixtures/vcr/%s", helpers.RootDir(), cassetteName))
 	if err != nil {
 		Fail(err.Error())
 	}
