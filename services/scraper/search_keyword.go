@@ -10,6 +10,9 @@ import (
 
 type SearchKeywordService struct {
 	Keyword string
+
+	synchronous  bool
+	searchResult *searchKeywordResult
 }
 
 type searchKeywordResult struct {
@@ -59,10 +62,25 @@ func (service *SearchKeywordService) Call() {
 
 	collector.OnScraped(func(response *colly.Response) {
 		logs.Info(fmt.Sprintf("Search keyword result: %+v", searchResult))
+
+		service.searchResult = &searchResult
 	})
 
 	err := collector.Visit(visitURL)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Collector visit failed: %v", err))
 	}
+
+	// Disable asynchronous when synchronous flag is enabled
+	if service.synchronous {
+		collector.Wait()
+	}
+}
+
+func (service *SearchKeywordService) EnableSynchronous() {
+	service.synchronous = true
+}
+
+func (service *SearchKeywordService) GetSearchResult() *searchKeywordResult {
+	return service.searchResult
 }
