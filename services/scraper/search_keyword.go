@@ -27,11 +27,13 @@ var selectorList = map[string]string{
 	"topLinkAds":  "#tads .d5oMvf > a",
 }
 
-const collectingURLPattern = "https://www.google.com/search?q=%s"
+const collectingURLPattern = "https://www.google.com/search?q=%s&lr=lang_en"
 
-func (service *SearchKeywordService) Call() (err error) {
-	collector := colly.NewCollector()
-	visitURL := service.getVisitURL()
+// Call handles making a service call to scrape some data from google search engine with a given keyword.
+// It will return an error when the collector can not visit the url.
+func (service *SearchKeywordService) Call() {
+	collector := colly.NewCollector(colly.Async(true))
+	visitURL := fmt.Sprintf(collectingURLPattern, url.QueryEscape(service.Keyword))
 	searchResult := searchKeywordResult{Keyword: service.Keyword, VisitURL: visitURL}
 
 	collector.OnResponse(onResponseHandler)
@@ -41,15 +43,12 @@ func (service *SearchKeywordService) Call() (err error) {
 	collector.OnHTML(selectorList["nonAds"], func(element *colly.HTMLElement) {
 		searchResult.NonAds = append(searchResult.NonAds, element.Attr("href"))
 	})
-
 	collector.OnHTML(selectorList["otherAds"], func(element *colly.HTMLElement) {
 		searchResult.OtherAds = append(searchResult.OtherAds, element.Attr("href"))
 	})
-
 	collector.OnHTML(selectorList["topImageAds"], func(element *colly.HTMLElement) {
 		searchResult.TopAds = append(searchResult.TopAds, element.Attr("href"))
 	})
-
 	collector.OnHTML(selectorList["topLinkAds"], func(element *colly.HTMLElement) {
 		searchResult.TopAds = append(searchResult.TopAds, element.Attr("href"))
 	})
@@ -58,14 +57,8 @@ func (service *SearchKeywordService) Call() (err error) {
 		logs.Info(fmt.Sprintf("Search keyword result: %+v", searchResult))
 	})
 
-	err = collector.Visit(visitURL)
+	err := collector.Visit(visitURL)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Collector visit failed: %v", err))
 	}
-
-	return err
-}
-
-func (service *SearchKeywordService) getVisitURL() (visitURL string) {
-	return fmt.Sprintf(collectingURLPattern, url.QueryEscape(service.Keyword))
 }

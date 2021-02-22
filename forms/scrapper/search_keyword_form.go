@@ -8,6 +8,8 @@ type SearchKeywordForm struct {
 	Keyword string `form:"keyword" valid:"Required"`
 }
 
+// Validate handles validation the search keyword form.
+// If the form is invalid, it will returns with set of errors to the controller.
 func (form *SearchKeywordForm) Validate() (errors []error) {
 	validator := validation.Validation{}
 
