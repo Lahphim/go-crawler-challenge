@@ -21,10 +21,11 @@ type searchKeywordResult struct {
 }
 
 var selectorList = map[string]string{
-	"nonAds":      "#search .g .yuRUbf > a",
-	"otherAds":    "#rhs .pla-unit a.pla-unit-title-link",
-	"topImageAds": "#tvcap .pla-unit a.pla-unit-title-link",
-	"topLinkAds":  "#tads .d5oMvf > a",
+	"nonAds":        "#search .g .yuRUbf > a",
+	"bottomLinkAds": "#tadsb .d5oMvf > a",
+	"otherAds":      "#rhs .pla-unit a.pla-unit-title-link",
+	"topImageAds":   "#tvcap .pla-unit a.pla-unit-title-link",
+	"topLinkAds":    "#tads .d5oMvf > a",
 }
 
 const collectingURLPattern = "https://www.google.com/search?q=%s&lr=lang_en"
@@ -42,6 +43,9 @@ func (service *SearchKeywordService) Call() {
 
 	collector.OnHTML(selectorList["nonAds"], func(element *colly.HTMLElement) {
 		searchResult.NonAds = append(searchResult.NonAds, element.Attr("href"))
+	})
+	collector.OnHTML(selectorList["bottomLinkAds"], func(element *colly.HTMLElement) {
+		searchResult.OtherAds = append(searchResult.OtherAds, element.Attr("href"))
 	})
 	collector.OnHTML(selectorList["otherAds"], func(element *colly.HTMLElement) {
 		searchResult.OtherAds = append(searchResult.OtherAds, element.Attr("href"))

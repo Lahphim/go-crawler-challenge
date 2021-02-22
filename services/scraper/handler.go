@@ -11,10 +11,10 @@ const currentBrowser = "Chrome/88.0.4324.182"
 const currentOs = "Macintosh; Intel Mac OS X 10_15_5"
 
 func onRequestHandler(request *colly.Request) {
-	logs.Info(fmt.Sprintf("Visiting: %v", request.URL))
-
 	userAgent := fmt.Sprintf("Mozilla/5.0 (%s) AppleWebKit/537.36 (KHTML, like Gecko) %s Safari/537.36", currentOs, currentBrowser)
 	request.Headers.Set("User-Agent", userAgent)
+
+	logs.Info(fmt.Sprintf("Visiting: %v", request.URL))
 }
 
 func onResponseErrorHandler(response *colly.Response, err error) {
