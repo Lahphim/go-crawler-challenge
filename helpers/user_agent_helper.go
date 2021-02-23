@@ -5,12 +5,12 @@ import (
 	"math/rand"
 )
 
-var uaGens = []func() string{
-	genFirefoxUA,
-	genChromeUA,
+var userAgentPlatform = []func() string{
+	generateFirefoxUserAgent,
+	generateChromeUserAgent,
 }
 
-var ffVersions = []float32{
+var firefoxVersionList = []float32{
 	52.0,
 	53.0,
 	54.0,
@@ -24,7 +24,7 @@ var ffVersions = []float32{
 	63.0,
 }
 
-var chromeVersions = []string{
+var chromeVersionList = []string{
 	"49.0.2623.112",
 	"55.0.2883.87",
 	"56.0.2924.87",
@@ -52,21 +52,21 @@ var osStrings = []string{
 
 // RandomUserAgent generates a random DESKTOP browser user-agent on every requests
 func RandomUserAgent() string {
-	return uaGens[rand.Intn(len(uaGens))]()
+	return userAgentPlatform[rand.Intn(len(userAgentPlatform))]()
 }
 
 // Generates Firefox Browser User-Agent (Desktop)
 //	-> "Mozilla/5.0 (Windows NT 10.0; rv:63.0) Gecko/20100101 Firefox/63.0"
-func genFirefoxUA() string {
-	version := ffVersions[rand.Intn(len(ffVersions))]
+func generateFirefoxUserAgent() string {
+	version := firefoxVersionList[rand.Intn(len(firefoxVersionList))]
 	os := osStrings[rand.Intn(len(osStrings))]
 	return fmt.Sprintf("Mozilla/5.0 (%s; rv:%.1f) Gecko/20100101 Firefox/%.1f", os, version, version)
 }
 
 // Generates Chrome Browser User-Agent (Desktop)
 //	-> "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
-func genChromeUA() string {
-	version := chromeVersions[rand.Intn(len(chromeVersions))]
+func generateChromeUserAgent() string {
+	version := chromeVersionList[rand.Intn(len(chromeVersionList))]
 	os := osStrings[rand.Intn(len(osStrings))]
 	return fmt.Sprintf("Mozilla/5.0 (%s) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%s Safari/537.36", os, version)
 }
