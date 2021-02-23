@@ -3,15 +3,14 @@ package scraper
 import (
 	"fmt"
 
+	"go-crawler-challenge/helpers"
+
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/gocolly/colly/v2"
 )
 
-const currentBrowser = "Chrome/88.0.4324.182"
-const currentOs = "Macintosh; Intel Mac OS X 10_15_5"
-
 func onRequestHandler(request *colly.Request) {
-	userAgent := fmt.Sprintf("Mozilla/5.0 (%s) AppleWebKit/537.36 (KHTML, like Gecko) %s Safari/537.36", currentOs, currentBrowser)
+	userAgent := helpers.RandomUserAgent()
 	request.Headers.Set("User-Agent", userAgent)
 
 	logs.Info(fmt.Sprintf("Visiting: %v", request.URL))
