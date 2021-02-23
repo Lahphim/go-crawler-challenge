@@ -25,7 +25,7 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 			It("assigns non-AdWords", func() {
 				service := scraper.SearchKeywordService{Keyword: "keyword"}
 				service.EnableSynchronous()
-				service.Call()
+				service.Run()
 
 				Expect(len(service.GetSearchResult().NonAds)).NotTo(BeZero())
 			})

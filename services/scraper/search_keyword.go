@@ -11,8 +11,8 @@ import (
 type SearchKeywordService struct {
 	Keyword string
 
-	synchronous  bool
-	searchResult *searchKeywordResult
+	isSynchronous bool
+	searchResult  *searchKeywordResult
 }
 
 type searchKeywordResult struct {
@@ -31,13 +31,13 @@ var selectorList = map[string]string{
 	"topLinkAds":    "#tads .d5oMvf > a",
 }
 
-const collectingURLPattern = "https://www.google.com/search?q=%s&lr=lang_en"
+const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 
 // Call handles making a service call to scrape some data from google search engine with a given keyword.
 // It will return an error when the collector can not visit the url.
-func (service *SearchKeywordService) Call() {
+func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
-	visitURL := fmt.Sprintf(collectingURLPattern, url.QueryEscape(service.Keyword))
+	visitURL := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
 	searchResult := searchKeywordResult{Keyword: service.Keyword, VisitURL: visitURL}
 
 	collector.OnResponse(onResponseHandler)
@@ -72,13 +72,13 @@ func (service *SearchKeywordService) Call() {
 	}
 
 	// Disable asynchronous when synchronous flag is enabled
-	if service.synchronous {
+	if service.isSynchronous {
 		collector.Wait()
 	}
 }
 
 func (service *SearchKeywordService) EnableSynchronous() {
-	service.synchronous = true
+	service.isSynchronous = true
 }
 
 func (service *SearchKeywordService) GetSearchResult() *searchKeywordResult {

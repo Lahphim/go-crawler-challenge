@@ -50,7 +50,7 @@ func (c *ScraperController) Create() {
 		flash.Error(errors[0].Error())
 	} else {
 		searchKeyword := scraper.SearchKeywordService{Keyword: searchKeywordForm.Keyword}
-		searchKeyword.Call()
+		searchKeyword.Run()
 
 		flash.Success("Scraping a keyword :)")
 	}
