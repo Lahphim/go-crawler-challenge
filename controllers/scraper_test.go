@@ -28,17 +28,7 @@ var _ = Describe("ScraperController", func() {
 	Describe("POST /scraper/keyword", func() {
 		Context("when the user has already signed in", func() {
 			Context("given a valid param", func() {
-				It("renders with status 302", func() {
-					user := FabricateUser("dev@nimblehq.co", "password")
-					body := GenerateRequestBody(map[string]string{
-						"keyword": "keyword",
-					})
-					response := MakeAuthenticatedRequest("POST", "/scraper/keyword", body, user)
-
-					Expect(response.StatusCode).To(Equal(http.StatusFound))
-				})
-
-				It("shows  a success message", func() {
+				It("shows a success message", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
@@ -64,16 +54,6 @@ var _ = Describe("ScraperController", func() {
 			})
 
 			Context("given an INVALID param", func() {
-				It("renders with status 302", func() {
-					user := FabricateUser("dev@nimblehq.co", "password")
-					body := GenerateRequestBody(map[string]string{
-						"keyword": "",
-					})
-					response := MakeAuthenticatedRequest("POST", "/scraper/keyword", body, user)
-
-					Expect(response.StatusCode).To(Equal(http.StatusFound))
-				})
-
 				It("shows an error message", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
