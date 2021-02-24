@@ -8,6 +8,8 @@ import (
 type Position struct {
 	Base
 
+	Links []*Link `orm:"reverse(many)"`
+
 	Name     string `orm:"size(128)"`
 	Selector string `orm:"size(128)"`
 	Category string `orm:"size(128)"`
