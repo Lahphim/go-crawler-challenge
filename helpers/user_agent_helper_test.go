@@ -9,8 +9,16 @@ import (
 
 var _ = Describe("UserAgentHelper", func() {
 	Describe("#RandomUserAgent", func() {
-		userAgent := helpers.RandomUserAgent()
+		It("returns a random DESKTOP browser user-agent", func() {
+			userAgent := helpers.RandomUserAgent()
 
-		Expect(len(userAgent)).NotTo(BeZero())
+			Expect(len(userAgent)).NotTo(BeZero())
+		})
+
+		It("returns user-agent format", func() {
+			userAgent := helpers.RandomUserAgent()
+
+			Expect(userAgent).To(MatchRegexp(`(Firefox\/\d{2}.\d|Chrome\/\d{2}.\d.\d{4}.\d{1,3})`))
+		})
 	})
 })
