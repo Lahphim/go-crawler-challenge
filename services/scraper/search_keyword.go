@@ -33,7 +33,7 @@ var selectorList = map[string]string{
 
 const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 
-// Run() handles making a service call to scrape some data from google search engine with a given keyword.
+// Scrape data from the results page of a Google search for a given keyword.
 // It will return an error when the collector cannot visit the URL.
 func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
