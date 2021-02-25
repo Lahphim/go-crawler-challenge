@@ -15,10 +15,16 @@ var _ = Describe("UserAgentHelper", func() {
 			Expect(len(userAgent)).NotTo(BeZero())
 		})
 
-		It("returns user-agent format", func() {
+		It("returns user-agent browser platform", func() {
 			userAgent := helpers.RandomUserAgent()
 
 			Expect(userAgent).To(MatchRegexp(`(Firefox\/\d{2}.\d|Chrome\/\d{2}.\d.\d{4}.\d{1,3})`))
+		})
+
+		It("returns user-agent OS", func() {
+			userAgent := helpers.RandomUserAgent()
+
+			Expect(userAgent).To(MatchRegexp(`(Macintosh|Windows NT|Linux)`))
 		})
 	})
 })
