@@ -6,6 +6,9 @@
   &--icon {
     @apply flex items-center justify-center h-10 w-10 p-0 border border-transparent transition cursor-pointer;
 
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+
     &:focus,
     &:hover {
       background-color: map-get($brand-color, 'shark');
