@@ -25,6 +25,15 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"],
+		beego.ControllerComments{
+			Method:           "Create",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
 		beego.ControllerComments{
 			Method:           "New",
