@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"go-crawler-challenge/models"
 	"net/http"
 
 	form "go-crawler-challenge/forms/scrapper"
+	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 
 	"github.com/beego/beego/v2/server/web"
