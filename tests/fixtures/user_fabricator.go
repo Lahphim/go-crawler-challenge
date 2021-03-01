@@ -3,6 +3,7 @@ package fixtures
 import (
 	"go-crawler-challenge/models"
 
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/onsi/ginkgo"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -17,7 +18,9 @@ func FabricateUser(email string, plainPassword string) (user *models.User) {
 		Email:          email,
 		HashedPassword: string(hashPassword),
 	}
-	_, err = models.AddUser(user)
+
+	ormer := orm.NewOrm()
+	_, err = ormer.Insert(&user)
 	if err != nil {
 		ginkgo.Fail("Add user failed: " + err.Error())
 	}
