@@ -3,6 +3,7 @@ package forms
 import (
 	"fmt"
 
+	. "go-crawler-challenge/forms"
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
@@ -13,10 +14,6 @@ import (
 type AuthenticationForm struct {
 	Email    string `form:"email" valid:"Required; Email; MaxSize(100)"`
 	Password string `form:"password" valid:"Required;"`
-}
-
-var ValidationMessages = map[string]string{
-	"InvalidCredential": "Your email or password is incorrect",
 }
 
 var currentUser *models.User

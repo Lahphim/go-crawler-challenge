@@ -22,12 +22,12 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 
 	Describe("#Call", func() {
 		Context("given valid params", func() {
-			It("assigns non-AdWords", func() {
+			It("assigns all links", func() {
 				service := scraper.SearchKeywordService{Keyword: "keyword"}
 				service.EnableSynchronous()
 				service.Run()
 
-				Expect(len(service.GetSearchResult().NonAds)).NotTo(BeZero())
+				Expect(len(service.GetSearchResult().LinkList)).NotTo(BeZero())
 			})
 		})
 	})

@@ -3,6 +3,7 @@ package forms
 import (
 	"fmt"
 
+	. "go-crawler-challenge/forms"
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
@@ -14,11 +15,6 @@ type RegistrationForm struct {
 	Email           string `form:"email" valid:"Required; Email; MaxSize(100)"`
 	Password        string `form:"password" valid:"Required; MinSize(6); MaxSize(12)"`
 	ConfirmPassword string `form:"confirm_password" valid:"Required; MinSize(6); MaxSize(12)"`
-}
-
-var ValidationMessages = map[string]string{
-	"ExistingEmail":   "Email is already in use",
-	"ConfirmPassword": "Confirm password confirmation must match",
 }
 
 // Valid handles some custom form validations and sets some errors for the invalid case

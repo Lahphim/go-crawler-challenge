@@ -26,3 +26,15 @@ func AddPosition(position *Position) (id int64, err error) {
 
 	return id, err
 }
+
+// GetAllPosition retrieves all Position matches certain condition and returns empty list if no records exist.
+func GetAllPosition() (positions []*Position, err error) {
+	ormer := orm.NewOrm()
+
+	_, err = ormer.QueryTable(Position{}).All(&positions)
+	if err != nil {
+		return []*Position{}, err
+	}
+
+	return positions, err
+}
