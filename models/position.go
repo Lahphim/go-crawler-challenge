@@ -19,14 +19,6 @@ func init() {
 	orm.RegisterModel(new(Position))
 }
 
-// AddPosition insert a new Position into database and returns last inserted Id on success.
-func AddPosition(position *Position) (id int64, err error) {
-	ormer := orm.NewOrm()
-	id, err = ormer.Insert(position)
-
-	return id, err
-}
-
 // GetAllPosition retrieves all Position matches certain condition and returns empty list if no records exist.
 func GetAllPosition() (positions []*Position, err error) {
 	ormer := orm.NewOrm()

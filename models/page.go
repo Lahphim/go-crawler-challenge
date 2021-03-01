@@ -16,11 +16,3 @@ type Page struct {
 func init() {
 	orm.RegisterModel(new(Page))
 }
-
-// AddPage insert a new Page into database and returns last inserted Id on success.
-func AddPage(page *Page) (id int64, err error) {
-	ormer := orm.NewOrm()
-	id, err = ormer.Insert(page)
-
-	return id, err
-}

@@ -24,7 +24,7 @@ func (m *Link_20210224_114615) Up() {
 			id SERIAL,
 			keyword_id integer REFERENCES "keyword" ON DELETE CASCADE,
 			position_id integer  REFERENCES "position",
-			url varchar(128) NOT NULL,
+			url text NOT NULL,
 			created_at timestamp NOT NULL,
 			updated_at timestamp NOT NULL,
 			PRIMARY KEY (id)

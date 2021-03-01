@@ -19,11 +19,3 @@ type Keyword struct {
 func init() {
 	orm.RegisterModel(new(Keyword))
 }
-
-// AddKeyword insert a new Keyword into database and returns last inserted Id on success.
-func AddKeyword(keyword *Keyword) (id int64, err error) {
-	ormer := orm.NewOrm()
-	id, err = ormer.Insert(keyword)
-
-	return id, err
-}

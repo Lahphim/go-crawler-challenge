@@ -27,27 +27,29 @@ const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
 	visitUrl := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
-	keywordResultForm := form.KeywordResultForm{Keyword: service.Keyword}
+	keywordResultForm := form.KeywordResultForm{Keyword: service.Keyword, User: service.User}
 
 	collector.OnRequest(onRequestHandler)
 	collector.OnError(onResponseErrorHandler)
 
 	for _, position := range service.positionList {
+		positionClone := position
 		collector.OnHTML(position.Selector, func(element *colly.HTMLElement) {
-			keywordResultForm.LinkList = append(keywordResultForm.LinkList, []string{position.Category, element.Attr("href")})
+			keywordResultForm.LinkList = append(keywordResultForm.LinkList, models.Link{Position: positionClone, Url: element.Attr("href")})
 		})
 	}
 
 	collector.OnResponse(func(response *colly.Response) {
-		logs.Info(fmt.Sprintf("HTML status code: %v", response.StatusCode))
-
 		keywordResultForm.RawHtml = string(response.Body[:])
 	})
 
 	collector.OnScraped(func(response *colly.Response) {
-		logs.Info(fmt.Sprintf("Search keyword result: %+v", keywordResultForm))
-
 		service.keywordResultForm = &keywordResultForm
+
+		_, errors := service.keywordResultForm.Save()
+		if len(errors) > 0 {
+			logs.Critical(fmt.Sprintf("Save keyword result failed: %v", errors[0].Error()))
+		}
 	})
 
 	err := collector.Visit(visitUrl)

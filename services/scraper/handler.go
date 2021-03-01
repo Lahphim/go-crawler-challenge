@@ -19,7 +19,3 @@ func onRequestHandler(request *colly.Request) {
 func onResponseErrorHandler(response *colly.Response, err error) {
 	logs.Critical(fmt.Sprintf("Response failed: [%v][%v] %v", response.StatusCode, response.Request.URL, err))
 }
-
-func onResponseHandler(response *colly.Response) {
-	logs.Info("HTML status code: %v", response.StatusCode)
-}
