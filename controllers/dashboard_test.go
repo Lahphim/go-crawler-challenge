@@ -11,8 +11,13 @@ import (
 )
 
 var _ = Describe("DashboardController", func() {
+	BeforeEach(func() {
+		prepareFabricator()
+	})
+
 	AfterEach(func() {
 		TruncateTable("user")
+		TruncateTable("position")
 	})
 
 	Describe("GET /dashboard", func() {
@@ -36,3 +41,11 @@ var _ = Describe("DashboardController", func() {
 		})
 	})
 })
+
+func prepareFabricator() {
+	FabricatePosition("nonAds", "#search .g .yuRUbf > a", "normal")
+	FabricatePosition("bottomLinkAds", "#tadsb .d5oMvf > a", "other")
+	FabricatePosition("otherAds", "#rhs .pla-unit a.pla-unit-title-link", "other")
+	FabricatePosition("topImageAds", "#tvcap .pla-unit a.pla-unit-title-link", "top")
+	FabricatePosition("topLinkAds", "#tads .d5oMvf > a", "top")
+}
