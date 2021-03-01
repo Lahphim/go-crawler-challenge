@@ -18,3 +18,11 @@
   src: url('/assets/fonts/JetBrainsMono-Bold.ttf'),
        url('/assets/fonts/JetBrainsMono-Bold.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'Material Icon';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/MaterialIcons-Regular.ttf'),
+       url('/assets/fonts/MaterialIcons-Regular.woff2') format('woff2');
+}

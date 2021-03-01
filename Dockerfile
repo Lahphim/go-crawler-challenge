@@ -1,4 +1,4 @@
-FROM node:15.5.1-alpine AS assets-builder
+FROM node:15.10.0-alpine AS assets-builder
 
 WORKDIR /assets
 

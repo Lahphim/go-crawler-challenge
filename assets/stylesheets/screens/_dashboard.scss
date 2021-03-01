@@ -1,0 +1,17 @@
+body.dashboard.index {
+  .search-keyword {
+    @apply py-4 sm:py-8;
+
+    .form .form__group:last-of-type {
+      @apply mb-0;
+    }
+
+    .form .form__input + .button {
+      @apply ml-2;
+    }
+
+    .form .form__input {
+      @apply w-full;
+    }
+  }
+}

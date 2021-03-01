@@ -1,0 +1,16 @@
+.material-icon {
+  @apply font-normal text-2xl inline-block normal-case tracking-normal leading-none;
+
+  font-family: $base-font-icon-family;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+
+  &--secondary {
+    @apply text-white;
+  }
+}
