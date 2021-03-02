@@ -2,9 +2,9 @@ package scraper_test
 
 import (
 	"fmt"
-	"go-crawler-challenge/models"
 	"net/url"
 
+	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 	. "go-crawler-challenge/tests"
 
