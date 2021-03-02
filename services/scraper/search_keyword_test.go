@@ -7,7 +7,9 @@ import (
 	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 	. "go-crawler-challenge/tests"
+	. "go-crawler-challenge/tests/fixtures"
 
+	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -30,20 +32,60 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 		TruncateTable("user")
 	})
 
-	Describe("#Call", func() {
+	Describe("#Run", func() {
 		Context("given valid params", func() {
-			It("assigns all links", func() {
+			It("collects keywords", func() {
 				positionList, err := models.GetAllPosition()
 				if err != nil {
 					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
 				}
 
-				service := scraper.SearchKeywordService{Keyword: "keyword"}
+				currentUser := FabricateUser(faker.Email(), faker.Password())
+				keyword := "keyword"
+				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
+				service.SetPositionList(positionList)
+				service.EnableSynchronous()
+				service.Run()
+
+				searchResult := service.GetSearchResult()
+
+				Expect(searchResult.Keyword).NotTo(BeNil())
+				Expect(searchResult.Keyword).To(Equal(keyword))
+			})
+
+			It("collects some links based on selector list", func() {
+				positionList, err := models.GetAllPosition()
+				if err != nil {
+					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
+				}
+
+				currentUser := FabricateUser(faker.Email(), faker.Password())
+				keyword := "keyword"
+				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
 				service.SetPositionList(positionList)
 				service.EnableSynchronous()
 				service.Run()
 
 				Expect(len(service.GetSearchResult().LinkList)).NotTo(BeZero())
+			})
+
+			It("collects the raw HTML", func() {
+				positionList, err := models.GetAllPosition()
+				if err != nil {
+					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
+				}
+
+				currentUser := FabricateUser(faker.Email(), faker.Password())
+				keyword := "keyword"
+				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
+				service.SetPositionList(positionList)
+				service.EnableSynchronous()
+				service.Run()
+
+				searchResult := service.GetSearchResult()
+
+				Expect(searchResult.RawHtml).NotTo(BeNil())
+				Expect(searchResult.RawHtml).To(MatchRegexp(`<\/body>`))
 			})
 		})
 	})

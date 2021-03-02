@@ -14,6 +14,9 @@ type KeywordResult struct {
 	User     *models.User
 }
 
+// AddKeywordResult creates multiple records at the same time within transaction.
+// Related table are `keyword`, `page` and `link`.
+// If there are some errors in the middle of the process, it will rollbacks to the beginning.
 func AddKeywordResult(keywordResult *KeywordResult) (keyword *models.Keyword, err error) {
 	ormer := orm.NewOrm()
 
