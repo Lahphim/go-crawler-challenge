@@ -19,7 +19,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 
 	Describe("#Valid", func() {
 		Context("given valid params", func() {
-			It("does NOT produces any errors", func() {
+			It("does NOT produce any errors", func() {
 				_ = FabricateUser("dev@nimblehq.co", "password")
 				form := form.AuthenticationForm{
 					Email:    "dev@nimblehq.co",

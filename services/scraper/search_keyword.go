@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	form "go-crawler-challenge/forms/scrapper"
+	form "go-crawler-challenge/forms/scraper"
 	"go-crawler-challenge/models"
 
 	"github.com/beego/beego/v2/core/logs"

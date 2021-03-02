@@ -2,6 +2,7 @@ package scraper_test
 
 import (
 	"fmt"
+	"go-crawler-challenge/models"
 	"net/url"
 
 	"go-crawler-challenge/services/scraper"
@@ -18,12 +19,27 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 		cassetteName := "scraper/success_valid_params"
 
 		RecordCassette(cassetteName, visitURL)
+		PreparePositionTable()
+	})
+
+	AfterEach(func() {
+		TruncateTable("link")
+		TruncateTable("page")
+		TruncateTable("position")
+		TruncateTable("keyword")
+		TruncateTable("user")
 	})
 
 	Describe("#Call", func() {
 		Context("given valid params", func() {
 			It("assigns all links", func() {
+				positionList, err := models.GetAllPosition()
+				if err != nil {
+					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
+				}
+
 				service := scraper.SearchKeywordService{Keyword: "keyword"}
+				service.SetPositionList(positionList)
 				service.EnableSynchronous()
 				service.Run()
 

@@ -20,7 +20,7 @@ func FabricateUser(email string, plainPassword string) (user *models.User) {
 	}
 
 	ormer := orm.NewOrm()
-	_, err = ormer.Insert(&user)
+	_, err = ormer.Insert(user)
 	if err != nil {
 		ginkgo.Fail("Add user failed: " + err.Error())
 	}

@@ -20,6 +20,8 @@ type KeywordResultForm struct {
 	User     *models.User `valid:"Required;"`
 }
 
+// Valid handles some custom form validations about checking an existing user, validating valid visit url
+// and validating valid url from the list of link
 func (form *KeywordResultForm) Valid(validation *validation.Validation) {
 	// Validate current existing user
 	existedUser, _ := models.GetUserById(form.User.Id)
@@ -48,9 +50,10 @@ func (form *KeywordResultForm) Valid(validation *validation.Validation) {
 			break
 		}
 	}
-
 }
 
+// Save handles transaction for `keyword`, `page` and `link` table.
+// If there are some errors in the transaction, it rollbacks them all and returns with errors.
 func (form *KeywordResultForm) Save() (keyword *models.Keyword, errors []error) {
 	validator := validation.Validation{}
 
@@ -75,6 +78,7 @@ func (form *KeywordResultForm) Save() (keyword *models.Keyword, errors []error) 
 	return keyword, errors
 }
 
+// processTransaction will save keyword result into `keyword`, `page` and `link` table at the same time.
 func (form *KeywordResultForm) processTransaction() (keyword *models.Keyword, err error) {
 	keywordResult := &transactions.KeywordResult{
 		Keyword:  form.Keyword,

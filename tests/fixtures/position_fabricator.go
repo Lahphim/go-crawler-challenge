@@ -15,7 +15,7 @@ func FabricatePosition(name string, selector string, category string) (position 
 	}
 
 	ormer := orm.NewOrm()
-	_, err := ormer.Insert(&position)
+	_, err := ormer.Insert(position)
 	if err != nil {
 		ginkgo.Fail("Add position failed: " + err.Error())
 	}

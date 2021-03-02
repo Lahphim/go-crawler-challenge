@@ -1,7 +1,7 @@
 package forms_test
 
 import (
-	form "go-crawler-challenge/forms/scrapper"
+	form "go-crawler-challenge/forms/scraper"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

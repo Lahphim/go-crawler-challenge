@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	form "go-crawler-challenge/forms/scrapper"
+	form "go-crawler-challenge/forms/scraper"
 	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 

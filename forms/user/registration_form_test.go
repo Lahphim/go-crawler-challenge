@@ -19,7 +19,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 	Describe("#Valid", func() {
 		Context("given valid params", func() {
-			It("does NOT produces any errors", func() {
+			It("does NOT produce any errors", func() {
 				form := form.RegistrationForm{
 					Email:           "dev@nimblehq.co",
 					Password:        "password",
