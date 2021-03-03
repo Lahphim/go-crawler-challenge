@@ -1,4 +1,4 @@
-package transactions_test
+package keyword_test
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestTransactions(t *testing.T) {
+func TestKeyword(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Transactions Suite")
+	RunSpecs(t, "Keyword Suite")
 }

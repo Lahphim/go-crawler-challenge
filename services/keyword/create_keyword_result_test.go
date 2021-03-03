@@ -1,21 +1,21 @@
-package transactions_test
+package keyword_test
 
 import (
 	"fmt"
-	"strings"
-
 	. "go-crawler-challenge/models"
+	service "go-crawler-challenge/services/keyword"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
-	"go-crawler-challenge/transactions"
+	"strings"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/validation"
 	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("KeywordResult", func() {
+var _ = Describe("Keyword/CreateKeywordResult", func() {
 	AfterEach(func() {
 		TruncateTable("link")
 		TruncateTable("page")
@@ -24,7 +24,7 @@ var _ = Describe("KeywordResult", func() {
 		TruncateTable("user")
 	})
 
-	Describe("#AddKeywordResult", func() {
+	Describe("#Run", func() {
 		Context("given valid params", func() {
 			It("returns a keyword record", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
@@ -39,7 +39,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  keyword,
 					Url:      url,
 					LinkList: linkList,
@@ -47,7 +47,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				keywordRecord, _ := transactions.AddKeywordResult(&keywordResult)
+				keywordRecord, _ := createKeywordResultService.Run()
 
 				Expect(keywordRecord).NotTo(BeNil())
 				Expect(keywordRecord.Id).To(BeNumerically(">", 0))
@@ -66,7 +66,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  keyword,
 					Url:      url,
 					LinkList: linkList,
@@ -74,7 +74,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				_, err := transactions.AddKeywordResult(&keywordResult)
+				_, err := createKeywordResultService.Run()
 
 				Expect(err).To(BeNil())
 			})
@@ -92,7 +92,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  keyword,
 					Url:      url,
 					LinkList: linkList,
@@ -100,7 +100,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				_, _ = transactions.AddKeywordResult(&keywordResult)
+				_, _ = createKeywordResultService.Run()
 
 				ormer := orm.NewOrm()
 				keywordRecord := &Keyword{}
@@ -129,7 +129,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  keyword,
 					Url:      url,
 					LinkList: linkList,
@@ -137,7 +137,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				keywordRecord, _ := transactions.AddKeywordResult(&keywordResult)
+				keywordRecord, _ := createKeywordResultService.Run()
 
 				ormer := orm.NewOrm()
 				pageRecord := &Page{}
@@ -166,7 +166,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  keyword,
 					Url:      url,
 					LinkList: linkList,
@@ -174,7 +174,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				keywordRecord, _ := transactions.AddKeywordResult(&keywordResult)
+				keywordRecord, _ := createKeywordResultService.Run()
 
 				ormer := orm.NewOrm()
 				linkRecord := &Link{}
@@ -207,7 +207,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  overLengthKeyword,
 					Url:      url,
 					LinkList: linkList,
@@ -215,7 +215,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				keywordRecord, _ := transactions.AddKeywordResult(&keywordResult)
+				keywordRecord, _ := createKeywordResultService.Run()
 
 				Expect(keywordRecord).To(BeNil())
 			})
@@ -234,7 +234,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  overLengthKeyword,
 					Url:      url,
 					LinkList: linkList,
@@ -242,7 +242,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				_, err := transactions.AddKeywordResult(&keywordResult)
+				_, err := createKeywordResultService.Run()
 
 				Expect(err).NotTo(BeNil())
 			})
@@ -261,7 +261,7 @@ var _ = Describe("KeywordResult", func() {
 					},
 				}
 
-				keywordResult := transactions.KeywordResult{
+				createKeywordResultService := service.CreateKeywordResult{
 					Keyword:  overLengthKeyword,
 					Url:      url,
 					LinkList: linkList,
@@ -269,7 +269,7 @@ var _ = Describe("KeywordResult", func() {
 					User:     user,
 				}
 
-				_, _ = transactions.AddKeywordResult(&keywordResult)
+				_, _ = createKeywordResultService.Run()
 
 				ormer := orm.NewOrm()
 				keywordRecord := &Keyword{}
@@ -287,6 +287,103 @@ var _ = Describe("KeywordResult", func() {
 				Expect(pageErr.Error()).To(ContainSubstring("no row found"))
 				Expect(linkErr).NotTo(BeNil())
 				Expect(linkErr.Error()).To(ContainSubstring("no row found"))
+			})
+		})
+	})
+
+	Describe("#Valid", func() {
+		Context("given valid params", func() {
+			It("does NOT produce any errors", func() {
+				user := FabricateUser(faker.Email(), faker.Password())
+				keyword := faker.Word()
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				rawHtml := faker.Paragraph()
+				createKeywordResultService := service.CreateKeywordResult{
+					Keyword: keyword,
+					Url:     url,
+					RawHtml: rawHtml,
+					User:    user,
+				}
+
+				formValidation := validation.Validation{}
+				createKeywordResultService.Valid(&formValidation)
+
+				Expect(len(formValidation.Errors)).To(BeZero())
+			})
+		})
+
+		Context("given INVALID params", func() {
+			Context("given NO user exist", func() {
+				It("produces an error", func() {
+					notExistingUser := &User{Base: Base{Id: 1}}
+
+					keyword := faker.Word()
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					rawHtml := faker.Paragraph()
+					createKeywordResultService := service.CreateKeywordResult{
+						Keyword: keyword,
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    notExistingUser,
+					}
+
+					formValidation := validation.Validation{}
+					createKeywordResultService.Valid(&formValidation)
+
+					Expect(len(formValidation.Errors)).To(Equal(1))
+					Expect(formValidation.Errors[0].Key).To(Equal("User"))
+					Expect(formValidation.Errors[0].Message).To(Equal("User does not exist"))
+				})
+			})
+
+			Context("given an INVALID URL", func() {
+				It("produces an error", func() {
+					invalidUrl := "INVALID_URL"
+
+					user := FabricateUser(faker.Email(), faker.Password())
+					keyword := faker.Word()
+					rawHtml := faker.Paragraph()
+					createKeywordResultService := service.CreateKeywordResult{
+						Keyword: keyword,
+						Url:     invalidUrl,
+						RawHtml: rawHtml,
+						User:    user,
+					}
+
+					formValidation := validation.Validation{}
+					createKeywordResultService.Valid(&formValidation)
+
+					Expect(len(formValidation.Errors)).To(Equal(1))
+					Expect(formValidation.Errors[0].Key).To(Equal("Url"))
+					Expect(formValidation.Errors[0].Message).To(Equal("URL must be valid"))
+				})
+			})
+
+			Context("given an INVALID URL in the list of link", func() {
+				It("produces an error", func() {
+					invalidLinkList := []Link{
+						{Url: "INVALID_URL"},
+					}
+
+					user := FabricateUser(faker.Email(), faker.Password())
+					keyword := faker.Word()
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					rawHtml := faker.Paragraph()
+					createKeywordResultService := service.CreateKeywordResult{
+						Keyword:  keyword,
+						Url:      url,
+						RawHtml:  rawHtml,
+						LinkList: invalidLinkList,
+						User:     user,
+					}
+
+					formValidation := validation.Validation{}
+					createKeywordResultService.Valid(&formValidation)
+
+					Expect(len(formValidation.Errors)).To(Equal(1))
+					Expect(formValidation.Errors[0].Key).To(Equal("LinkList"))
+					Expect(formValidation.Errors[0].Message).To(Equal("All Link list must be valid URL"))
+				})
 			})
 		})
 	})

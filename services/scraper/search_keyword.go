@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/url"
 
-	form "go-crawler-challenge/forms/scraper"
 	"go-crawler-challenge/models"
+	"go-crawler-challenge/services/keyword"
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/gocolly/colly/v2"
@@ -15,9 +15,9 @@ type SearchKeywordService struct {
 	User    *models.User
 	Keyword string
 
-	isSynchronous     bool
-	positionList      []*models.Position
-	keywordResultForm *form.KeywordResultForm
+	isSynchronous        bool
+	positionList         []*models.Position
+	keywordResultService *keyword.CreateKeywordResult
 }
 
 const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
@@ -27,7 +27,7 @@ const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
 	searchUrl := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
-	keywordResultForm := form.KeywordResultForm{Keyword: service.Keyword, User: service.User}
+	keywordResultService := keyword.CreateKeywordResult{Keyword: service.Keyword, User: service.User}
 
 	collector.OnRequest(onRequestHandler)
 	collector.OnError(onResponseErrorHandler)
@@ -35,20 +35,20 @@ func (service *SearchKeywordService) Run() {
 	for _, position := range service.positionList {
 		positionClone := position
 		collector.OnHTML(position.Selector, func(element *colly.HTMLElement) {
-			keywordResultForm.LinkList = append(keywordResultForm.LinkList, models.Link{Position: positionClone, Url: element.Attr("href")})
+			keywordResultService.LinkList = append(keywordResultService.LinkList, models.Link{Position: positionClone, Url: element.Attr("href")})
 		})
 	}
 
 	collector.OnResponse(func(response *colly.Response) {
-		keywordResultForm.RawHtml = string(response.Body[:])
+		keywordResultService.RawHtml = string(response.Body[:])
 	})
 
 	collector.OnScraped(func(response *colly.Response) {
-		service.keywordResultForm = &keywordResultForm
+		service.keywordResultService = &keywordResultService
 
-		_, errors := service.keywordResultForm.Save()
-		if len(errors) > 0 {
-			logs.Critical(fmt.Sprintf("Save keyword result failed: %v", errors[0].Error()))
+		_, err := service.keywordResultService.Run()
+		if err != nil {
+			logs.Critical(fmt.Sprintf("Save keyword result failed: %v", err.Error()))
 		}
 	})
 
@@ -56,7 +56,7 @@ func (service *SearchKeywordService) Run() {
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Collector visit failed: %v", err))
 	} else {
-		keywordResultForm.Url = searchUrl
+		keywordResultService.Url = searchUrl
 	}
 
 	// Disable asynchronous when synchronous flag is enabled
@@ -73,6 +73,6 @@ func (service *SearchKeywordService) EnableSynchronous() {
 	service.isSynchronous = true
 }
 
-func (service *SearchKeywordService) GetSearchResult() *form.KeywordResultForm {
-	return service.keywordResultForm
+func (service *SearchKeywordService) GetSearchResult() *keyword.CreateKeywordResult {
+	return service.keywordResultService
 }
