@@ -26,7 +26,7 @@ const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 // It will return an error when the collector cannot visit the URL.
 func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
-	url := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
+	searchUrl := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
 	keywordResultForm := form.KeywordResultForm{Keyword: service.Keyword, User: service.User}
 
 	collector.OnRequest(onRequestHandler)
@@ -52,11 +52,11 @@ func (service *SearchKeywordService) Run() {
 		}
 	})
 
-	err := collector.Visit(url)
+	err := collector.Visit(searchUrl)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Collector visit failed: %v", err))
 	} else {
-		keywordResultForm.Url = url
+		keywordResultForm.Url = searchUrl
 	}
 
 	// Disable asynchronous when synchronous flag is enabled
