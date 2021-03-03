@@ -45,7 +45,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given the user does NOT exist", func() {
+			Context("given NO user exist", func() {
 				It("produces an error", func() {
 					notExistingUser := &User{Base: Base{Id: 1}}
 
@@ -173,7 +173,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("Keyword can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Keyword cannot be empty"))
 				})
 			})
 
@@ -211,7 +211,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("Url can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Url cannot be empty"))
 				})
 			})
 
@@ -274,11 +274,11 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("RawHtml can not be empty"))
+					Expect(errors[0].Error()).To(Equal("RawHtml cannot be empty"))
 				})
 			})
 
-			Context("given NOT existing user", func() {
+			Context("given INVALID user", func() {
 				It("does NOT return a keyword record", func() {
 					notExistingUser := &User{Base: Base{Id: 1}}
 
@@ -313,7 +313,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("User can not be empty"))
+					Expect(errors[0].Error()).To(Equal("User cannot be empty"))
 				})
 			})
 		})

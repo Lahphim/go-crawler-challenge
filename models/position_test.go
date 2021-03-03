@@ -19,7 +19,7 @@ var _ = Describe("Position", func() {
 	Describe("#GetAllPosition", func() {
 		Context("given an existing position", func() {
 			It("returns a position", func() {
-				existUser := FabricatePosition("nonAds", "#search .g .yuRUbf > a", "normal")
+				position := FabricatePosition("nonAds", "#search .g .yuRUbf > a", "normal")
 
 				positions, err := models.GetAllPosition()
 				if err != nil {
@@ -27,7 +27,7 @@ var _ = Describe("Position", func() {
 				}
 
 				Expect(len(positions)).To(BeNumerically(">", 0))
-				Expect(positions[0].Id).To(Equal(existUser.Id))
+				Expect(positions[0].Id).To(Equal(position.Id))
 			})
 
 			It("does NOT return any errors", func() {
@@ -42,7 +42,7 @@ var _ = Describe("Position", func() {
 			})
 		})
 
-		Context("given the position does NOT exist", func() {
+		Context("given NO position exist", func() {
 			It("returns an empty array", func() {
 				positions, err := models.GetAllPosition()
 				if err != nil {

@@ -155,7 +155,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("Email can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Email cannot be empty"))
 				})
 			})
 
@@ -259,7 +259,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("Password can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Password cannot be empty"))
 				})
 			})
 
@@ -337,7 +337,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("ConfirmPassword can not be empty"))
+					Expect(errors[0].Error()).To(Equal("ConfirmPassword cannot be empty"))
 				})
 			})
 

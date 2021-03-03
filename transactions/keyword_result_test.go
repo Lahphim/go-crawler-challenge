@@ -26,7 +26,7 @@ var _ = Describe("KeywordResult", func() {
 
 	Describe("#AddKeywordResult", func() {
 		Context("given valid params", func() {
-			It("returns keyword record", func() {
+			It("returns a keyword record", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
@@ -53,7 +53,7 @@ var _ = Describe("KeywordResult", func() {
 				Expect(keywordRecord.Id).To(BeNumerically(">", 0))
 			})
 
-			It("does NOT produces any errors", func() {
+			It("does NOT produce any errors", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()

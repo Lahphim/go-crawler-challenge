@@ -29,7 +29,7 @@ var _ = Describe("Scraper/SearchKeywordForm", func() {
 
 				errors := form.Validate()
 
-				Expect(errors[0].Error()).To(Equal("Keyword can not be empty"))
+				Expect(errors[0].Error()).To(Equal("Keyword cannot be empty"))
 			})
 		})
 	})
