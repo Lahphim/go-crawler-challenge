@@ -24,8 +24,8 @@ type KeywordResultForm struct {
 // and validating valid url from the list of link
 func (form *KeywordResultForm) Valid(validation *validation.Validation) {
 	// Validate current existing user
-	existedUser, _ := models.GetUserById(form.User.Id)
-	if existedUser == nil {
+	existingUser, _ := models.GetUserById(form.User.Id)
+	if existingUser == nil {
 		err := validation.SetError("User", ValidationMessages["InvalidUser"])
 		if err == nil {
 			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))

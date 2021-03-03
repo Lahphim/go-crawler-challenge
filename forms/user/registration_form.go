@@ -19,8 +19,8 @@ type RegistrationForm struct {
 
 // Valid handles some custom form validations and sets some errors for the invalid case
 func (form *RegistrationForm) Valid(validation *validation.Validation) {
-	existedUser, _ := models.GetUserByEmail(form.Email)
-	if existedUser != nil {
+	existingUser, _ := models.GetUserByEmail(form.Email)
+	if existingUser != nil {
 		err := validation.SetError("Email", ValidationMessages["ExistingEmail"])
 		if err == nil {
 			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
