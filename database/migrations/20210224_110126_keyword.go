@@ -24,7 +24,7 @@ func (m *Keyword_20210224_110126) Up() {
 			id SERIAL,
 			user_id integer REFERENCES "user" ON DELETE CASCADE,
 			keyword varchar(128) NOT NULL,
-			visit_url varchar(128) NOT NULL,
+			url varchar(128) NOT NULL,
 			created_at timestamp NOT NULL,
 			updated_at timestamp NOT NULL,
 			PRIMARY KEY (id)

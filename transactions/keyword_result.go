@@ -8,7 +8,7 @@ import (
 
 type KeywordResult struct {
 	Keyword  string
-	VisitUrl string
+	Url      string
 	LinkList []models.Link
 	RawHtml  string
 	User     *models.User
@@ -30,8 +30,8 @@ func AddKeywordResult(keywordResult *KeywordResult) (keyword *models.Keyword, er
 	keyword = &models.Keyword{
 		User: keywordResult.User,
 
-		Keyword:  keywordResult.Keyword,
-		VisitUrl: keywordResult.VisitUrl,
+		Keyword: keywordResult.Keyword,
+		Url:     keywordResult.Url,
 	}
 	_, err = txnOrmer.Insert(keyword)
 	if err != nil {

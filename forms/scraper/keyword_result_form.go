@@ -14,7 +14,7 @@ import (
 
 type KeywordResultForm struct {
 	Keyword  string `valid:"Required; MaxSize(128)"`
-	VisitUrl string `valid:"Required; MaxSize(128)"`
+	Url      string `valid:"Required; MaxSize(128)"`
 	LinkList []models.Link
 	RawHtml  string       `valid:"Required;"`
 	User     *models.User `valid:"Required;"`
@@ -26,15 +26,15 @@ func (form *KeywordResultForm) Valid(validation *validation.Validation) {
 	// Validate current existing user
 	existedUser, _ := models.GetUserById(form.User.Id)
 	if existedUser == nil {
-		err := validation.SetError("User", ValidationMessages["NotExistingUser"])
+		err := validation.SetError("User", ValidationMessages["InvalidUser"])
 		if err == nil {
 			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
 	}
 
 	// Validate visit url pattern
-	if !validateUrl(form.VisitUrl) {
-		err := validation.SetError("VisitUrl", ValidationMessages["InvalidVisitUrl"])
+	if !validateUrl(form.Url) {
+		err := validation.SetError("Url", ValidationMessages["InvalidUrl"])
 		if err == nil {
 			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
 		}
@@ -82,7 +82,7 @@ func (form *KeywordResultForm) Save() (keyword *models.Keyword, errors []error) 
 func (form *KeywordResultForm) processTransaction() (keyword *models.Keyword, err error) {
 	keywordResult := &transactions.KeywordResult{
 		Keyword:  form.Keyword,
-		VisitUrl: form.VisitUrl,
+		Url:      form.Url,
 		LinkList: form.LinkList,
 		RawHtml:  form.RawHtml,
 		User:     form.User,

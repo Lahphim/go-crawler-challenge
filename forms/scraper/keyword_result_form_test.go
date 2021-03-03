@@ -28,13 +28,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 			It("does NOT produce any errors", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				form := form.KeywordResultForm{
-					Keyword:  keyword,
-					VisitUrl: visitUrl,
-					RawHtml:  rawHtml,
-					User:     user,
+					Keyword: keyword,
+					Url:     url,
+					RawHtml: rawHtml,
+					User:    user,
 				}
 
 				formValidation := validation.Validation{}
@@ -50,13 +50,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					notExistingUser := &User{Base: Base{Id: 1}}
 
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
-						User:     notExistingUser,
+						Keyword: keyword,
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    notExistingUser,
 					}
 
 					formValidation := validation.Validation{}
@@ -68,26 +68,26 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 				})
 			})
 
-			Context("given an INVALID visit URL", func() {
+			Context("given an INVALID URL", func() {
 				It("produces an error", func() {
-					invalidVisitUrl := "INVALID_VISIT_URL"
+					invalidUrl := "INVALID_URL"
 
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: invalidVisitUrl,
-						RawHtml:  rawHtml,
-						User:     user,
+						Keyword: keyword,
+						Url:     invalidUrl,
+						RawHtml: rawHtml,
+						User:    user,
 					}
 
 					formValidation := validation.Validation{}
 					form.Valid(&formValidation)
 
 					Expect(len(formValidation.Errors)).To(Equal(1))
-					Expect(formValidation.Errors[0].Key).To(Equal("VisitUrl"))
-					Expect(formValidation.Errors[0].Message).To(Equal("Visit URL must be valid URL"))
+					Expect(formValidation.Errors[0].Key).To(Equal("Url"))
+					Expect(formValidation.Errors[0].Message).To(Equal("URL must be valid"))
 				})
 			})
 
@@ -99,11 +99,11 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
 						Keyword:  keyword,
-						VisitUrl: visitUrl,
+						Url:      url,
 						RawHtml:  rawHtml,
 						LinkList: invalidLinkList,
 						User:     user,
@@ -125,13 +125,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 			It("returns a keyword record", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				form := form.KeywordResultForm{
-					Keyword:  keyword,
-					VisitUrl: visitUrl,
-					RawHtml:  rawHtml,
-					User:     user,
+					Keyword: keyword,
+					Url:     url,
+					RawHtml: rawHtml,
+					User:    user,
 				}
 
 				keywordRecord, _ := form.Save()
@@ -143,13 +143,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 			It("does NOT produce any errors", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				form := form.KeywordResultForm{
-					Keyword:  keyword,
-					VisitUrl: visitUrl,
-					RawHtml:  rawHtml,
-					User:     user,
+					Keyword: keyword,
+					Url:     url,
+					RawHtml: rawHtml,
+					User:    user,
 				}
 
 				_, errors := form.Save()
@@ -162,12 +162,12 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 			Context("given NO keyword", func() {
 				It("does NOT return a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					visitUrl := "https://www.google.com/search?q=&lr=lang_en"
+					url := "https://www.google.com/search?q=&lr=lang_en"
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
-						User:     user,
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    user,
 					}
 
 					keywordRecord, errors := form.Save()
@@ -181,13 +181,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 				It("does NOT return a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword + strings.Repeat("*", 128),
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
-						User:     user,
+						Keyword: keyword + strings.Repeat("*", 128),
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    user,
 					}
 
 					keywordRecord, errors := form.Save()
@@ -197,7 +197,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 				})
 			})
 
-			Context("given NO visit URL", func() {
+			Context("given NO URL", func() {
 				It("does NOT return a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
@@ -211,7 +211,7 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("VisitUrl can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Url can not be empty"))
 				})
 			})
 
@@ -219,19 +219,19 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 				It("does NOT return a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s%s&lr=lang_en", keyword, strings.Repeat("*", 128))
+					url := fmt.Sprintf("https://www.google.com/search?q=%s%s&lr=lang_en", keyword, strings.Repeat("*", 128))
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
-						User:     user,
+						Keyword: keyword,
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    user,
 					}
 
 					keywordRecord, errors := form.Save()
 
 					Expect(keywordRecord).To(BeNil())
-					Expect(errors[0].Error()).To(Equal("VisitUrl maximum size is 128"))
+					Expect(errors[0].Error()).To(Equal("Url maximum size is 128"))
 				})
 			})
 
@@ -243,11 +243,11 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
 						Keyword:  keyword,
-						VisitUrl: visitUrl,
+						Url:      url,
 						RawHtml:  rawHtml,
 						LinkList: invalidLinkList,
 						User:     user,
@@ -264,11 +264,11 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 				It("does NOT return a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: visitUrl,
-						User:     user,
+						Keyword: keyword,
+						Url:     url,
+						User:    user,
 					}
 
 					keywordRecord, errors := form.Save()
@@ -283,13 +283,13 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 					notExistingUser := &User{Base: Base{Id: 1}}
 
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
-						User:     notExistingUser,
+						Keyword: keyword,
+						Url:     url,
+						RawHtml: rawHtml,
+						User:    notExistingUser,
 					}
 
 					keywordRecord, errors := form.Save()
@@ -302,12 +302,12 @@ var _ = Describe("Scraper/KeywordResultForm", func() {
 			Context("given NO user", func() {
 				It("does NOT return a keyword record", func() {
 					keyword := faker.Word()
-					visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 					rawHtml := faker.Paragraph()
 					form := form.KeywordResultForm{
-						Keyword:  keyword,
-						VisitUrl: visitUrl,
-						RawHtml:  rawHtml,
+						Keyword: keyword,
+						Url:     url,
+						RawHtml: rawHtml,
 					}
 
 					keywordRecord, errors := form.Save()

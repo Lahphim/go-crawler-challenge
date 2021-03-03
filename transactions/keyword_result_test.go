@@ -30,7 +30,7 @@ var _ = Describe("KeywordResult", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -41,7 +41,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  keyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -57,7 +57,7 @@ var _ = Describe("KeywordResult", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -68,7 +68,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  keyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -83,7 +83,7 @@ var _ = Describe("KeywordResult", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -94,7 +94,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  keyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -120,7 +120,7 @@ var _ = Describe("KeywordResult", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -131,7 +131,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  keyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -157,7 +157,7 @@ var _ = Describe("KeywordResult", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
 				keyword := faker.Word()
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -168,7 +168,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  keyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -198,7 +198,7 @@ var _ = Describe("KeywordResult", func() {
 
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -209,7 +209,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  overLengthKeyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -225,7 +225,7 @@ var _ = Describe("KeywordResult", func() {
 
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -236,7 +236,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  overLengthKeyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,
@@ -252,7 +252,7 @@ var _ = Describe("KeywordResult", func() {
 
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				visitUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -263,7 +263,7 @@ var _ = Describe("KeywordResult", func() {
 
 				keywordResult := transactions.KeywordResult{
 					Keyword:  overLengthKeyword,
-					VisitUrl: visitUrl,
+					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
 					User:     user,

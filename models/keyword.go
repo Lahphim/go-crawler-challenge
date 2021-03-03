@@ -12,8 +12,8 @@ type Keyword struct {
 	Page  *Page   `orm:"reverse(one)"`
 	Links []*Link `orm:"reverse(many)"`
 
-	Keyword  string `orm:"size(128)"`
-	VisitUrl string `orm:"size(128)"`
+	Keyword string `orm:"size(128)"`
+	Url     string `orm:"size(128)"`
 }
 
 func init() {
