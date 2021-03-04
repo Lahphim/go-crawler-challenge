@@ -12,15 +12,16 @@ func init() {
 	// Dashboard
 	web.Router("/dashboard", &controllers.DashboardController{}, "get:Index")
 
+	// Scraper
+	web.Router("/dashboard/scraper/keyword", &controllers.ScraperController{}, "post:TextSearch")
+	web.Router("/dashboard/scraper/keyword_csv", &controllers.ScraperController{}, "post:FileSearch")
+
 	// User management
 	web.Router("/user/sign_up", &controllers.UserController{}, "get:New")
 	web.Router("/user/create", &controllers.UserController{}, "post:Create")
 
-	// Scraper
-	web.Router("/scraper/keyword", &controllers.ScraperController{}, "post:Create")
-
 	// Session management
 	web.Router("/user/sign_in", &controllers.SessionController{}, "get:New")
 	web.Router("/user/sign_out", &controllers.SessionController{}, "get:Delete")
-	web.Router("/session/create", &controllers.SessionController{}, "post:Create")
+	web.Router("/user/session_create", &controllers.SessionController{}, "post:Create")
 }

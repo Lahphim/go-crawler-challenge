@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"html/template"
+
 	"github.com/beego/beego/v2/server/web"
 )
 
@@ -32,6 +34,7 @@ func (c *DashboardController) actionPolicyMapping() {
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
+	c.Data["XSRFData"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/application.html"
 	c.TplName = "dashboard/index.html"
 }

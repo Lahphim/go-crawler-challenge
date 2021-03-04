@@ -22,31 +22,33 @@ func (c *ScraperController) NestPrepare() {
 
 // URLMapping maps search controller actions to functions
 func (c *ScraperController) URLMapping() {
-	c.Mapping("Create", c.Create)
+	c.Mapping("TextSearch", c.TextSearch)
+	c.Mapping("FileSearch", c.FileSearch)
 }
 
 // actionPolicyMapping maps search controller actions to policies
 func (c *ScraperController) actionPolicyMapping() {
-	c.MappingPolicy("Create", Policy{requireAuthenticatedUser: true})
+	c.MappingPolicy("TextSearch", Policy{requireAuthenticatedUser: true})
+	c.MappingPolicy("FileSearch", Policy{requireAuthenticatedUser: true})
 }
 
-// Create handles keyword for scrapping
-// @Title Create
-// @Description create a new scrapping result
+// TextSearch handles keyword for scrapping
+// @Title TextSearch
+// @Description create a new scrapping result by plain text
 // @Success 302 redirect to the dashboard page
 // @Failure 302 redirect to the dashboard page and show an error message
 // @router / [post]
-func (c *ScraperController) Create() {
+func (c *ScraperController) TextSearch() {
 	flash := web.NewFlash()
-	searchKeywordForm := form.SearchKeywordForm{}
+	textKeywordForm := form.TextKeywordForm{}
 	redirectPath := "/dashboard"
 
-	err := c.ParseForm(&searchKeywordForm)
+	err := c.ParseForm(&textKeywordForm)
 	if err != nil {
 		flash.Error(err.Error())
 	}
 
-	errors := searchKeywordForm.Validate()
+	errors := textKeywordForm.Validate()
 	if len(errors) > 0 {
 		flash.Error(errors[0].Error())
 	} else {
@@ -54,13 +56,29 @@ func (c *ScraperController) Create() {
 		if err != nil {
 			flash.Error(err.Error())
 		} else {
-			searchKeyword := scraper.SearchKeywordService{User: c.CurrentUser, Keyword: searchKeywordForm.Keyword}
+			searchKeyword := scraper.SearchKeywordService{User: c.CurrentUser, Keyword: textKeywordForm.Keyword}
 			searchKeyword.SetPositionList(positionList)
 			searchKeyword.Run()
 
 			flash.Success("Scraping a keyword :)")
 		}
 	}
+
+	flash.Store(&c.Controller)
+	c.Redirect(redirectPath, http.StatusFound)
+}
+
+// FileSearch handles keyword for scrapping
+// @Title FileSearch
+// @Description create a new scrapping result by CSV file
+// @Success 302 redirect to the dashboard page
+// @Failure 302 redirect to the dashboard page and show an error message
+// @router / [post]
+func (c *ScraperController) FileSearch() {
+	flash := web.NewFlash()
+	redirectPath := "/dashboard"
+
+	flash.Success("Scraping all keywords :)")
 
 	flash.Store(&c.Controller)
 	c.Redirect(redirectPath, http.StatusFound)

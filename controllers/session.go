@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 	"net/url"
 
@@ -41,6 +42,7 @@ func (c *SessionController) actionPolicyMapping() {
 func (c *SessionController) New() {
 	web.ReadFromRequest(&c.Controller)
 
+	c.Data["XSRFData"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/authentication.html"
 	c.TplName = "session/new.html"
 }

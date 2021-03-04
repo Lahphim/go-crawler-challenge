@@ -1,5 +1,7 @@
 <div class="search-keyword">
   <form class="form" action="{{ urlfor `ScraperController.Create` }}" method="post">
+    {{ .XSRFData }}
+
     <div class="form__group">
       <input class="form__input" type="text" name="keyword" placeholder="Search keywords here..." required>
 

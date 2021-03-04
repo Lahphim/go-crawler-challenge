@@ -27,7 +27,16 @@ func init() {
 
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"],
 		beego.ControllerComments{
-			Method:           "Create",
+			Method:           "TextSearch",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"],
+		beego.ControllerComments{
+			Method:           "FileSearch",
 			Router:           "/",
 			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),

@@ -1,4 +1,6 @@
 <form class="form form--right-align" action="{{ urlfor `UserController.Create` }}" method="post">
+  {{ .XSRFData }}
+
   <fieldset>
     <legend class="form__headline">Not signed up yet?<strong>Create a new account :)</strong></legend>
 
