@@ -1,17 +1,26 @@
 'use strict';
 
+import { dispatchEventFromElement } from 'Helpers/event';
+
 export const DEFAULT_SELECTOR = '#upload-file-form';
 
 const UPLOAD_FILE_FORM_OPEN_EVENT = 'UPLOAD_FILE_FORM_OPEN';
 
 class UploadFileForm {
+    /**
+     * Initializer
+     *
+     * @param {Element} elementRef - Upload file form element
+     */
     constructor(elementRef) {
         // Root alert container
         this.elementRef = elementRef;
+        this.elementFilePicker = this.elementRef.querySelector('input[type="file"]');
         this.elementActionControl = document.querySelector(this.elementRef.dataset.actionControl);
 
         // Bind functions
         this.onClickActionControl = this.onClickActionControl.bind(this);
+        this.onFileKeywordSelected = this.onFileKeywordSelected.bind(this);
         this.onOpenUploadFileForm = this.onOpenUploadFileForm.bind(this);
 
         this._setup();
@@ -19,19 +28,33 @@ class UploadFileForm {
 
     // Event Handlers
 
+    /**
+     * Dispatch `UPLOAD_FILE_FORM_OPEN` event when click the action control button
+     */
     onClickActionControl() {
-        console.log("clicking!!");
+        dispatchEventFromElement(this.elementRef, UPLOAD_FILE_FORM_OPEN_EVENT);
     }
 
+    /**
+     * Submit the upload file form when select a CSV file from the browser popup
+     */
+    onFileKeywordSelected() {
+        this.elementRef.submit();
+    }
+
+    /**
+     * Open the browser popup when receive `UPLOAD_FILE_FORM_OPEN` event
+     */
     onOpenUploadFileForm() {
-        console.log("open it!!");
+        this.elementFilePicker.click();
     }
 
     // Private
 
     _setup() {
-        this.elementActionControl.addEventListener('click', this.onClickActionControl);
         this.elementRef.addEventListener(UPLOAD_FILE_FORM_OPEN_EVENT, this.onOpenUploadFileForm);
+        this.elementFilePicker.addEventListener('change', this.onFileKeywordSelected, false);
+        this.elementActionControl.addEventListener('click', this.onClickActionControl);
     }
 }
 
