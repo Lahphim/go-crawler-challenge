@@ -13,8 +13,8 @@ func init() {
 	web.Router("/dashboard", &controllers.DashboardController{}, "get:Index")
 
 	// Scraper
-	web.Router("/dashboard/scraper/keyword", &controllers.ScraperController{}, "post:TextSearch")
-	web.Router("/dashboard/scraper/keyword_csv", &controllers.ScraperController{}, "post:FileSearch")
+	web.Router("/dashboard/search_keyword", &controllers.ScraperController{}, "post:TextSearch")
+	web.Router("/dashboard/search_keyword_csv", &controllers.ScraperController{}, "post:FileSearch")
 
 	// User management
 	web.Router("/user/sign_up", &controllers.UserController{}, "get:New")

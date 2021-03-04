@@ -33,7 +33,7 @@ var _ = Describe("ScraperController", func() {
 		TruncateTable("user")
 	})
 
-	Describe("POST /dashboard/scraper/keyword", func() {
+	Describe("POST /dashboard/search_keyword", func() {
 		Context("when the user has already signed in", func() {
 			Context("given a valid param", func() {
 				XIt("shows a success message", func() {
@@ -41,7 +41,7 @@ var _ = Describe("ScraperController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/scraper/keyword", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search_keyword", body, user)
 					flash := GetFlashMessage(response.Cookies())
 
 					Expect(flash.Data["success"]).NotTo(BeEmpty())
@@ -53,7 +53,7 @@ var _ = Describe("ScraperController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/scraper/keyword", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search_keyword", body, user)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -67,7 +67,7 @@ var _ = Describe("ScraperController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/scraper/keyword", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search_keyword", body, user)
 					flash := GetFlashMessage(response.Cookies())
 
 					Expect(flash.Data["success"]).To(BeEmpty())
@@ -79,7 +79,7 @@ var _ = Describe("ScraperController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/scraper/keyword", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search_keyword", body, user)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -93,7 +93,7 @@ var _ = Describe("ScraperController", func() {
 				body := GenerateRequestBody(map[string]string{
 					"keyword": "",
 				})
-				response := MakeRequest("POST", "/dashboard/scraper/keyword", body)
+				response := MakeRequest("POST", "/dashboard/search_keyword", body)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
