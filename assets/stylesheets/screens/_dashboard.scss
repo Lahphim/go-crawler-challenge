@@ -1,6 +1,16 @@
 body.dashboard.index {
   .search-keyword {
-    @apply py-4 sm:py-8;
+    @apply relative py-4 sm:py-8;
+
+    .form.form--invisible {
+      @apply absolute top-6 sm:top-10 left-4;
+
+      z-index: -1;
+
+      input[type="file"] {
+        @apply w-8;
+      }
+    }
 
     .form .form__group:last-of-type {
       @apply mb-0;
@@ -12,6 +22,18 @@ body.dashboard.index {
 
     .form .form__input {
       @apply w-full;
+    }
+  }
+
+  #upload-file-button {
+    @apply relative ml-4;
+
+    &:before {
+      @apply absolute;
+
+      content: "\00B7";
+      color: map-get($brand-color, 'shark');
+      left: -0.875rem;
     }
   }
 }

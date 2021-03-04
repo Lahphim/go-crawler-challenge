@@ -1,5 +1,5 @@
 <div class="search-keyword">
-  <form class="form" action="{{ urlfor `ScraperController.Create` }}" method="post">
+  <form class="form" action="{{ urlfor `ScraperController.TextSearch` }}" method="post">
     {{ .XSRFData }}
 
     <div class="form__group">
@@ -8,7 +8,15 @@
       <button type="submit" class="button button--icon">
         <span class="material-icon">search</span>
       </button>
+
+      <button id="upload-file-button" type="button" class="button button--icon">
+        <span class="material-icon">file_upload</span>
+      </button>
     </div>
+  </form>
+
+  <form id="upload-file-form" data-action-control="#upload-file-button" class="form form--invisible" action="{{ urlfor `ScraperController.FileSearch` }}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="text/csv" required>
   </form>
 </div>
 
