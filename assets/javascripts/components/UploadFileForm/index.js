@@ -61,7 +61,7 @@ class UploadFileForm {
 
     /**
      * Validate file picker with these conditions.
-     * 1. The file size can not exceed 3MiB.
+     * 1. The file size can not exceed 3MB.
      * 2. Pick only 1 file.
      */
     _validFilePicker() {
