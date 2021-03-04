@@ -39,7 +39,9 @@ class UploadFileForm {
      * Submit the upload file form when select a CSV file from the browser popup
      */
     onFileKeywordSelected() {
-        this.elementRef.submit();
+        if (this._validFilePicker()) {
+            this.elementRef.submit();
+        }
     }
 
     /**
@@ -55,6 +57,17 @@ class UploadFileForm {
         this.elementRef.addEventListener(UPLOAD_FILE_FORM_OPEN_EVENT, this.onOpenUploadFileForm);
         this.elementFilePicker.addEventListener('change', this.onFileKeywordSelected, false);
         this.elementActionControl.addEventListener('click', this.onClickActionControl);
+    }
+
+    /**
+     * Validate file picker with these conditions.
+     * 1. The file size can not exceed 3MiB.
+     * 2. Pick only 1 file.
+     */
+    _validFilePicker() {
+        let file = this.elementFilePicker.files[0];
+
+        return (file !== undefined && this.elementFilePicker.files.length === 1 && file.size <= (1024 * 1024 * 3))
     }
 }
 
