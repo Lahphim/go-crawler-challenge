@@ -38,15 +38,19 @@ jobs:
         if: ${{ env.BRANCH_TAG == 'latest' }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+          XSRF_KEY: ${{ secrets.XSRF_KEY_PRODUCTION }}
         run: |
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+          echo "XSRF_KEY=$XSRF_KEY" >> $GITHUB_ENV
 
       - name: Set staging environment variables
         if: ${{ env.BRANCH_TAG != 'latest' }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+          XSRF_KEY: ${{ secrets.XSRF_KEY_STAGING }}
         run: |
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+          echo "XSRF_KEY=$XSRF_KEY" >> $GITHUB_ENV
 
       - name: Add general environment variables to .env file
         env:
@@ -54,6 +58,7 @@ jobs:
         run: |
           echo "PORT=$PORT" >> .env
           echo "DATABASE_URL=$DATABASE_URL" >> .env
+          echo "XSRF_KEY=$XSRF_KEY" >> .env
 
       - uses: akhileshns/heroku-deploy@v3.11.10
         env:
