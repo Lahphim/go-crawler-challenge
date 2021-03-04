@@ -62,7 +62,7 @@ class UploadFileForm {
     /**
      * Validate file picker with these conditions.
      * 1. The file size can not exceed 3MB.
-     * 2. Pick only 1 file.
+     * 2. User can only pick a file.
      */
     _validFilePicker() {
         let file = this.elementFilePicker.files[0];
