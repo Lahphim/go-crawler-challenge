@@ -22,7 +22,7 @@ func TruncateTable(tableName string) {
 	}
 }
 
-func PreparePositionTable() {
+func SeedPositionTable() {
 	FabricatePosition("nonAds", "#search .g .yuRUbf > a", "normal")
 	FabricatePosition("bottomLinkAds", "#tadsb .d5oMvf > a", "other")
 	FabricatePosition("otherAds", "#rhs .pla-unit a.pla-unit-title-link", "other")

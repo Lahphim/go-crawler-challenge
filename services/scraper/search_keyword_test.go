@@ -21,7 +21,7 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 		cassetteName := "scraper/success_valid_params"
 
 		RecordCassette(cassetteName, visitURL)
-		PreparePositionTable()
+		SeedPositionTable()
 	})
 
 	AfterEach(func() {

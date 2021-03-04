@@ -42,7 +42,7 @@ var _ = Describe("Position", func() {
 			})
 		})
 
-		Context("given NO position exist", func() {
+		Context("given NO position exists", func() {
 			It("returns an empty array", func() {
 				positions, err := models.GetAllPosition()
 				if err != nil {

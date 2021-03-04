@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/url"
 
-	. "go-crawler-challenge/forms"
 	"go-crawler-challenge/models"
+	. "go-crawler-challenge/services"
 
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"

@@ -34,7 +34,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given NO email exist", func() {
+			Context("given NO email exists", func() {
 				It("produces an error", func() {
 					form := form.AuthenticationForm{
 						Email:    "dev@nimblehq.co",
@@ -98,7 +98,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given NO email exist", func() {
+			Context("given NO email exists", func() {
 				It("does NOT return a user object", func() {
 					form := form.AuthenticationForm{
 						Email:    "dev@nimblehq.co",

@@ -116,7 +116,7 @@ var _ = Describe("SessionController", func() {
 			})
 
 			Context("given an INVALID params", func() {
-				Context("given NO user exist", func() {
+				Context("given NO user exists", func() {
 					It("redirects to sign-in page", func() {
 						body := GenerateRequestBody(map[string]string{
 							"email":    "dev@nimblehq.co",
