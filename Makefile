@@ -17,7 +17,7 @@ envsetup:
 	make db/setup
 	make install/package
 
-envrevoke:
+envdown:
 	docker-compose -f docker-compose.dev.yml down
 
 dev:
@@ -34,7 +34,7 @@ db/rollback:
 	bee migrate rollback -driver=postgres -conn="$(DATABASE_URL)"
 
 install/package:
-	source $(HOME)/.nvm/nvm.sh && nvm use && npm i
+	npm i
 
 test:
 	make test/run ENV=test

@@ -70,7 +70,7 @@ var _ = Describe("SessionController", func() {
 		})
 	})
 
-	Describe("POST /user/session_create", func() {
+	Describe("POST /user/session", func() {
 		Context("when the user has NOT signed in yet", func() {
 			Context("given a valid params", func() {
 				It("redirects to root page", func() {
@@ -80,7 +80,7 @@ var _ = Describe("SessionController", func() {
 						"password": "password",
 					})
 
-					response := MakeRequest("POST", "/user/session_create", body)
+					response := MakeRequest("POST", "/user/session", body)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -94,7 +94,7 @@ var _ = Describe("SessionController", func() {
 						"password": "password",
 					})
 
-					response := MakeRequest("POST", "/user/session_create", body)
+					response := MakeRequest("POST", "/user/session", body)
 					flash := GetFlashMessage(response.Cookies())
 
 					Expect(flash.Data["success"]).To(Equal("You have successfully signed in"))
@@ -108,7 +108,7 @@ var _ = Describe("SessionController", func() {
 						"password": "password",
 					})
 
-					response := MakeRequest("POST", "/user/session_create", body)
+					response := MakeRequest("POST", "/user/session", body)
 					currentUserId := GetSession(response.Cookies(), controllers.CurrentUserKey)
 
 					Expect(currentUserId).To(Equal(user.Id))
@@ -123,7 +123,7 @@ var _ = Describe("SessionController", func() {
 							"password": "password",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						currentPath := GetCurrentPath(response)
 
 						Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -136,7 +136,7 @@ var _ = Describe("SessionController", func() {
 							"password": "password",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						flash := GetFlashMessage(response.Cookies())
 
 						Expect(flash.Data["success"]).To(BeEmpty())
@@ -149,7 +149,7 @@ var _ = Describe("SessionController", func() {
 							"password": "password",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						currentUserId := GetSession(response.Cookies(), controllers.CurrentUserKey)
 
 						Expect(currentUserId).To(BeNil())
@@ -164,7 +164,7 @@ var _ = Describe("SessionController", func() {
 							"password": "INVALID_PASSWORD",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						currentPath := GetCurrentPath(response)
 
 						Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -178,7 +178,7 @@ var _ = Describe("SessionController", func() {
 							"password": "INVALID_PASSWORD",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						flash := GetFlashMessage(response.Cookies())
 
 						Expect(flash.Data["success"]).To(BeEmpty())
@@ -192,7 +192,7 @@ var _ = Describe("SessionController", func() {
 							"password": "INVALID_PASSWORD",
 						})
 
-						response := MakeRequest("POST", "/user/session_create", body)
+						response := MakeRequest("POST", "/user/session", body)
 						currentUserId := GetSession(response.Cookies(), controllers.CurrentUserKey)
 
 						Expect(currentUserId).To(BeNil())
@@ -209,7 +209,7 @@ var _ = Describe("SessionController", func() {
 					"password": "password",
 				})
 
-				response := MakeAuthenticatedRequest("POST", "/user/session_create", body, user)
+				response := MakeAuthenticatedRequest("POST", "/user/session", body, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
