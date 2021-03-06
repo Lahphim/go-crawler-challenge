@@ -39,6 +39,7 @@ func GetAllKeyword(orderByList []string, offset int64, limit int64) (keywords []
 	return keywords, err
 }
 
+// CountAllKeyword counts total record for the keyword table
 func CountAllKeyword() (totalRows int64, err error) {
 	ormer := orm.NewOrm()
 
