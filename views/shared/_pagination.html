@@ -1,15 +1,15 @@
 {{ if .paginator.HasPages }}
-<ul>
-  {{ if .paginator.HasPrev }}
-  <li><a href="{{ .paginator.PageLinkPrev }}">&lt;</a></li>
-  {{ end }}
+  <ul>
+    {{ if .paginator.HasPrev }}
+      <li><a href="{{ .paginator.PageLinkPrev }}">&lt;</a></li>
+    {{ end }}
 
-  {{ range $index, $page := .paginator.Pages }}
-  <li><a href="{{ $.paginator.PageLink $page }}">{{ $page }}</a></li>
-  {{ end }}
+    {{ range $index, $page := .paginator.Pages }}
+      <li><a href="{{ $.paginator.PageLink $page }}">{{ $page }}</a></li>
+    {{ end }}
 
-  {{ if .paginator.HasNext }}
-  <li><a href="{{ .paginator.PageLinkNext }}">&gt;</a></li>
-  {{ end }}
-</ul>
+    {{ if .paginator.HasNext }}
+      <li><a href="{{ .paginator.PageLinkNext }}">&gt;</a></li>
+    {{ end }}
+  </ul>
 {{ end }}
