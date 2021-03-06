@@ -110,8 +110,8 @@ func (c *BaseController) ensureGuestUser() bool {
 
 func (c *BaseController) applyCustomLayout() {
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["FlashMessage"] = "shared/alert.html"
-	c.LayoutSections["HeaderContent"] = "shared/header.html"
+	c.LayoutSections["FlashMessage"] = "shared/_alert.html"
+	c.LayoutSections["HeaderContent"] = "shared/_header.html"
 }
 
 func (c *BaseController) initActionPolicy() {
