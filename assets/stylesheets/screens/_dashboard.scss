@@ -1,17 +1,9 @@
 body.dashboard.index {
   .search-keyword {
-    @apply relative py-4
-
-    @screen sm {
-      @apply py-8;
-    }
+    @apply relative py-4 sm:py-8;
 
     .form.form--invisible {
-      @apply absolute top-6 left-4;
-
-      @screen sm {
-        @apply top-10;
-      }
+      @apply absolute top-6 sm:top-10 left-4;
 
       z-index: -1;
 
