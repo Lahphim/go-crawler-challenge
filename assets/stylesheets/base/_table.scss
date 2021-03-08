@@ -1,3 +1,50 @@
 .table {
+  @apply border-collapse w-full my-8;
 
+  display: table;
+  border-spacing: 1rem;
+
+  &--zebra {
+    .table__row:nth-child(odd) {
+      background-color: map-get($brand-gray, 100);
+    }
+  }
+
+  &__row {
+    @apply table-row;
+  }
+
+  &__cell,
+  &__headline {
+    @apply table-cell p-2;
+  }
+
+  &__headline {
+    @apply relative py-4 text-center;
+
+    background-color: map-get($brand-color, 'shark');
+    color: hsl(0, 0%, 100%);
+
+    &:first-of-type {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    &:after {
+      @apply absolute -right-1;
+
+      content: "\00B7";
+      color: inherit;
+      z-index: 1;
+    }
+
+    &:last-of-type:after {
+      content: "";
+    }
+  }
 }

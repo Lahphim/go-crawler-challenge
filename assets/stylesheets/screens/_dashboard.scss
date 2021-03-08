@@ -36,4 +36,15 @@ body.dashboard.index {
       left: -0.875rem;
     }
   }
+
+  .list-keyword.table {
+    &__cell:last-of-type,
+    &__headline:last-of-type {
+      @apply hidden sm:table-cell;
+    }
+
+    &__headline--fix-width {
+      width: 12.5rem;
+    }
+  }
 }
