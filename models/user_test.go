@@ -99,7 +99,7 @@ var _ = Describe("User", func() {
 			})
 		})
 
-		Context("given the user does NOT exist", func() {
+		Context("given NO user exists", func() {
 			It("does NOT return a user", func() {
 				user, _ := models.GetUserById(42)
 
@@ -140,7 +140,7 @@ var _ = Describe("User", func() {
 			})
 		})
 
-		Context("given the user does NOT exist", func() {
+		Context("given NO user exists", func() {
 			It("does NOT return a user", func() {
 				user, _ := models.GetUserByEmail("dev@nimblehq.co")
 

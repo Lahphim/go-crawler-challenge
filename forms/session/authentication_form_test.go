@@ -19,7 +19,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 
 	Describe("#Valid", func() {
 		Context("given valid params", func() {
-			It("does NOT produces any errors", func() {
+			It("does NOT produce any errors", func() {
 				_ = FabricateUser("dev@nimblehq.co", "password")
 				form := form.AuthenticationForm{
 					Email:    "dev@nimblehq.co",
@@ -34,7 +34,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given the email does NOT exist", func() {
+			Context("given NO email exists", func() {
 				It("produces an error", func() {
 					form := form.AuthenticationForm{
 						Email:    "dev@nimblehq.co",
@@ -98,7 +98,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given the email does NOT exist", func() {
+			Context("given NO email exists", func() {
 				It("does NOT return a user object", func() {
 					form := form.AuthenticationForm{
 						Email:    "dev@nimblehq.co",
@@ -168,7 +168,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 
 					_, errors := form.Authenticate()
 
-					Expect(errors[0].Error()).To(Equal("Email can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Email cannot be empty"))
 				})
 			})
 
@@ -240,7 +240,7 @@ var _ = Describe("Session/AuthenticationForm", func() {
 
 					_, errors := form.Authenticate()
 
-					Expect(errors[0].Error()).To(Equal("Password can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Password cannot be empty"))
 				})
 			})
 		})

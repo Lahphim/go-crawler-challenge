@@ -15,7 +15,7 @@ type Base struct {
 func init() {
 	// Set default messages
 	validation.SetDefaultMessage(map[string]string{
-		"Required":     "can not be empty",
+		"Required":     "cannot be empty",
 		"Min":          "minimum is %d",
 		"Max":          "maximum is %d",
 		"Range":        "range is %d to %d",

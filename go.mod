@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/beego/beego/v2 v2.0.1
+	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/iancoleman/strcase v0.1.3

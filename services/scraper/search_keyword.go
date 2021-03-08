@@ -4,31 +4,20 @@ import (
 	"fmt"
 	"net/url"
 
+	"go-crawler-challenge/models"
+	"go-crawler-challenge/services/keyword"
+
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/gocolly/colly/v2"
 )
 
 type SearchKeywordService struct {
+	User    *models.User
 	Keyword string
 
-	isSynchronous bool
-	searchResult  *searchKeywordResult
-}
-
-type searchKeywordResult struct {
-	Keyword  string
-	VisitURL string
-	NonAds   []string
-	OtherAds []string
-	TopAds   []string
-}
-
-var selectorList = map[string]string{
-	"nonAds":        "#search .g .yuRUbf > a",
-	"bottomLinkAds": "#tadsb .d5oMvf > a",
-	"otherAds":      "#rhs .pla-unit a.pla-unit-title-link",
-	"topImageAds":   "#tvcap .pla-unit a.pla-unit-title-link",
-	"topLinkAds":    "#tads .d5oMvf > a",
+	isSynchronous        bool
+	positionList         []*models.Position
+	keywordResultService *keyword.CreateKeywordResult
 }
 
 const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
@@ -37,38 +26,37 @@ const searchEngineUrl = "https://www.google.com/search?q=%s&lr=lang_en"
 // It will return an error when the collector cannot visit the URL.
 func (service *SearchKeywordService) Run() {
 	collector := colly.NewCollector(colly.Async(true))
-	visitURL := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
-	searchResult := searchKeywordResult{Keyword: service.Keyword, VisitURL: visitURL}
+	searchUrl := fmt.Sprintf(searchEngineUrl, url.QueryEscape(service.Keyword))
+	keywordResultService := keyword.CreateKeywordResult{Keyword: service.Keyword, User: service.User}
 
-	collector.OnResponse(onResponseHandler)
 	collector.OnRequest(onRequestHandler)
 	collector.OnError(onResponseErrorHandler)
 
-	collector.OnHTML(selectorList["nonAds"], func(element *colly.HTMLElement) {
-		searchResult.NonAds = append(searchResult.NonAds, element.Attr("href"))
-	})
-	collector.OnHTML(selectorList["bottomLinkAds"], func(element *colly.HTMLElement) {
-		searchResult.OtherAds = append(searchResult.OtherAds, element.Attr("href"))
-	})
-	collector.OnHTML(selectorList["otherAds"], func(element *colly.HTMLElement) {
-		searchResult.OtherAds = append(searchResult.OtherAds, element.Attr("href"))
-	})
-	collector.OnHTML(selectorList["topImageAds"], func(element *colly.HTMLElement) {
-		searchResult.TopAds = append(searchResult.TopAds, element.Attr("href"))
-	})
-	collector.OnHTML(selectorList["topLinkAds"], func(element *colly.HTMLElement) {
-		searchResult.TopAds = append(searchResult.TopAds, element.Attr("href"))
+	for _, position := range service.positionList {
+		positionClone := position
+		collector.OnHTML(position.Selector, func(element *colly.HTMLElement) {
+			keywordResultService.LinkList = append(keywordResultService.LinkList, models.Link{Position: positionClone, Url: element.Attr("href")})
+		})
+	}
+
+	collector.OnResponse(func(response *colly.Response) {
+		keywordResultService.RawHtml = string(response.Body[:])
 	})
 
 	collector.OnScraped(func(response *colly.Response) {
-		logs.Info(fmt.Sprintf("Search keyword result: %+v", searchResult))
+		service.keywordResultService = &keywordResultService
 
-		service.searchResult = &searchResult
+		_, err := service.keywordResultService.Run()
+		if err != nil {
+			logs.Critical(fmt.Sprintf("Save keyword result failed: %v", err.Error()))
+		}
 	})
 
-	err := collector.Visit(visitURL)
+	err := collector.Visit(searchUrl)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Collector visit failed: %v", err))
+	} else {
+		keywordResultService.Url = searchUrl
 	}
 
 	// Disable asynchronous when synchronous flag is enabled
@@ -77,10 +65,14 @@ func (service *SearchKeywordService) Run() {
 	}
 }
 
+func (service *SearchKeywordService) SetPositionList(positionList []*models.Position) {
+	service.positionList = positionList
+}
+
 func (service *SearchKeywordService) EnableSynchronous() {
 	service.isSynchronous = true
 }
 
-func (service *SearchKeywordService) GetSearchResult() *searchKeywordResult {
-	return service.searchResult
+func (service *SearchKeywordService) GetSearchResult() *keyword.CreateKeywordResult {
+	return service.keywordResultService
 }

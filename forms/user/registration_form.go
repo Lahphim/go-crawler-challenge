@@ -3,6 +3,7 @@ package forms
 import (
 	"fmt"
 
+	. "go-crawler-challenge/forms"
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
 
@@ -16,15 +17,10 @@ type RegistrationForm struct {
 	ConfirmPassword string `form:"confirm_password" valid:"Required; MinSize(6); MaxSize(12)"`
 }
 
-var ValidationMessages = map[string]string{
-	"ExistingEmail":   "Email is already in use",
-	"ConfirmPassword": "Confirm password confirmation must match",
-}
-
 // Valid handles some custom form validations and sets some errors for the invalid case
 func (form *RegistrationForm) Valid(validation *validation.Validation) {
-	existedUser, _ := models.GetUserByEmail(form.Email)
-	if existedUser != nil {
+	existingUser, _ := models.GetUserByEmail(form.Email)
+	if existingUser != nil {
 		err := validation.SetError("Email", ValidationMessages["ExistingEmail"])
 		if err == nil {
 			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))

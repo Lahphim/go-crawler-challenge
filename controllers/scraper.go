@@ -3,7 +3,8 @@ package controllers
 import (
 	"net/http"
 
-	form "go-crawler-challenge/forms/scrapper"
+	form "go-crawler-challenge/forms/scraper"
+	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 
 	"github.com/beego/beego/v2/server/web"
@@ -49,10 +50,16 @@ func (c *ScraperController) Create() {
 	if len(errors) > 0 {
 		flash.Error(errors[0].Error())
 	} else {
-		searchKeyword := scraper.SearchKeywordService{Keyword: searchKeywordForm.Keyword}
-		searchKeyword.Run()
+		positionList, err := models.GetAllPosition()
+		if err != nil {
+			flash.Error(err.Error())
+		} else {
+			searchKeyword := scraper.SearchKeywordService{User: c.CurrentUser, Keyword: searchKeywordForm.Keyword}
+			searchKeyword.SetPositionList(positionList)
+			searchKeyword.Run()
 
-		flash.Success("Scraping a keyword :)")
+			flash.Success("Scraping a keyword :)")
+		}
 	}
 
 	flash.Store(&c.Controller)

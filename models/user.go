@@ -8,6 +8,8 @@ import (
 type User struct {
 	Base
 
+	Keywords []*Keyword `orm:"reverse(many)"`
+
 	Email          string `orm:"unique;size(128)"`
 	HashedPassword string `orm:"size(128)"`
 }

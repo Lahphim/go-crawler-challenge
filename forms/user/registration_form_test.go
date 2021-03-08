@@ -19,7 +19,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 	Describe("#Valid", func() {
 		Context("given valid params", func() {
-			It("does NOT produces any errors", func() {
+			It("does NOT produce any errors", func() {
 				form := form.RegistrationForm{
 					Email:           "dev@nimblehq.co",
 					Password:        "password",
@@ -155,7 +155,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("Email can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Email cannot be empty"))
 				})
 			})
 
@@ -259,7 +259,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("Password can not be empty"))
+					Expect(errors[0].Error()).To(Equal("Password cannot be empty"))
 				})
 			})
 
@@ -337,7 +337,7 @@ var _ = Describe("User/RegistrationForm", func() {
 
 					_, errors := form.Create()
 
-					Expect(errors[0].Error()).To(Equal("ConfirmPassword can not be empty"))
+					Expect(errors[0].Error()).To(Equal("ConfirmPassword cannot be empty"))
 				})
 			})
 

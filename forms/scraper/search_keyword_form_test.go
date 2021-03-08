@@ -1,7 +1,7 @@
 package forms_test
 
 import (
-	form "go-crawler-challenge/forms/scrapper"
+	form "go-crawler-challenge/forms/scraper"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -29,7 +29,7 @@ var _ = Describe("Scraper/SearchKeywordForm", func() {
 
 				errors := form.Validate()
 
-				Expect(errors[0].Error()).To(Equal("Keyword can not be empty"))
+				Expect(errors[0].Error()).To(Equal("Keyword cannot be empty"))
 			})
 		})
 	})
