@@ -12,6 +12,10 @@
 
   &__row {
     @apply table-row;
+
+    &--placeholder .table__cell {
+      @apply text-center py-16;
+    }
   }
 
   &__cell,

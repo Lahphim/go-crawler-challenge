@@ -1,17 +1,21 @@
-<div class="list-keyword table table--zebra">
-  <div class="table__row table__header">
-    <div class="table__headline">Keyword</div>
-    <div class="table__headline table__headline--fix-width">Created At</div>
-  </div>
-
-  {{ if .Keywords }}
+{{ if .Keywords }}
+  <div class="list-keyword table table--zebra">
+    <div class="table__row table__header">
+      <div class="table__headline">Keyword</div>
+      <div class="table__headline table__headline--fix-width">Created At</div>
+    </div>
     {{ range $keyword := .Keywords }}
       <div class="table__row">
         <div class="table__cell">{{ $keyword.Keyword }}</div>
         <div class="table__cell">{{ $keyword.CreatedAt | toTimeAgo }}</div>
       </div>
     {{ end }}
-  {{ else }}
+  </div>
+{{ else }}
+  <div class="list-keyword table table--zebra">
+    <div class="table__row table__header">
+      <div class="table__headline">Keyword</div>
+    </div>
     <div class="table__row table__row--placeholder">
       <div class="table__cell">
         {{ if .RetrieveKeywordFailed }}
@@ -21,5 +25,5 @@
         {{ end }}
       </div>
     </div>
-  {{ end }}
-</div>
+  </div>
+{{ end }}
