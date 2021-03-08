@@ -8,12 +8,18 @@
     </tr>
   </thead>
   <tbody>
-    {{ range $keyword := .Keywords }}
+    {{ if .Keywords }}
+      {{ range $keyword := .Keywords }}
+        <tr>
+          <td>{{ $keyword.Id }}</td>
+          <td>{{ $keyword.Keyword }}</td>
+          <td>{{ $keyword.Url }}</td>
+          <td>{{ $keyword.CreatedAt }}</td>
+        </tr>
+      {{ end }}
+    {{ else }}
       <tr>
-        <td>{{ $keyword.Id }}</td>
-        <td>{{ $keyword.Keyword }}</td>
-        <td>{{ $keyword.Url }}</td>
-        <td>{{ $keyword.CreatedAt }}</td>
+        <td colspan="100">You haven't searched in any keywords yet :)</td>
       </tr>
     {{ end }}
   </tbody>

@@ -47,23 +47,22 @@ func (c *DashboardController) actionPolicyMapping() {
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
-	var keywords []*models.Keyword
-	var orderByList = []string{"created_at desc"}
-
-	pageSize := 10
 	totalRows, err := models.CountAllKeyword()
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Get total rows failed: %v", err.Error()))
 	} else {
+		orderByList := c.GetOrderBy()
+		pageSize := c.GetPageSize()
 		paginator := pagination.SetPaginator((*context.Context)(c.Ctx), pageSize, totalRows)
 
-		keywords, err = models.GetAllKeyword(orderByList, int64(paginator.Offset()), int64(pageSize))
+		keywords, err := models.GetAllKeyword(orderByList, int64(paginator.Offset()), int64(pageSize))
 		if err != nil {
 			logs.Critical(fmt.Sprintf("Get all keyword failed: %v", err.Error()))
+		} else {
+			c.Data["Keywords"] = keywords
 		}
 	}
 
-	c.Data["Keywords"] = keywords
 	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/application.html"
 	c.TplName = "dashboard/index.html"

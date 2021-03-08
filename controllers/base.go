@@ -12,6 +12,9 @@ import (
 )
 
 const CurrentUserKey = "CURRENT_USER_ID"
+const defaultPageSize = 10
+
+var defaultOrderBy = []string{"created_at desc"}
 
 type NestPreparer interface {
 	NestPrepare()
@@ -41,6 +44,14 @@ func (c *BaseController) Prepare() {
 	}
 
 	c.handleAuthorizeRequest()
+}
+
+func (c *BaseController) GetPageSize() (pageSize int) {
+	return defaultPageSize
+}
+
+func (c *BaseController) GetOrderBy() (orderBy []string) {
+	return defaultOrderBy
 }
 
 func (c *BaseController) MappingPolicy(method string, policy Policy) {
