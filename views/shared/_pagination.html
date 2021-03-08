@@ -1,15 +1,27 @@
 {{ if .paginator.HasPages }}
-  <ul>
+  <ul class="pagination">
     {{ if .paginator.HasPrev }}
-      <li><a href="{{ .paginator.PageLinkPrev }}">&lt;</a></li>
+      <li class="pagination__page">
+        <a class="pagination__link" href="{{ .paginator.PageLinkPrev }}">&lt;Prev</a>
+      </li>
     {{ end }}
 
     {{ range $index, $page := .paginator.Pages }}
-      <li><a href="{{ $.paginator.PageLink $page }}">{{ $page }}</a></li>
+      {{ if $.paginator.IsActive . }}
+        <li class="pagination__page">
+          <span class="pagination__text">{{ $page }}</span>
+        </li>
+      {{ else }}
+        <li class="pagination__page">
+          <a class="pagination__link" href="{{ $.paginator.PageLink $page }}">{{ $page }}</a>
+        </li>
+      {{ end }}
     {{ end }}
 
     {{ if .paginator.HasNext }}
-      <li><a href="{{ .paginator.PageLinkNext }}">&gt;</a></li>
+      <li class="pagination__page">
+        <a class="pagination__link" href="{{ .paginator.PageLinkNext }}">Next&gt;</a>
+      </li>
     {{ end }}
   </ul>
 {{ end }}

@@ -1,0 +1,22 @@
+.pagination {
+  @apply flex p-0 mx-0 my-12 list-none;
+
+  &__link,
+  &__text {
+    @apply flex items-center justify-center;
+
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  &__link {
+    @apply no-underline hover:underline transition;
+  }
+
+  &__text {
+    @apply border-0 rounded-3xl;
+
+    background-color: map-get($brand-color, 'shark');
+    color: hsl(0, 0%, 100%);
+  }
+}
