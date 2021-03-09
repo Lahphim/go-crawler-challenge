@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strings"
+
 	"go-crawler-challenge/helpers"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -23,9 +25,15 @@ func init() {
 }
 
 // GetAllKeyword retrieves all Keyword matches certain condition and returns empty list if no records exist.
-func GetAllKeyword(orderByList []string, offset int64, limit int64) (keywords []*Keyword, err error) {
+func GetAllKeyword(query map[string]interface{}, orderByList []string, offset int64, limit int64) (keywords []*Keyword, err error) {
 	ormer := orm.NewOrm()
 	querySetter := ormer.QueryTable(Keyword{})
+
+	// query:
+	for key, value := range query {
+		key = strings.ReplaceAll(key, ".", "__")
+		querySetter = querySetter.Filter(key, value)
+	}
 
 	// order by:
 	querySetter = querySetter.OrderBy(helpers.FormatOrderByFor(orderByList)...).RelatedSel()

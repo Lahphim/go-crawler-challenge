@@ -27,7 +27,9 @@ var _ = Describe("Keyword", func() {
 				offset := 0
 				limit := 1
 
-				keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+				var queryList map[string]interface{}
+
+				keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 				if err != nil {
 					Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 				}
@@ -46,7 +48,9 @@ var _ = Describe("Keyword", func() {
 					offset := 0
 					limit := 2
 
-					keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+					var queryList map[string]interface{}
+
+					keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 					if err != nil {
 						Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 					}
@@ -66,7 +70,9 @@ var _ = Describe("Keyword", func() {
 					offset := 0
 					limit := 2
 
-					keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+					var queryList map[string]interface{}
+
+					keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 					if err != nil {
 						Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 					}
@@ -86,7 +92,9 @@ var _ = Describe("Keyword", func() {
 					orderBy := []string{"created_at asc"}
 					limit := 1
 
-					keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+					var queryList map[string]interface{}
+
+					keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 					if err != nil {
 						Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 					}
@@ -106,7 +114,9 @@ var _ = Describe("Keyword", func() {
 					orderBy := []string{"created_at asc"}
 					limit := 1
 
-					keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+					var queryList map[string]interface{}
+
+					keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 					if err != nil {
 						Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 					}
@@ -127,7 +137,9 @@ var _ = Describe("Keyword", func() {
 					orderBy := []string{"id asc"}
 					offset := 0
 
-					keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+					var queryList map[string]interface{}
+
+					keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 					if err != nil {
 						Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 					}
@@ -143,7 +155,9 @@ var _ = Describe("Keyword", func() {
 				offset := 0
 				limit := 1
 
-				keywords, err := models.GetAllKeyword(orderBy, int64(offset), int64(limit))
+				var queryList map[string]interface{}
+
+				keywords, err := models.GetAllKeyword(queryList, orderBy, int64(offset), int64(limit))
 				if err != nil {
 					Fail(fmt.Sprintf("Get all keywords failed: %v", err.Error()))
 				}
