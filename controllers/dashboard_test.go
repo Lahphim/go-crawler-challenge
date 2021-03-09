@@ -7,11 +7,10 @@ import (
 	"net/url"
 	"regexp"
 
-	"github.com/bxcodec/faker/v3"
-
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
 
+	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
