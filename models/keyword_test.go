@@ -193,4 +193,71 @@ var _ = Describe("Keyword", func() {
 			})
 		})
 	})
+
+	Describe("#GetKeyword", func() {
+		Context("given a keyword record in the database", func() {
+			It("returns a keyword record", func() {
+				user := FabricateUser(faker.Email(), faker.Password())
+				keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+				query := map[string]interface{}{
+					"id": keyword.Id,
+				}
+
+				keywordResult, err := models.GetKeyword(query)
+				if err != nil {
+					Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
+				}
+
+				Expect(keyword.Id).To(Equal(keywordResult.Id))
+			})
+
+			Context("given a key is searched by a user", func() {
+				It("returns a keyword record", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					query := map[string]interface{}{
+						"id":      keyword.Id,
+						"user_id": user.Id,
+					}
+
+					keywordResult, err := models.GetKeyword(query)
+					if err != nil {
+						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
+					}
+
+					Expect(keyword.Id).To(Equal(keywordResult.Id))
+				})
+			})
+
+			Context("given a key is searched by another user", func() {
+				It("returns `nil` with an error message", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					anotherUser := FabricateUser(faker.Email(), faker.Password())
+					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", anotherUser)
+					query := map[string]interface{}{
+						"id":      keyword.Id,
+						"user_id": user.Id,
+					}
+
+					keywordResult, err := models.GetKeyword(query)
+
+					Expect(keywordResult).To(BeNil())
+					Expect(err.Error()).To(ContainSubstring("no row found"))
+				})
+			})
+		})
+
+		Context("given NO keyword exists", func() {
+			It("returns `nil` with an error message", func() {
+				query := map[string]interface{}{
+					"id": 1,
+				}
+
+				keyword, err := models.GetKeyword(query)
+
+				Expect(keyword).To(BeNil())
+				Expect(err.Error()).To(ContainSubstring("no row found"))
+			})
+		})
+	})
 })
