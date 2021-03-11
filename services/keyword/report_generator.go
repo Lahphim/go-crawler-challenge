@@ -12,7 +12,7 @@ type ReportGenerator struct {
 	Keyword *models.Keyword
 }
 
-type report struct {
+type Report struct {
 	Keyword string
 	Url     string
 	RawHtml string
@@ -64,7 +64,7 @@ func (service *ReportGenerator) Generate() (reportInterface interface{}, err err
 	totalAdsOther := len(linkList["other"])
 	totalNonAds := len(linkList["normal"])
 
-	reportResult := report{
+	reportResult := Report{
 		Keyword: keywordRecord.Keyword,
 		Url:     keywordRecord.Url,
 		RawHtml: keywordRecord.Page.RawHtml,
