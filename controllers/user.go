@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 
 	form "go-crawler-challenge/forms/user"
@@ -38,6 +39,7 @@ func (c *UserController) actionPolicyMapping() {
 func (c *UserController) New() {
 	web.ReadFromRequest(&c.Controller)
 
+	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/authentication.html"
 	c.TplName = "user/new.html"
 }

@@ -37,7 +37,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      Components: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'components')
+      Components: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'components'),
+      Helpers: path.resolve(__dirname, '../..', 'assets', 'javascripts', 'helpers')
     },
     extensions: ['.js']
   }

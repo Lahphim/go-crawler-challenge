@@ -20,9 +20,7 @@ class Alert {
         // Root alert container
         this.elementRef = elementRef;
 
-        // Bind functions
-        this.onHideAlert = this.onHideAlert.bind(this);
-
+        this._bind();
         this._setup();
     }
 
@@ -34,6 +32,13 @@ class Alert {
     }
 
     // Private
+
+    /**
+     * Bind all functions to the local instance scope.
+     * */
+    _bind() {
+        this.onHideAlert = this.onHideAlert.bind(this);
+    }
 
     _setup() {
         setTimeout(this.onHideAlert, this.options.hideAfter)

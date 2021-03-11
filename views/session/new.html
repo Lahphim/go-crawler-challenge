@@ -1,4 +1,6 @@
 <form class="form form--right-align" action="{{ urlfor `SessionController.Create` }}" method="post">
+  {{ .XSRFForm }}
+
   <fieldset>
     <legend class="form__headline">
       <strong>Sign in to continue :)</strong>

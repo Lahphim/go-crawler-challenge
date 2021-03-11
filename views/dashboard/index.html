@@ -1,12 +1,24 @@
 <div class="search-keyword">
-  <form class="form" action="{{ urlfor `ScraperController.Create` }}" method="post">
+  <form class="form" action="{{ urlfor `DashboardController.TextSearch` }}" method="post">
+    {{ .XSRFForm }}
+
     <div class="form__group">
       <input class="form__input" type="text" name="keyword" placeholder="Search keywords here..." required>
 
       <button type="submit" class="button button--icon">
         <span class="material-icon">search</span>
       </button>
+
+      <button type="button" class="button button--icon upload-file-button">
+        <span class="material-icon">file_upload</span>
+      </button>
     </div>
+  </form>
+
+  <form id="upload-file-form" class="form form--invisible" action="{{ urlfor `DashboardController.FileSearch` }}" method="post" enctype="multipart/form-data" data-action-control=".upload-file-button">
+    {{ .XSRFForm }}
+
+    <input type="file" name="file" accept="text/csv" required>
   </form>
 </div>
 

@@ -16,20 +16,29 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
+		beego.ControllerComments{
+			Method:           "TextSearch",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
+		beego.ControllerComments{
+			Method:           "FileSearch",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:MainController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:MainController"],
 		beego.ControllerComments{
 			Method:           "Index",
 			Router:           "/",
 			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ScraperController"],
-		beego.ControllerComments{
-			Method:           "Create",
-			Router:           "/",
-			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})

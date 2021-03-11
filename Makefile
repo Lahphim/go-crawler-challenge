@@ -17,6 +17,9 @@ envsetup:
 	make db/setup
 	make install/package
 
+envdown:
+	docker-compose -f docker-compose.dev.yml down
+
 dev:
 	forego start
 

@@ -27,10 +27,17 @@ All dependencies:
 - [Forego - Foreman in Go](https://github.com/ddollar/forego)
 
 #### Run the application with development mode
+
+Prepare the database and install some necessary packages.
+```sh
+$ make envsetup
+```
+
+Start the application.
 ```sh
 $ make dev
 ```
-Visting http://localhost:8080/ with a web browser will display the application. ✨
+Visiting http://localhost:8080/ with a web browser will display the application. ✨
 
 #### Run tests
 ````sh

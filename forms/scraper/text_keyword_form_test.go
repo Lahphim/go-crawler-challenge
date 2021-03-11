@@ -7,11 +7,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Scraper/SearchKeywordForm", func() {
+var _ = Describe("Scraper/TextKeywordForm", func() {
 	Describe("#Validate", func() {
 		Context("given valid params", func() {
 			It("does NOT produce any errors", func() {
-				form := form.SearchKeywordForm{
+				form := form.TextKeywordForm{
 					Keyword: "keyword",
 				}
 
@@ -23,7 +23,7 @@ var _ = Describe("Scraper/SearchKeywordForm", func() {
 
 		Context("given INVALID params", func() {
 			It("produces an error", func() {
-				form := form.SearchKeywordForm{
+				form := form.TextKeywordForm{
 					Keyword: "",
 				}
 
