@@ -4,20 +4,20 @@ import (
 	"strings"
 )
 
-// BuildOrderByFor builds list of given order list from SQL format to Beego query setter format
+// FormatOrderByFor builds list of given order list from SQL format to Beego query setter format
 // ["user.name", "email desc"] --> ["user__name", "-email"]
-func BuildOrderByFor(oldOrderList []string) (newOrderList []string) {
+func FormatOrderByFor(oldOrderList []string) (formattedOrderParams []string) {
 	for _, order := range oldOrderList {
 		fieldOrder := strings.Split(order, " ")
 
 		if len(fieldOrder) == 1 {
-			newOrderList = append(newOrderList, formattedOrderBy(fieldOrder[0], "asc"))
+			formattedOrderParams = append(formattedOrderParams, formattedOrderBy(fieldOrder[0], "asc"))
 		} else {
-			newOrderList = append(newOrderList, formattedOrderBy(fieldOrder[0], fieldOrder[1]))
+			formattedOrderParams = append(formattedOrderParams, formattedOrderBy(fieldOrder[0], fieldOrder[1]))
 		}
 	}
 
-	return newOrderList
+	return formattedOrderParams
 }
 
 func formattedOrderBy(field string, order string) (newOrderBy string) {

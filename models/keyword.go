@@ -28,7 +28,7 @@ func GetAllKeyword(orderByList []string, offset int64, limit int64) (keywords []
 	querySetter := ormer.QueryTable(Keyword{})
 
 	// order by:
-	querySetter = querySetter.OrderBy(helpers.BuildOrderByFor(orderByList)...).RelatedSel()
+	querySetter = querySetter.OrderBy(helpers.FormatOrderByFor(orderByList)...).RelatedSel()
 
 	// offset, limit:
 	_, err = querySetter.Limit(limit, offset).All(&keywords)

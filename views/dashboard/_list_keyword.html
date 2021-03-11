@@ -19,7 +19,13 @@
       {{ end }}
     {{ else }}
       <tr>
-        <td colspan="100">You haven't searched in any keywords yet :)</td>
+        <td colspan="100">
+          {{ if .RetrieveKeywordFailed }}
+            {{ .RetrieveKeywordFailed }}
+          {{ else }}
+            You haven't searched in any keywords yet :)
+          {{ end }}
+        </td>
       </tr>
     {{ end }}
   </tbody>

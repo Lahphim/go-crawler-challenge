@@ -52,7 +52,7 @@ var _ = Describe("Keyword", func() {
 					}
 
 					Expect(keywords[0].Id).To(Equal(firstKeyword.Id))
-					Expect(keywords[0].Id).NotTo(Equal(secondKeyword.Id))
+					Expect(keywords[1].Id).To(Equal(secondKeyword.Id))
 				})
 			})
 

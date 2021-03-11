@@ -50,6 +50,7 @@ func (c *DashboardController) Index() {
 	totalRows, err := models.CountAllKeyword()
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Get total rows failed: %v", err.Error()))
+		c.Data["RetrieveKeywordFailed"] = "There was a problem retrieving all keywords :("
 	} else {
 		orderByList := c.GetOrderBy()
 		pageSize := c.GetPageSize()
@@ -58,6 +59,7 @@ func (c *DashboardController) Index() {
 		keywords, err := models.GetAllKeyword(orderByList, int64(paginator.Offset()), int64(pageSize))
 		if err != nil {
 			logs.Critical(fmt.Sprintf("Get all keyword failed: %v", err.Error()))
+			c.Data["RetrieveKeywordFailed"] = "There was a problem retrieving all keywords :("
 		} else {
 			c.Data["Keywords"] = keywords
 		}
