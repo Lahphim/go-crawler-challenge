@@ -119,6 +119,22 @@ func (c *DashboardController) FileSearch() {
 	flash := web.NewFlash()
 	redirectPath := "/dashboard"
 
+	file, fileHeader, err := c.GetFile("file")
+	if err != nil {
+		flash.Error("The specified file could not be uploaded :(")
+	} else {
+		fileKeywordForm := form.UploadKeywordForm{File: file, FileHeader: fileHeader}
+		err = fileKeywordForm.Save()
+		if err != nil {
+			flash.Error("The specified file could not be uploaded :(")
+		} else {
+			flash.Success("Scraping all keywords :)")
+		}
+	}
+
+	logs.Debug(fmt.Sprintf("File: %+v", file))
+	logs.Debug(fmt.Sprintf("FileHeader: %+v", fileHeader))
+
 	flash.Success("Scraping all keywords :)")
 
 	flash.Store(&c.Controller)
