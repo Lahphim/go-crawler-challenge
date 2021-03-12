@@ -16,7 +16,7 @@ class DashboardScreen {
     // Private
 
     _setup() {
-        this._setupUploadFileForm()
+        this._setupUploadFileForm();
     }
 
     _setupUploadFileForm() {

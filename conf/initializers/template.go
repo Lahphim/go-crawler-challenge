@@ -23,6 +23,11 @@ func SetUpTemplate() {
 		logs.Error(fmt.Sprintf("Map toTimeAgo function failed: %v", err))
 	}
 
+	err = web.AddFuncMap("toTimeStamp", toTimeStamp)
+	if err != nil {
+		logs.Error(fmt.Sprintf("Map toTimeStamp function failed: %v", err))
+	}
+
 	err = web.AddFuncMap("unescape", unescape)
 	if err != nil {
 		logs.Error(fmt.Sprintf("Map unescape function failed: %v", err))
@@ -37,6 +42,12 @@ func hashEmail(plainEmail string) string {
 
 func toTimeAgo(timestamp time.Time) string {
 	return timeago.FromTime(timestamp)
+}
+
+func toTimeStamp(timestamp time.Time) string {
+	const layout = "01/02/2006 | 3:04PM"
+
+	return timestamp.Local().Format(layout)
 }
 
 func unescape(rawHtml string) template.HTML {

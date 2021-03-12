@@ -1,77 +1,9 @@
-{{ if .ReportResult }}
-  <h1>{{ .ReportResult.Keyword }}</h1>
-  <p>{{ .ReportResult.Url }}</p>
+{{ template "report/_ribbon_headline.html" . }}
 
-  <br><br>
-  <hr>
+{{ template "report/_timestamp_display.html" . }}
 
-  <table>
-    <thead>
-    <tr>
-      <th>AdWords in the top position</th>
-      <th>Total AdWords</th>
-      <th>Non-AdWords</th>
-      <th>Total number of links</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ .ReportResult.TotalAdsTop }}</td>
-        <td>{{ .ReportResult.TotalAds }}</td>
-        <td>{{ .ReportResult.TotalNonAds }}</td>
-        <td>{{ .ReportResult.TotalLink }}</td>
-      </tr>
-    </tbody>
-  </table>
+{{ template "report/_link_counter.html" . }}
 
-  <br><br>
-  <hr>
+<hr class="divider-line divider-line--dot">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Created At</th>
-        <th>Updated At</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ .ReportResult.CreatedAt }}</td>
-        <td>{{ .ReportResult.UpdatedAt }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br><br>
-  <hr>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Links</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{ range $type, $linkList := .ReportResult.LinkList }}
-        <tr>
-          <td>{{ $type }}</td>
-          <td>
-            <ul>
-              {{ range $link := $linkList }}
-                <li>{{ $link }}</li>
-              {{ end }}
-            </ul>
-          </td>
-        </tr>
-      {{ end }}
-    </tbody>
-  </table>
-
-  <br><br>
-  <hr>
-
-  <p>{{ .ReportResult.RawHtml | unescape }}</p>
-{{ else }}
-  <h1>Invalid report :(</h1>
-{{ end }}
+{{ template "report/_html_content.html" . }}

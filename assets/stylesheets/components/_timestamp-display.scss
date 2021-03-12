@@ -1,0 +1,12 @@
+.timestamp-display {
+  @apply flex items-center justify-end;
+
+  &__icon,
+  &__time {
+    @apply text-sm;
+  }
+
+  &__time {
+    @apply ml-2;
+  }
+}

@@ -3,6 +3,11 @@
 
   min-height: 2.5rem;
 
+  &:visited,
+  &:hover {
+    color: map-get($brand-color, 'shark');
+  }
+
   &__icon {
     @apply w-12 h-12 mr-1;
   }
