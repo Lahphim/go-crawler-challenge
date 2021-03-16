@@ -8,6 +8,8 @@ require (
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/iancoleman/strcase v0.1.3
+	github.com/justincampbell/bigduration v0.0.0-20160531141349-e45bf03c0666 // indirect
+	github.com/justincampbell/timeago v0.0.0-20160528003754-027f40306f1d
 	github.com/lib/pq v1.9.0
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect

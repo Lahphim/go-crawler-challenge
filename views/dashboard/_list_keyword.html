@@ -1,32 +1,29 @@
-<table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Keyword</th>
-      <th>Url</th>
-      <th>Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{ if .Keywords }}
-      {{ range $keyword := .Keywords }}
-        <tr>
-          <td>{{ $keyword.Id }}</td>
-          <td>{{ $keyword.Keyword }}</td>
-          <td>{{ $keyword.Url }}</td>
-          <td>{{ $keyword.CreatedAt }}</td>
-        </tr>
-      {{ end }}
-    {{ else }}
-      <tr>
-        <td colspan="100">
-          {{ if .RetrieveKeywordFailed }}
-            {{ .RetrieveKeywordFailed }}
-          {{ else }}
-            You haven't searched in any keywords yet :)
-          {{ end }}
-        </td>
-      </tr>
+{{ if .Keywords }}
+  <div class="list-keyword table table--zebra">
+    <div class="table__row table__header">
+      <div class="table__headline">Keyword</div>
+      <div class="table__headline table__headline--fix-width">Created At</div>
+    </div>
+    {{ range $keyword := .Keywords }}
+      <div class="table__row">
+        <div class="table__cell">{{ $keyword.Keyword }}</div>
+        <div class="table__cell">{{ $keyword.CreatedAt | toTimeAgo }}</div>
+      </div>
     {{ end }}
-  </tbody>
-</table>
+  </div>
+{{ else }}
+  <div class="list-keyword table table--zebra">
+    <div class="table__row table__header">
+      <div class="table__headline">Keyword</div>
+    </div>
+    <div class="table__row table__row--placeholder">
+      <div class="table__cell">
+        {{ if .RetrieveKeywordFailed }}
+          {{ .RetrieveKeywordFailed }}
+        {{ else }}
+          You haven't searched in any keywords yet :)
+        {{ end }}
+      </div>
+    </div>
+  </div>
+{{ end }}

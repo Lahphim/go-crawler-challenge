@@ -2,12 +2,15 @@ package controllers_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
+	"regexp"
 
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
 
+	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -30,16 +33,152 @@ var _ = Describe("DashboardController", func() {
 	})
 
 	AfterEach(func() {
+		TruncateTable("keyword")
 		TruncateTable("user")
 	})
 
 	Describe("GET /dashboard", func() {
 		Context("when the user has already signed in", func() {
 			It("renders with status 200", func() {
-				user := FabricateUser("dev@nimblehq.co", "password")
+				user := FabricateUser(faker.Email(), faker.Password())
 				response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
 
 				Expect(response.StatusCode).To(Equal(http.StatusOK))
+			})
+
+			Context("given 12 records of the keyword in the database", func() {
+				It("lists 2 pages in pagination", func() {
+					pageClass := "data-page-number"
+
+					totalRecords := 12
+					user := FabricateUser(faker.Email(), faker.Password())
+					for i := 1; i <= totalRecords; i++ {
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+					}
+
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					body, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						Fail("Read body content failed: " + err.Error())
+					}
+					err = response.Body.Close()
+					if err != nil {
+						Fail("Close body content failed: " + err.Error())
+					}
+
+					r, err := regexp.Compile(pageClass)
+					if err != nil {
+						Fail("Regexp failed: " + err.Error())
+					}
+
+					matches := r.FindAllString(string(body), -1)
+
+					Expect(len(matches)).To(BeNumerically("==", 2))
+				})
+
+				It("shows the latest search of the keyword at the top of the table", func() {
+					totalRecords := 12
+					user := FabricateUser(faker.Email(), faker.Password())
+					for i := 1; i <= totalRecords; i++ {
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+					}
+
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					body, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						Fail("Read body content failed: " + err.Error())
+					}
+					err = response.Body.Close()
+					if err != nil {
+						Fail("Close body content failed: " + err.Error())
+					}
+
+					r, err := regexp.Compile("key[0-9]{2}word")
+					if err != nil {
+						Fail("Regexp failed: " + err.Error())
+					}
+
+					matches := r.FindAllString(string(body), -1)
+
+					Expect(matches[0]).To(Equal("key12word"))
+				})
+
+				It("shows 10 records", func() {
+					totalRecords := 12
+					user := FabricateUser(faker.Email(), faker.Password())
+					for i := 1; i <= totalRecords; i++ {
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+					}
+
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					body, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						Fail("Read body content failed: " + err.Error())
+					}
+					err = response.Body.Close()
+					if err != nil {
+						Fail("Close body content failed: " + err.Error())
+					}
+
+					r, err := regexp.Compile("key[0-9]{2}word")
+					if err != nil {
+						Fail("Regexp failed: " + err.Error())
+					}
+
+					matches := r.FindAllString(string(body), -1)
+
+					Expect(len(matches)).To(BeNumerically("==", 10))
+				})
+			})
+
+			Context("given 0 record of the keyword", func() {
+				It("shows a placeholder", func() {
+					placeholderClass := "table__row--placeholder"
+					user := FabricateUser(faker.Email(), faker.Password())
+
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					body, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						Fail("Read body content failed: " + err.Error())
+					}
+					err = response.Body.Close()
+					if err != nil {
+						Fail("Close body content failed: " + err.Error())
+					}
+
+					r, err := regexp.Compile(placeholderClass)
+					if err != nil {
+						Fail("Regexp failed: " + err.Error())
+					}
+
+					matches := r.FindAllString(string(body), -1)
+
+					Expect(len(matches)).To(BeNumerically("==", 1))
+				})
+
+				It("does NOT show a pagination", func() {
+					paginationClass := "pagination"
+					user := FabricateUser(faker.Email(), faker.Password())
+
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					body, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						Fail("Read body content failed: " + err.Error())
+					}
+					err = response.Body.Close()
+					if err != nil {
+						Fail("Close body content failed: " + err.Error())
+					}
+
+					r, err := regexp.Compile(paginationClass)
+					if err != nil {
+						Fail("Regexp failed: " + err.Error())
+					}
+
+					matches := r.FindAllString(string(body), -1)
+
+					Expect(len(matches)).To(BeZero())
+				})
 			})
 		})
 
