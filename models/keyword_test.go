@@ -211,7 +211,7 @@ var _ = Describe("Keyword", func() {
 				Expect(keyword.Id).To(Equal(keywordResult.Id))
 			})
 
-			Context("given a key is searched by a user", func() {
+			Context("given the keyword belongs to the user", func() {
 				It("returns a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
@@ -229,7 +229,7 @@ var _ = Describe("Keyword", func() {
 				})
 			})
 
-			Context("given a key is searched by another user", func() {
+			Context("given the keyword does NOT belong to the user", func() {
 				It("returns `nil` with an error message", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					anotherUser := FabricateUser(faker.Email(), faker.Password())
