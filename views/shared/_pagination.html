@@ -8,11 +8,11 @@
 
     {{ range $index, $page := .paginator.Pages }}
       {{ if $.paginator.IsActive . }}
-        <li class="pagination__page">
+        <li class="pagination__page" data-page-number="{{ $page }}">
           <span class="pagination__text">{{ $page }}</span>
         </li>
       {{ else }}
-        <li class="pagination__page">
+        <li class="pagination__page" data-page-number="{{ $page }}">
           <a class="pagination__link" href="{{ $.paginator.PageLink $page }}">{{ $page }}</a>
         </li>
       {{ end }}

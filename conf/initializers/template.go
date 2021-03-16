@@ -19,7 +19,7 @@ func SetUpTemplate() {
 
 	err = web.AddFuncMap("toTimeAgo", toTimeAgo)
 	if err != nil {
-		logs.Error(fmt.Sprintf("TimeAgo function failed: %v", err))
+		logs.Error(fmt.Sprintf("Map toTimeAgo function failed: %v", err))
 	}
 }
 

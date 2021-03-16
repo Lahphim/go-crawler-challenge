@@ -47,8 +47,8 @@ var _ = Describe("DashboardController", func() {
 			})
 
 			Context("given 12 records of the keyword in the database", func() {
-				It("shows 2 pages in pagination", func() {
-					pageClass := "pagination__page"
+				It("lists 2 pages in pagination", func() {
+					pageClass := "data-page-number"
 
 					totalRecords := 12
 					user := FabricateUser(faker.Email(), faker.Password())
@@ -73,7 +73,7 @@ var _ = Describe("DashboardController", func() {
 
 					matches := r.FindAllString(string(body), -1)
 
-					Expect(len(matches)).To(BeNumerically("==", 3))
+					Expect(len(matches)).To(BeNumerically("==", 2))
 				})
 
 				It("shows the latest search of the keyword at the top of the table", func() {
