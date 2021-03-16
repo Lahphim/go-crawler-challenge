@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -8,6 +9,9 @@ import (
 	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 
+	"github.com/beego/beego/v2/adapter/context"
+	"github.com/beego/beego/v2/adapter/utils/pagination"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
 )
 
@@ -42,6 +46,27 @@ func (c *DashboardController) actionPolicyMapping() {
 // @router / [get]
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
+
+	totalRows, err := models.CountAllKeyword()
+	if err != nil {
+		logs.Critical(fmt.Sprintf("Get total rows failed: %v", err.Error()))
+		c.Data["RetrieveKeywordFailed"] = "There was a problem retrieving all keywords :("
+	} else {
+		queryList := map[string]interface{}{
+			"user_id": c.CurrentUser.Id,
+		}
+		orderByList := c.GetOrderBy()
+		pageSize := c.GetPageSize()
+		paginator := pagination.SetPaginator((*context.Context)(c.Ctx), pageSize, totalRows)
+
+		keywords, err := models.GetAllKeyword(queryList, orderByList, int64(paginator.Offset()), int64(pageSize))
+		if err != nil {
+			logs.Critical(fmt.Sprintf("Get all keyword failed: %v", err.Error()))
+			c.Data["RetrieveKeywordFailed"] = "There was a problem retrieving all keywords :("
+		} else {
+			c.Data["Keywords"] = keywords
+		}
+	}
 
 	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/application.html"

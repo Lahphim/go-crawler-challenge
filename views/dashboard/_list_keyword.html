@@ -1,0 +1,32 @@
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Keyword</th>
+      <th>Url</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ if .Keywords }}
+      {{ range $keyword := .Keywords }}
+        <tr>
+          <td>{{ $keyword.Id }}</td>
+          <td>{{ $keyword.Keyword }}</td>
+          <td>{{ $keyword.Url }}</td>
+          <td>{{ $keyword.CreatedAt }}</td>
+        </tr>
+      {{ end }}
+    {{ else }}
+      <tr>
+        <td colspan="100">
+          {{ if .RetrieveKeywordFailed }}
+            {{ .RetrieveKeywordFailed }}
+          {{ else }}
+            You haven't searched in any keywords yet :)
+          {{ end }}
+        </td>
+      </tr>
+    {{ end }}
+  </tbody>
+</table>
