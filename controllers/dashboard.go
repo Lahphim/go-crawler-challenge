@@ -123,7 +123,7 @@ func (c *DashboardController) FileSearch() {
 	if err != nil {
 		flash.Error("The specified file could not be uploaded :(")
 	} else {
-		fileKeywordForm := form.UploadKeywordForm{File: file, FileHeader: fileHeader}
+		fileKeywordForm := form.UploadKeywordForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
 		err = fileKeywordForm.Save()
 		if err != nil {
 			flash.Error("The specified file could not be uploaded :(")

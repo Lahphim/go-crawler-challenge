@@ -1,8 +1,6 @@
 package forms
 
 import (
-	"fmt"
-
 	. "go-crawler-challenge/forms"
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
@@ -24,14 +22,14 @@ func (form *AuthenticationForm) Valid(validation *validation.Validation) {
 	if user == nil {
 		err := validation.SetError("Email", ValidationMessages["InvalidCredential"])
 		if err == nil {
-			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+			logs.Warning("Set validation error failed")
 		}
 	} else {
 		err := helpers.CheckMatchPassword(user.HashedPassword, form.Password)
 		if err != nil {
 			err = validation.SetError("Email", ValidationMessages["InvalidCredential"])
 			if err == nil {
-				logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
+				logs.Warning("Set validation error failed")
 			}
 		} else {
 			currentUser = user
