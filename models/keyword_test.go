@@ -173,7 +173,9 @@ var _ = Describe("Keyword", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
 
-				totalRows, err := models.CountAllKeyword()
+				var queryList map[string]interface{}
+
+				totalRows, err := models.CountAllKeyword(queryList)
 				if err != nil {
 					Fail(fmt.Sprintf("Count all keywords failed: %v", err.Error()))
 				}
@@ -184,7 +186,9 @@ var _ = Describe("Keyword", func() {
 
 		Context("given NO keyword exists", func() {
 			It("returns an empty array", func() {
-				totalRows, err := models.CountAllKeyword()
+				var queryList map[string]interface{}
+
+				totalRows, err := models.CountAllKeyword(queryList)
 				if err != nil {
 					Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
 				}

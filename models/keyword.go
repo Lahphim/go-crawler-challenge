@@ -48,10 +48,15 @@ func GetAllKeyword(query map[string]interface{}, orderByList []string, offset in
 }
 
 // CountAllKeyword counts total record for the keyword table
-func CountAllKeyword() (totalRows int64, err error) {
+func CountAllKeyword(query map[string]interface{}) (totalRows int64, err error) {
 	ormer := orm.NewOrm()
+	querySetter := ormer.QueryTable(Keyword{})
 
-	return ormer.QueryTable(Keyword{}).Count()
+	for key, value := range query {
+		querySetter = querySetter.Filter(key, value)
+	}
+
+	return querySetter.Count()
 }
 
 // GetKeyword retrieves a Keyword by query list then returns error if it doesn't exist
