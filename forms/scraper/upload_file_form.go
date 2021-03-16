@@ -11,7 +11,7 @@ import (
 	"github.com/beego/beego/v2/core/validation"
 )
 
-type UploadKeywordForm struct {
+type UploadFileForm struct {
 	File       multipart.File
 	FileHeader *multipart.FileHeader
 	User       *models.User `valid:"Required"`
@@ -19,9 +19,9 @@ type UploadKeywordForm struct {
 	keywordList []string
 }
 
-func (form *UploadKeywordForm) Valid(validation *validation.Validation) {
+func (form *UploadFileForm) Valid(validation *validation.Validation) {
 	if form.File == nil {
-		err := validation.SetError("File", ValidationMessages["RequireUploadFile"])
+		err := validation.SetError("File", ValidationMessages["RequireFile"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
 		}
@@ -30,32 +30,32 @@ func (form *UploadKeywordForm) Valid(validation *validation.Validation) {
 	}
 
 	if !helpers.CheckMatchFileType(form.FileHeader, []string{ContentTypeCSV}) {
-		err := validation.SetError("File", ValidationMessages["InvalidUploadFileType"])
+		err := validation.SetError("File", ValidationMessages["InvalidFileType"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
 		}
 	}
 
-	keywords, err := helpers.ReadCSVFile(form.File)
+	keywordList, err := helpers.ReadFileContent(form.File)
 	if err != nil {
-		err := validation.SetError("File", ValidationMessages["OpenUploadFile"])
+		err := validation.SetError("File", ValidationMessages["OpenFile"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
 		}
 	}
 
-	keywordLength := len(keywords)
-	if keywordLength <= 0 || keywordLength > 100 {
+	contentLength := len(keywordList)
+	if contentLength < ContentMinimumSize || contentLength > ContentMaximumSize {
 		err := validation.SetError("File", ValidationMessages["ExceedKeywordSize"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
 		}
 	} else {
-		form.keywordList = keywords
+		form.keywordList = keywordList
 	}
 }
 
-func (form *UploadKeywordForm) Save() (err error) {
+func (form *UploadFileForm) Save() (err error) {
 	validator := validation.Validation{}
 
 	valid, err := validator.Valid(form)
@@ -70,6 +70,6 @@ func (form *UploadKeywordForm) Save() (err error) {
 	return nil
 }
 
-func (form *UploadKeywordForm) GetKeywordList() (keywordList []string) {
+func (form *UploadFileForm) GetKeywordList() (keywordList []string) {
 	return form.keywordList
 }

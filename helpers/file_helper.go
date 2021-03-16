@@ -18,8 +18,9 @@ func CheckMatchFileType(fileHeader *multipart.FileHeader, expectFileTypes []stri
 	return false
 }
 
-func ReadCSVFile(csvFile multipart.File) (content []string, err error) {
+func ReadFileContent(csvFile multipart.File) (content []string, err error) {
 	reader := csv.NewReader(csvFile)
+
 	for {
 		row, err := reader.Read()
 		if err == io.EOF {

@@ -123,19 +123,14 @@ func (c *DashboardController) FileSearch() {
 	if err != nil {
 		flash.Error("The specified file could not be uploaded :(")
 	} else {
-		fileKeywordForm := form.UploadKeywordForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
-		err = fileKeywordForm.Save()
+		fileForm := form.UploadFileForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
+		err = fileForm.Save()
 		if err != nil {
 			flash.Error("The specified file could not be uploaded :(")
 		} else {
 			flash.Success("Scraping all keywords :)")
 		}
 	}
-
-	logs.Debug(fmt.Sprintf("File: %+v", file))
-	logs.Debug(fmt.Sprintf("FileHeader: %+v", fileHeader))
-
-	flash.Success("Scraping all keywords :)")
 
 	flash.Store(&c.Controller)
 	c.Redirect(redirectPath, http.StatusFound)
