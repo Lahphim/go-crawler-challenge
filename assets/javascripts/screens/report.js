@@ -1,6 +1,6 @@
 'use strict';
 
-import  LinkCounter, { DEFAULT_SELECTOR as LINK_COUNTER_SELECTOR } from "Components/LinkCounter";
+import Collapsible, { DEFAULT_SELECTOR as COLLAPSIBLE_SELECTOR } from 'Components/Collapsible';
 
 const SELECTORS = {
     screen: 'body.report.show'
@@ -8,7 +8,7 @@ const SELECTORS = {
 
 class ReportScreen {
     constructor() {
-        this.linkCounter = document.querySelector(LINK_COUNTER_SELECTOR)
+        this.collapsibleList = document.querySelectorAll(COLLAPSIBLE_SELECTOR)
 
         this._setup();
     }
@@ -16,13 +16,13 @@ class ReportScreen {
     // Private
 
     _setup() {
-        this._setupLinkCounter();
+        this._setupCollapsible();
     }
 
-    _setupLinkCounter() {
-        if (this.linkCounter !== null) {
-            new LinkCounter(this.linkCounter);
-        }
+    _setupCollapsible() {
+        this.collapsibleList.forEach(collapsible => {
+            new Collapsible(collapsible, { activeClass: 'link-counter__item' });
+        })
     }
 }
 
@@ -31,4 +31,3 @@ let isReportScreen = document.querySelector(SELECTORS.screen) !== null;
 if (isReportScreen) {
     new ReportScreen();
 }
-

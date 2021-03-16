@@ -44,7 +44,7 @@
 
       content: "\00B7";
       color: inherit;
-      z-index: 1;
+      z-index: map-get($z-index, 'default');
     }
 
     &:last-of-type:after {

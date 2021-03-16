@@ -1,6 +1,6 @@
 'use strict';
 
-import UploadFileForm, { DEFAULT_SELECTOR as UPLOAD_FILE_FORM_SELECTOR } from "Components/UploadFileForm";
+import UploadFileForm, { DEFAULT_SELECTOR as UPLOAD_FILE_FORM_SELECTOR } from 'Components/UploadFileForm';
 
 const SELECTORS = {
     screen: 'body.dashboard.index'
