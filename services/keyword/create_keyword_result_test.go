@@ -2,11 +2,12 @@ package keyword_test
 
 import (
 	"fmt"
+	"strings"
+
 	. "go-crawler-challenge/models"
 	service "go-crawler-challenge/services/keyword"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
-	"strings"
 
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/validation"

@@ -14,6 +14,9 @@ func init() {
 	web.Router("/dashboard/search", &controllers.DashboardController{}, "post:TextSearch")
 	web.Router("/dashboard/upload", &controllers.DashboardController{}, "post:FileSearch")
 
+	// Report
+	web.Router("/report/:keyword_id", &controllers.ReportController{}, "get:Show")
+
 	// User management
 	web.Router("/user/sign_up", &controllers.UserController{}, "get:New")
 	web.Router("/user/create", &controllers.UserController{}, "post:Create")

@@ -6,7 +6,9 @@
     </div>
     {{ range $keyword := .Keywords }}
       <div class="table__row">
-        <div class="table__cell">{{ $keyword.Keyword }}</div>
+        <div class="table__cell">
+          <a href="{{ urlfor `ReportController.Show` `:keyword_id` $keyword.Id }}">{{ $keyword.Keyword }}</a>
+        </div>
         <div class="table__cell">{{ $keyword.CreatedAt | toTimeAgo }}</div>
       </div>
     {{ end }}

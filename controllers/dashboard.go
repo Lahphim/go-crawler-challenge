@@ -47,14 +47,14 @@ func (c *DashboardController) actionPolicyMapping() {
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
-	totalRows, err := models.CountAllKeyword()
+	queryList := map[string]interface{}{
+		"user_id": c.CurrentUser.Id,
+	}
+	totalRows, err := models.CountAllKeyword(queryList)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Get total rows failed: %v", err.Error()))
 		c.Data["RetrieveKeywordFailed"] = "There was a problem retrieving all keywords :("
 	} else {
-		queryList := map[string]interface{}{
-			"user_id": c.CurrentUser.Id,
-		}
 		orderByList := c.GetOrderBy()
 		pageSize := c.GetPageSize()
 		paginator := pagination.SetPaginator((*context.Context)(c.Ctx), pageSize, totalRows)
