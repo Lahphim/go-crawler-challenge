@@ -13,11 +13,10 @@ import (
 )
 
 type CreateKeywordResult struct {
-	Keyword  string `valid:"Required; MaxSize(128)"`
-	Url      string `valid:"Required; MaxSize(128)"`
+	Keyword  *models.Keyword `valid:"Required;"`
+	Url      string          `valid:"Required; MaxSize(128)"`
 	LinkList []models.Link
-	RawHtml  string       `valid:"Required;"`
-	User     *models.User `valid:"Required;"`
+	RawHtml  string `valid:"Required;"`
 }
 
 // Run handles transaction for `keyword`, `page` and `link` table.
@@ -42,18 +41,9 @@ func (service *CreateKeywordResult) Run() (keyword *models.Keyword, err error) {
 	return keyword, err
 }
 
-// Valid handles some custom form validations about checking an existing user, validating valid visit url
+// Valid handles some custom form validations about validating valid visit url
 // and validating valid url from the list of link
 func (service *CreateKeywordResult) Valid(validation *validation.Validation) {
-	// Validate current existing user
-	existingUser, _ := models.GetUserById(service.User.Id)
-	if existingUser == nil {
-		err := validation.SetError("User", ValidationMessages["InvalidUser"])
-		if err == nil {
-			logs.Warning(fmt.Sprintf("Set validation error failed: %v", err))
-		}
-	}
-
 	// Validate visit url pattern
 	if !validateUrl(service.Url) {
 		err := validation.SetError("Url", ValidationMessages["InvalidUrl"])
@@ -81,7 +71,7 @@ func validateUrl(plainUrl string) (valid bool) {
 	return err == nil
 }
 
-// createKeywordResult will save keyword result into `keyword`, `page` and `link` table at the same time.
+// createKeywordResult will update `keyword` and save key result `page` and `link` table at the same time.
 func createKeywordResult(keywordResult *CreateKeywordResult) (keyword *models.Keyword, err error) {
 	ormer := orm.NewOrm()
 
@@ -92,13 +82,10 @@ func createKeywordResult(keywordResult *CreateKeywordResult) (keyword *models.Ke
 	}
 
 	// Transaction : Keyword
-	keyword = &models.Keyword{
-		User: keywordResult.User,
-
-		Keyword: keywordResult.Keyword,
-		Url:     keywordResult.Url,
-	}
-	_, err = txnOrmer.Insert(keyword)
+	keyword = keywordResult.Keyword
+	keyword.Url = keywordResult.Url
+	keyword.Status = models.GetStatusKeyword("completed")
+	_, err = txnOrmer.Update(keyword)
 	if err != nil {
 		errRollback := txnOrmer.Rollback()
 		if errRollback != nil {

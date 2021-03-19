@@ -18,28 +18,62 @@ type Keyword struct {
 
 	Keyword string `orm:"size(128)"`
 	Url     string `orm:"size(128)"`
+	Status  int    `orm:"default(0)"`
 }
+
+var statusKeyword = map[string]int{"failed": -1, "pending": 0, "completed": 1}
 
 func init() {
 	orm.RegisterModel(new(Keyword))
 }
 
-// GetAllKeyword retrieves all Keyword matches certain condition and returns empty list if no records exist.
-func GetAllKeyword(query map[string]interface{}, orderByList []string, offset int64, limit int64) (keywords []*Keyword, err error) {
+// AddKeyword inserts a new Keyword into database and returns last inserted Id on success.
+func AddKeyword(keyword *Keyword) (id int64, err error) {
 	ormer := orm.NewOrm()
-	querySetter := ormer.QueryTable(Keyword{})
+	id, err = ormer.Insert(keyword)
+
+	return id, err
+}
+
+// GetKeyword retrieves a Keyword by matching with certain conditions and returning error if it doesn't exist
+func GetKeyword(query map[string]interface{}, orderByList []string) (keyword *Keyword, err error) {
+	ormer := orm.NewOrm()
+	keyword = &Keyword{}
+	querySeter := ormer.QueryTable(Keyword{})
 
 	// query:
 	for key, value := range query {
 		key = strings.ReplaceAll(key, ".", "__")
-		querySetter = querySetter.Filter(key, value)
+		querySeter = querySeter.Filter(key, value)
 	}
 
 	// order by:
-	querySetter = querySetter.OrderBy(helpers.FormatOrderByFor(orderByList)...).RelatedSel()
+	querySeter = querySeter.OrderBy(helpers.FormatOrderByFor(orderByList)...).RelatedSel()
+
+	err = querySeter.One(keyword)
+	if err != nil {
+		return nil, err
+	}
+
+	return keyword, nil
+}
+
+// GetAllKeyword retrieves all Keyword matches certain conditions and returns empty list if no records exist.
+func GetAllKeyword(query map[string]interface{}, orderByList []string, offset int64, limit int64) (keywords []*Keyword, err error) {
+	ormer := orm.NewOrm()
+	querySeter := ormer.QueryTable(Keyword{})
+
+	// query:
+	for key, value := range query {
+		key = strings.ReplaceAll(key, ".", "__")
+		querySeter = querySeter.Filter(key, value)
+	}
+
+	// order by:
+	querySeter = querySeter.OrderBy(helpers.FormatOrderByFor(orderByList)...).RelatedSel()
 
 	// offset, limit:
-	_, err = querySetter.Limit(limit, offset).All(&keywords)
+	_, err = querySeter.Limit(limit, offset).All(&keywords)
 	if err != nil {
 		return []*Keyword{}, err
 	}
@@ -75,4 +109,26 @@ func GetKeyword(query map[string]interface{}) (keyword *Keyword, err error) {
 	}
 
 	return keyword, nil
+}
+
+func GetStatusKeyword(status string) int {
+	return statusKeyword[status]
+}
+
+// UpdateKeyword updates Keyword by Id and returns error if the record to be updated doesn't exist
+func UpdateKeyword(keyword *Keyword) (err error) {
+	ormer := orm.NewOrm()
+	record := Keyword{Base: Base{Id: keyword.Id}}
+
+	err = ormer.Read(&record)
+	if err != nil {
+		return err
+	}
+
+	_, err = ormer.Update(keyword)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

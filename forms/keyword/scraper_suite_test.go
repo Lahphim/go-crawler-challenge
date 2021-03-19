@@ -11,5 +11,5 @@ import (
 
 func TestSession(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Forms/Scraper Suite")
+	RunSpecs(t, "Forms/Keyword Suite")
 }
