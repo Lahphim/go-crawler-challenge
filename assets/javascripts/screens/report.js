@@ -21,7 +21,7 @@ class ReportScreen {
 
     _setupCollapsible() {
         this.collapsibleList.forEach(collapsible => {
-            new Collapsible(collapsible, { activeClass: 'link-counter__item' });
+            new Collapsible(collapsible, { toggleClassname: 'link-counter__item' });
         })
     }
 }

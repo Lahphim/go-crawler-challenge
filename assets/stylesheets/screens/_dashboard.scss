@@ -5,7 +5,7 @@ body.dashboard.index {
     .form.form--invisible {
       @apply absolute top-6 sm:top-10 left-4;
 
-      z-index: map-get($z-index, 'behide');;
+      z-index: -1;
 
       input[type="file"] {
         @apply w-8;

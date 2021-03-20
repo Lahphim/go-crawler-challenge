@@ -2,5 +2,5 @@
   @apply fixed top-0 w-screen flex justify-center items-center p-4 border-dashed bg-white shadow-sm;
 
   min-height: 6.875rem;
-  z-index: map-get($z-index, 'highest');;
+  z-index: map-get($z-index, 'highest');
 }

@@ -1,6 +1,8 @@
 package helpers
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"golang.org/x/crypto/bcrypt"
+)
 
 // HashPassword hashes plain password with bcrypt adaptive hashing algorithm.
 func HashPassword(plainPassword string) (hashedPassword string, err error) {
