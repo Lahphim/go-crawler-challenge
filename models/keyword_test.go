@@ -207,7 +207,7 @@ var _ = Describe("Keyword", func() {
 					"id": keyword.Id,
 				}
 
-				keywordResult, err := models.GetKeyword(query)
+				keywordResult, err := models.GetKeyword(query, []string{})
 				if err != nil {
 					Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 				}
@@ -224,7 +224,7 @@ var _ = Describe("Keyword", func() {
 						"user_id": user.Id,
 					}
 
-					keywordResult, err := models.GetKeyword(query)
+					keywordResult, err := models.GetKeyword(query, []string{})
 					if err != nil {
 						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 					}
@@ -243,10 +243,48 @@ var _ = Describe("Keyword", func() {
 						"user_id": user.Id,
 					}
 
-					keywordResult, err := models.GetKeyword(query)
+					keywordResult, err := models.GetKeyword(query, []string{})
 
 					Expect(keywordResult).To(BeNil())
 					Expect(err.Error()).To(ContainSubstring("no row found"))
+				})
+			})
+
+			Context("given the keyword order by `id` in ascending order", func() {
+				It("returns the first keyword", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+					_ = FabricateKeyword(faker.Word(), faker.URL(), user)
+					query := map[string]interface{}{
+						"user_id": user.Id,
+					}
+					order := []string{"id asc"}
+
+					keywordResult, err := models.GetKeyword(query, order)
+					if err != nil {
+						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
+					}
+
+					Expect(keyword.Id).To(Equal(keywordResult.Id))
+				})
+			})
+
+			Context("given the keyword order by `id` in descending order", func() {
+				It("returns the first keyword", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					_ = FabricateKeyword(faker.Word(), faker.URL(), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+					query := map[string]interface{}{
+						"user_id": user.Id,
+					}
+					order := []string{"id desc"}
+
+					keywordResult, err := models.GetKeyword(query, order)
+					if err != nil {
+						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
+					}
+
+					Expect(keyword.Id).To(Equal(keywordResult.Id))
 				})
 			})
 		})
@@ -257,7 +295,7 @@ var _ = Describe("Keyword", func() {
 					"id": 1,
 				}
 
-				keyword, err := models.GetKeyword(query)
+				keyword, err := models.GetKeyword(query, []string{})
 
 				Expect(keyword).To(BeNil())
 				Expect(err.Error()).To(ContainSubstring("no row found"))

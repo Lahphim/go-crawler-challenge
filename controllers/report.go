@@ -46,7 +46,7 @@ func (c *ReportController) Show() {
 		"user_id": c.CurrentUser.Id,
 	}
 
-	keyword, err := models.GetKeyword(query)
+	keyword, err := models.GetKeyword(query, []string{})
 	if err == nil {
 		reportGeneratorService := service.ReportGenerator{Keyword: keyword}
 		reportResult, err := reportGeneratorService.Generate()
