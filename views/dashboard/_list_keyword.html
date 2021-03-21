@@ -11,7 +11,7 @@
           <span class="dot-status" data-status="{{ $keyword.Status }}"></span>
         </div>
         <div class="table__cell">
-          <a href="{{ urlfor `ReportController.Show` `:keyword_id` $keyword.Id }}">{{ $keyword.Keyword }}</a>
+          <a class="link link--primary" href="{{ urlfor `ReportController.Show` `:keyword_id` $keyword.Id }}">{{ $keyword.Keyword }}</a>
         </div>
         <div class="table__cell">{{ $keyword.CreatedAt | toTimeAgo }}</div>
       </div>
