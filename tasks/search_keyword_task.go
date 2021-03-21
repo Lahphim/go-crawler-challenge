@@ -23,8 +23,6 @@ func (t *SearchKeywordTask) Setup() {
 }
 
 func onScheduledTask(_ context.Context) (err error) {
-	return nil
-
 	// query an oldest pending status keyword from database
 	query := map[string]interface{}{"Status": models.GetStatusKeyword("pending")}
 	order := []string{"created_at asc"}

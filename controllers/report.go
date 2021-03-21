@@ -44,6 +44,7 @@ func (c *ReportController) Show() {
 	query := map[string]interface{}{
 		"id":      keywordId,
 		"user_id": c.CurrentUser.Id,
+		"status":  models.GetStatusKeyword("completed"),
 	}
 
 	keyword, err := models.GetKeyword(query, []string{})
