@@ -22,7 +22,7 @@ var _ = Describe("Keyword", func() {
 		Context("given an existing keyword", func() {
 			It("returns a keyword record", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+				keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 				orderBy := []string{"created_at desc"}
 				offset := 0
 				limit := 1
@@ -43,8 +43,8 @@ var _ = Describe("Keyword", func() {
 					orderBy := []string{"id asc"}
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					offset := 0
 					limit := 2
 
@@ -65,8 +65,8 @@ var _ = Describe("Keyword", func() {
 					orderBy := []string{"id desc"}
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					offset := 0
 					limit := 2
 
@@ -87,8 +87,8 @@ var _ = Describe("Keyword", func() {
 					offset := 0
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					orderBy := []string{"created_at asc"}
 					limit := 1
 
@@ -109,8 +109,8 @@ var _ = Describe("Keyword", func() {
 					offset := 1
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					firstKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					secondKeyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					orderBy := []string{"created_at asc"}
 					limit := 1
 
@@ -131,9 +131,9 @@ var _ = Describe("Keyword", func() {
 					limit := 2
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
-					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
+					_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					orderBy := []string{"id asc"}
 					offset := 0
 
@@ -171,7 +171,7 @@ var _ = Describe("Keyword", func() {
 		Context("given a keyword record in the database", func() {
 			It("returns a position record", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+				_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 
 				var queryList map[string]interface{}
 
@@ -202,7 +202,7 @@ var _ = Describe("Keyword", func() {
 		Context("given a keyword record in the database", func() {
 			It("returns a keyword record", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+				keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 				query := map[string]interface{}{
 					"id": keyword.Id,
 				}
@@ -218,7 +218,7 @@ var _ = Describe("Keyword", func() {
 			Context("given the keyword belongs to the user", func() {
 				It("returns a keyword record", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", user)
+					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 					query := map[string]interface{}{
 						"id":      keyword.Id,
 						"user_id": user.Id,
@@ -237,7 +237,7 @@ var _ = Describe("Keyword", func() {
 				It("returns `nil` with an error message", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					anotherUser := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", anotherUser)
+					keyword := FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, anotherUser)
 					query := map[string]interface{}{
 						"id":      keyword.Id,
 						"user_id": user.Id,
@@ -253,8 +253,8 @@ var _ = Describe("Keyword", func() {
 			Context("given the keyword order by `id` in ascending order", func() {
 				It("returns the first keyword", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
-					_ = FabricateKeyword(faker.Word(), faker.URL(), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
+					_ = FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 					query := map[string]interface{}{
 						"user_id": user.Id,
 					}
@@ -272,8 +272,8 @@ var _ = Describe("Keyword", func() {
 			Context("given the keyword order by `id` in descending order", func() {
 				It("returns the first keyword", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					_ = FabricateKeyword(faker.Word(), faker.URL(), user)
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+					_ = FabricateKeyword(faker.Word(), faker.URL(), 0, user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 					query := map[string]interface{}{
 						"user_id": user.Id,
 					}

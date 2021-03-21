@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"regexp"
 
 	. "go-crawler-challenge/tests"
@@ -16,22 +15,6 @@ import (
 )
 
 var _ = Describe("DashboardController", func() {
-	BeforeEach(func() {
-		// Record for valid case
-		keyword := "keyword"
-		visitURL := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", url.QueryEscape(keyword))
-		cassetteName := "scraper/success_valid_params"
-
-		RecordCassette(cassetteName, visitURL)
-
-		// Record for invalid case
-		keyword = ""
-		visitURL = fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", url.QueryEscape(keyword))
-		cassetteName = "scraper/success_invalid_params"
-
-		RecordCassette(cassetteName, visitURL)
-	})
-
 	AfterEach(func() {
 		TruncateTable("keyword")
 		TruncateTable("user")
@@ -41,7 +24,7 @@ var _ = Describe("DashboardController", func() {
 		Context("when the user has already signed in", func() {
 			It("renders with status 200", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 
 				Expect(response.StatusCode).To(Equal(http.StatusOK))
 			})
@@ -53,10 +36,10 @@ var _ = Describe("DashboardController", func() {
 					totalRecords := 12
 					user := FabricateUser(faker.Email(), faker.Password())
 					for i := 1; i <= totalRecords; i++ {
-						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", 0, user)
 					}
 
-					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
 					if err != nil {
 						Fail("Read body content failed: " + err.Error())
@@ -80,10 +63,10 @@ var _ = Describe("DashboardController", func() {
 					totalRecords := 12
 					user := FabricateUser(faker.Email(), faker.Password())
 					for i := 1; i <= totalRecords; i++ {
-						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", 0, user)
 					}
 
-					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
 					if err != nil {
 						Fail("Read body content failed: " + err.Error())
@@ -107,10 +90,10 @@ var _ = Describe("DashboardController", func() {
 					totalRecords := 12
 					user := FabricateUser(faker.Email(), faker.Password())
 					for i := 1; i <= totalRecords; i++ {
-						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", user)
+						_ = FabricateKeyword(fmt.Sprintf("key%02dword", i), "https://www.sample.com", 0, user)
 					}
 
-					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
 					if err != nil {
 						Fail("Read body content failed: " + err.Error())
@@ -136,7 +119,7 @@ var _ = Describe("DashboardController", func() {
 					placeholderClass := "table__row--placeholder"
 					user := FabricateUser(faker.Email(), faker.Password())
 
-					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
 					if err != nil {
 						Fail("Read body content failed: " + err.Error())
@@ -160,7 +143,7 @@ var _ = Describe("DashboardController", func() {
 					paginationClass := "pagination"
 					user := FabricateUser(faker.Email(), faker.Password())
 
-					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, user)
+					response := MakeAuthenticatedRequest("GET", "/dashboard", nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
 					if err != nil {
 						Fail("Read body content failed: " + err.Error())
@@ -196,24 +179,24 @@ var _ = Describe("DashboardController", func() {
 	Describe("POST /dashboard/search", func() {
 		Context("when the user has already signed in", func() {
 			Context("given a valid param", func() {
-				XIt("shows a success message", func() {
+				It("shows a success message", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/search", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search", nil, body, user)
 					flash := GetFlashMessage(response.Cookies())
 
 					Expect(flash.Data["success"]).NotTo(BeEmpty())
 					Expect(flash.Data["error"]).To(BeEmpty())
 				})
 
-				XIt("redirects to dashboard page", func() {
+				It("redirects to dashboard page", func() {
 					user := FabricateUser("dev@nimblehq.co", "password")
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "keyword",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/search", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search", nil, body, user)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -227,7 +210,7 @@ var _ = Describe("DashboardController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/search", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search", nil, body, user)
 					flash := GetFlashMessage(response.Cookies())
 
 					Expect(flash.Data["success"]).To(BeEmpty())
@@ -239,7 +222,7 @@ var _ = Describe("DashboardController", func() {
 					body := GenerateRequestBody(map[string]string{
 						"keyword": "",
 					})
-					response := MakeAuthenticatedRequest("POST", "/dashboard/search", body, user)
+					response := MakeAuthenticatedRequest("POST", "/dashboard/search", nil, body, user)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -258,6 +241,54 @@ var _ = Describe("DashboardController", func() {
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
 				Expect(currentPath).To(Equal("/user/sign_in"))
+			})
+		})
+	})
+
+	Describe("POST /dashboard/upload", func() {
+		Context("when the user has already signed in", func() {
+			Context("given valid params", func() {
+				It("shows a success message", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/valid.csv", "text/csv")
+					response := MakeAuthenticatedRequest("POST", "/dashboard/upload", headers, body, user)
+					flash := GetFlashMessage(response.Cookies())
+
+					Expect(flash.Data["success"]).NotTo(BeEmpty())
+					Expect(flash.Data["error"]).To(BeEmpty())
+				})
+
+				It("redirects to dashboard page", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/valid.csv", "text/csv")
+					response := MakeAuthenticatedRequest("POST", "/dashboard/upload", headers, body, user)
+					currentPath := GetCurrentPath(response)
+
+					Expect(response.StatusCode).To(Equal(http.StatusFound))
+					Expect(currentPath).To(Equal("/dashboard"))
+				})
+			})
+
+			Context("given INVALID params", func() {
+				It("shows an error message", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+					response := MakeAuthenticatedRequest("POST", "/dashboard/upload", headers, body, user)
+					flash := GetFlashMessage(response.Cookies())
+
+					Expect(flash.Data["success"]).To(BeEmpty())
+					Expect(flash.Data["error"]).NotTo(BeEmpty())
+				})
+
+				It("redirects to dashboard page", func() {
+					user := FabricateUser(faker.Email(), faker.Password())
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+					response := MakeAuthenticatedRequest("POST", "/dashboard/upload", headers, body, user)
+					currentPath := GetCurrentPath(response)
+
+					Expect(response.StatusCode).To(Equal(http.StatusFound))
+					Expect(currentPath).To(Equal("/dashboard"))
+				})
 			})
 		})
 	})

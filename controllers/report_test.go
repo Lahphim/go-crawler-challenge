@@ -2,6 +2,7 @@ package controllers_test
 
 import (
 	"fmt"
+	"go-crawler-challenge/models"
 	"net/http"
 
 	. "go-crawler-challenge/tests"
@@ -30,12 +31,12 @@ var _ = Describe("ReportController", func() {
 			Context("given a valid report", func() {
 				It("renders with status 200", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetStatusKeyword("completed"), user)
 					position := FabricatePosition(faker.Word(), faker.Word(), "normal")
 					_ = FabricatePage(faker.Paragraph(), keyword)
 					_ = FabricateLink(faker.URL(), keyword, position)
 
-					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/report/%v", keyword.Id), nil, user)
+					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/report/%v", keyword.Id), nil, nil, user)
 
 					Expect(response.StatusCode).To(Equal(http.StatusOK))
 				})
@@ -44,9 +45,9 @@ var _ = Describe("ReportController", func() {
 			Context("given an INVALID report", func() {
 				It("redirects to dashboard page", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetStatusKeyword("pending"), user)
 
-					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/report/%v", keyword.Id), nil, user)
+					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/report/%v", keyword.Id), nil, nil, user)
 					currentPath := GetCurrentPath(response)
 
 					Expect(response.StatusCode).To(Equal(http.StatusFound))

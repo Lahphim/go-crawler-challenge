@@ -27,7 +27,7 @@ var _ = Describe("MainController", func() {
 		Context("when the user has already signed in", func() {
 			It("renders with status 200", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")
-				response := MakeAuthenticatedRequest("GET", "/", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/", nil, nil, user)
 
 				Expect(response.StatusCode).To(Equal(http.StatusOK))
 			})

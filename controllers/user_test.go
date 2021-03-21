@@ -28,7 +28,7 @@ var _ = Describe("UserController", func() {
 			It("redirects to root path", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")
 
-				response := MakeAuthenticatedRequest("GET", "/user/sign_up", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/user/sign_up", nil, nil, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -109,7 +109,7 @@ var _ = Describe("UserController", func() {
 					"confirm_password": "password",
 				})
 
-				response := MakeAuthenticatedRequest("POST", "/user/create", body, user)
+				response := MakeAuthenticatedRequest("POST", "/user/create", nil, body, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
