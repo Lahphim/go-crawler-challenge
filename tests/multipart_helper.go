@@ -10,8 +10,24 @@ import (
 	"os"
 	"path/filepath"
 
+	"go-crawler-challenge/helpers"
+
 	"github.com/beego/beego/v2/core/logs"
 )
+
+func GetMultipartAttributesFromFile(filePath string, contentType string) (multipart.File, *multipart.FileHeader, error) {
+	realPath := fmt.Sprintf("%s/%s", helpers.RootDir(), filePath)
+	headers, payload := CreateMultipartRequestInfo(realPath, contentType)
+	req, err := http.NewRequest("POST", "", payload)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req.Header = headers
+	file, fileHeader, err := req.FormFile("file")
+
+	return file, fileHeader, err
+}
 
 func CreateMultipartRequestInfo(filePath string, contentType string) (http.Header, *bytes.Buffer) {
 	file, err := os.Open(filePath)

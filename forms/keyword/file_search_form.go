@@ -47,7 +47,7 @@ func (form *FileSearchForm) Valid(validation *validation.Validation) {
 
 	contentLength := len(keywordList)
 	if contentLength < ContentMinimumSize || contentLength > ContentMaximumSize {
-		err := validation.SetError("File", ValidationMessages["ExceedKeywordSize"])
+		err := validation.SetError("File", ValidationMessages["InvalidKeywordSize"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
 		}
