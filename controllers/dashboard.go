@@ -46,9 +46,17 @@ func (c *DashboardController) actionPolicyMapping() {
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
-	queryList := map[string]interface{}{
-		"user_id": c.CurrentUser.Id,
+	var keyword string
+	err := c.Ctx.Input.Bind(&keyword, "keyword")
+	if err != nil {
+		logs.Critical(fmt.Sprintf("Get input keyword failed: %v", err.Error()))
 	}
+
+	queryList := map[string]interface{}{
+		"user_id":            c.CurrentUser.Id,
+		"keyword__icontains": keyword,
+	}
+
 	totalRows, err := models.CountAllKeyword(queryList)
 	if err != nil {
 		logs.Critical(fmt.Sprintf("Get total rows failed: %v", err.Error()))
@@ -67,6 +75,7 @@ func (c *DashboardController) Index() {
 		}
 	}
 
+	c.Data["Keyword"] = keyword
 	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layouts/application.html"
 	c.TplName = "dashboard/index.html"
