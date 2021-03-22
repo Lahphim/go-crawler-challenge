@@ -38,7 +38,10 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
 				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
-				service.Run()
+				err := service.Run()
+				if err != nil {
+					Fail(fmt.Sprintf("Run search keyword failed: %v", err))
+				}
 
 				searchResult := service.GetSearchResult()
 
@@ -51,7 +54,10 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
 				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
-				service.Run()
+				err := service.Run()
+				if err != nil {
+					Fail(fmt.Sprintf("Run search keyword failed: %v", err))
+				}
 
 				Expect(len(service.GetSearchResult().LinkList)).NotTo(BeZero())
 			})
@@ -61,7 +67,10 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
 				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
-				service.Run()
+				err := service.Run()
+				if err != nil {
+					Fail(fmt.Sprintf("Run search keyword failed: %v", err))
+				}
 
 				searchResult := service.GetSearchResult()
 
