@@ -18,6 +18,67 @@ var _ = Describe("Keyword", func() {
 		TruncateTable("user")
 	})
 
+	Describe("#AddKeyword", func() {
+		Context("given a valid keyword", func() {
+			It("returns the keyword ID", func() {
+				user := FabricateUser(faker.Email(), faker.Password())
+				keyword := models.Keyword{
+					Keyword: faker.Word(),
+					Url:     faker.URL(),
+					User:    user,
+				}
+
+				id, err := models.AddKeyword(&keyword)
+				if err != nil {
+					Fail(fmt.Sprintf("Add a new keyword failed: %v", err))
+				}
+
+				Expect(id).To(BeNumerically(">", 0))
+			})
+
+			It("does NOT return any errors", func() {
+				user := FabricateUser(faker.Email(), faker.Password())
+				keyword := models.Keyword{
+					Keyword: faker.Word(),
+					Url:     faker.URL(),
+					User:    user,
+				}
+
+				_, err := models.AddKeyword(&keyword)
+
+				Expect(err).To(BeNil())
+			})
+		})
+
+		Context("given an INVALID keyword", func() {
+			Context("given NO user assigns", func() {
+				It("returns 0", func() {
+					keyword := models.Keyword{
+						Keyword: faker.Word(),
+						Url:     faker.URL(),
+						User:    nil,
+					}
+
+					id, _ := models.AddKeyword(&keyword)
+
+					Expect(id).To(BeZero())
+				})
+
+				It("returns an error", func() {
+					keyword := models.Keyword{
+						Keyword: faker.Word(),
+						Url:     faker.URL(),
+						User:    nil,
+					}
+
+					_, err := models.AddKeyword(&keyword)
+
+					Expect(err.Error()).NotTo(BeNil())
+				})
+			})
+		})
+	})
+
 	Describe("#GetAllKeyword", func() {
 		Context("given an existing keyword", func() {
 			It("returns a keyword record", func() {
@@ -300,6 +361,53 @@ var _ = Describe("Keyword", func() {
 				Expect(keyword).To(BeNil())
 				Expect(err.Error()).To(ContainSubstring("no row found"))
 			})
+		})
+	})
+
+	Describe("#GetStatusKeyword", func() {
+		Context("given `failed` status", func() {
+			It("returns -1", func() {
+				status := models.GetStatusKeyword("failed")
+
+				Expect(status).To(Equal(-1))
+			})
+		})
+
+		Context("given `pending` status", func() {
+			It("returns 0", func() {
+				status := models.GetStatusKeyword("pending")
+
+				Expect(status).To(Equal(0))
+			})
+		})
+
+		Context("given `completed` status", func() {
+			It("returns 1", func() {
+				status := models.GetStatusKeyword("completed")
+
+				Expect(status).To(Equal(1))
+			})
+		})
+	})
+
+	Describe("#UpdateKeyword", func() {
+		Context("given update keyword status from `pending` to `completed", func() {
+			user := FabricateUser(faker.Email(), faker.Password())
+			keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
+
+			keyword.Status = models.GetStatusKeyword("completed")
+			err := models.UpdateKeyword(keyword)
+			if err != nil {
+				Fail(fmt.Sprintf("Update keyword failed: %v", err))
+			}
+
+			refreshKeyword, err := models.GetKeyword(map[string]interface{}{"id": keyword.Id}, []string{})
+			if err != nil {
+				Fail(fmt.Sprintf("Get keyword failed: %v", err))
+			}
+
+			Expect(keyword.Id).To(Equal(refreshKeyword.Id))
+			Expect(keyword.Status).To(Equal(refreshKeyword.Status))
 		})
 	})
 })

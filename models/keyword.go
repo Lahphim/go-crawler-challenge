@@ -93,6 +93,7 @@ func CountAllKeyword(query map[string]interface{}) (totalRows int64, err error) 
 	return querySetter.Count()
 }
 
+// GetStatusKeyword returns an integer mapping with readable key
 func GetStatusKeyword(status string) int {
 	return statusKeyword[status]
 }
