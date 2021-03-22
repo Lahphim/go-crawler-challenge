@@ -3,9 +3,9 @@ package tasks
 import (
 	"context"
 	"fmt"
-	"go-crawler-challenge/services/scraper"
 
 	"go-crawler-challenge/models"
+	"go-crawler-challenge/services/scraper"
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/task"
