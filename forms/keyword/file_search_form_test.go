@@ -44,7 +44,7 @@ var _ = Describe("Keyword/FileSearchForm", func() {
 
 					err := fileSearchForm.Save()
 
-					Expect(err).To(Equal("File cannot be empty"))
+					Expect(err.Error()).To(Equal("File cannot be empty"))
 				})
 			})
 
@@ -64,7 +64,7 @@ var _ = Describe("Keyword/FileSearchForm", func() {
 
 					err = fileSearchForm.Save()
 
-					Expect(err).To(Equal("File type is not allowed"))
+					Expect(err.Error()).To(Equal("File type is not allowed"))
 				})
 			})
 
@@ -84,7 +84,7 @@ var _ = Describe("Keyword/FileSearchForm", func() {
 
 					err = fileSearchForm.Save()
 
-					Expect(err).To(Equal("Acceptance keyword size from 1 to 1,000"))
+					Expect(err.Error()).To(Equal("Acceptance keyword size from 1 to 1,000"))
 				})
 			})
 
@@ -103,7 +103,7 @@ var _ = Describe("Keyword/FileSearchForm", func() {
 
 					err = fileSearchForm.Save()
 
-					Expect(err).To(Equal("User cannot be empty"))
+					Expect(err.Error()).To(Equal("User cannot be empty"))
 				})
 			})
 		})

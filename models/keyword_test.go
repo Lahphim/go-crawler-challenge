@@ -230,7 +230,7 @@ var _ = Describe("Keyword", func() {
 
 	Describe("#CountAllKeyword", func() {
 		Context("given a keyword record in the database", func() {
-			It("returns a position record", func() {
+			It("returns a keyword record", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				_ = FabricateKeyword(faker.Word(), "https://www.google.com/search?lr=lang_en", 0, user)
 

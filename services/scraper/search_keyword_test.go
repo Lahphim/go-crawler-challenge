@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/url"
 
-	"go-crawler-challenge/models"
 	"go-crawler-challenge/services/scraper"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
@@ -35,15 +34,9 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 	Describe("#Run", func() {
 		Context("given valid params", func() {
 			It("collects keywords", func() {
-				positionList, err := models.GetAllPosition()
-				if err != nil {
-					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
-				}
-
 				currentUser := FabricateUser(faker.Email(), faker.Password())
-				keyword := "keyword"
-				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
-				service.SetPositionList(positionList)
+				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
+				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
 				service.Run()
 
@@ -54,15 +47,9 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 			})
 
 			It("collects some links based on selector list", func() {
-				positionList, err := models.GetAllPosition()
-				if err != nil {
-					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
-				}
-
 				currentUser := FabricateUser(faker.Email(), faker.Password())
-				keyword := "keyword"
-				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
-				service.SetPositionList(positionList)
+				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
+				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
 				service.Run()
 
@@ -70,15 +57,9 @@ var _ = Describe("Scraper/SearchKeyword", func() {
 			})
 
 			It("collects the raw HTML", func() {
-				positionList, err := models.GetAllPosition()
-				if err != nil {
-					Fail(fmt.Sprintf("Get all position failed: %v", err.Error()))
-				}
-
 				currentUser := FabricateUser(faker.Email(), faker.Password())
-				keyword := "keyword"
-				service := scraper.SearchKeywordService{Keyword: keyword, User: currentUser}
-				service.SetPositionList(positionList)
+				keyword := FabricateKeyword("keyword", "https://www.google.com/search?q=keyword&lr=lang_en", 0, currentUser)
+				service := scraper.SearchKeywordService{Keyword: keyword}
 				service.EnableSynchronous()
 				service.Run()
 

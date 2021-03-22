@@ -21,13 +21,13 @@ var _ = Describe("FileHelper", func() {
 				expectFileTypes := []string{"text/csv"}
 				matchResult := helpers.CheckMatchFileType(fileHeader, expectFileTypes)
 
-				Expect(matchResult).To(BeTrue())
+				Expect(matchResult).To(Equal(true))
 			})
 		})
 
 		Context("given unmatched file type", func() {
 			It("returns false", func() {
-				_, fileHeader, err := GetMultipartAttributesFromFile("tests/fixtures/files/text.txt", "text/csv")
+				_, fileHeader, err := GetMultipartAttributesFromFile("tests/fixtures/files/text.txt", "text/txt")
 				if err != nil {
 					Fail(fmt.Sprintf("Get multipart atrributes from file failed: %v", err))
 				}
@@ -35,7 +35,7 @@ var _ = Describe("FileHelper", func() {
 				expectFileTypes := []string{"text/csv"}
 				matchResult := helpers.CheckMatchFileType(fileHeader, expectFileTypes)
 
-				Expect(matchResult).To(BeFalse())
+				Expect(matchResult).To(Equal(false))
 			})
 		})
 	})

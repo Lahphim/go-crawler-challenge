@@ -13,7 +13,7 @@ type TextSearchForm struct {
 
 // Create handles validation and creating a new keyword from the search keyword form.
 // If the form is invalid, it will returns an error to the controller.
-func (form *TextSearchForm) Create() (errors error) {
+func (form *TextSearchForm) Create() (err error) {
 	validator := validation.Validation{}
 
 	valid, err := validator.Valid(form)

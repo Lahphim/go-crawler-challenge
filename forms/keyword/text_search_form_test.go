@@ -36,7 +36,7 @@ var _ = Describe("Keyword/TextSearchForm", func() {
 
 					err := textSearchForm.Create()
 
-					Expect(err).To(Equal("Keyword cannot be empty"))
+					Expect(err.Error()).To(Equal("Keyword cannot be empty"))
 				})
 			})
 
@@ -49,7 +49,7 @@ var _ = Describe("Keyword/TextSearchForm", func() {
 
 					err := textSearchForm.Create()
 
-					Expect(err).To(Equal("User cannot be empty"))
+					Expect(err.Error()).To(Equal("User cannot be empty"))
 				})
 			})
 		})
