@@ -32,6 +32,16 @@ $alert-color: (
   'warning':  hsl(49, 66%, 40%)   // #a89022
 );
 
+// Z-index
+$z-index: (
+  'behind': -1,
+  'default': 1,
+  'high': 5,
+  'higher': 100,
+  'highest': 1100,
+  'sky': 10000
+);
+
 $base-font-size: 16px;
 $base-font-family: 'JetBrains Mono', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 $base-font-icon-family: 'Material Icon', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';

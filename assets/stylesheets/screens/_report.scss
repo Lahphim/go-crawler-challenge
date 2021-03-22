@@ -1,0 +1,9 @@
+body.report.show {
+  .html-content {
+    @apply overflow-scroll;
+  }
+
+  .divider-line {
+    @apply my-8;
+  }
+}

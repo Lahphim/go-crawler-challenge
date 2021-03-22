@@ -7,7 +7,12 @@
   .link--#{$color} {
     color: $value;
 
-    &:hover {
+    &:visited {
+      color: $value;
+    }
+
+    &:hover,
+    &:hover:visited {
       color: hsl(0, 0%, 100%);
       background-color: $value;
     }
