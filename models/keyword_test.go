@@ -101,13 +101,13 @@ var _ = Describe("Keyword", func() {
 
 			Context("given an operator with case insensitive contain `keyword`", func() {
 				It("returns only `keyword` filter records", func() {
-					containKeyword := "keyword_keyword"
+					containKeyword := "expected_keyword"
 					var queryList = map[string]interface{}{"keyword__icontains": containKeyword}
 
 					user := FabricateUser(faker.Email(), faker.Password())
 					firstKeyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 					secondKeyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
-					thirdKeyword := FabricateKeyword(fmt.Sprintf("%v %v %v", faker.Word(), containKeyword, faker.Word()), faker.URL(), 0, user)
+					matchedKeyword := FabricateKeyword(fmt.Sprintf("%v %v %v", faker.Word(), containKeyword, faker.Word()), faker.URL(), 0, user)
 
 					keywords, err := models.GetAllKeyword(queryList, []string{}, 0, 10)
 					if err != nil {
@@ -116,7 +116,8 @@ var _ = Describe("Keyword", func() {
 
 					Expect(keywords[0].Id).NotTo(Equal(firstKeyword.Id))
 					Expect(keywords[0].Id).NotTo(Equal(secondKeyword.Id))
-					Expect(keywords[0].Id).To(Equal(thirdKeyword.Id))
+
+					Expect(keywords[0].Id).To(Equal(matchedKeyword.Id))
 				})
 			})
 

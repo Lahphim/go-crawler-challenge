@@ -165,12 +165,15 @@ var _ = Describe("DashboardController", func() {
 			})
 
 			Context("given `keyword` param is set", func() {
-				It("shows only `keyword` filter records", func() {
-					keywordFilter := "keyword_keyword_keyword"
+				It("shows only `keyword` filtered records", func() {
+					keywordFilter := "expected_keyword"
 					user := FabricateUser(faker.Email(), faker.Password())
+					// Exact match keyword
 					_ = FabricateKeyword(keywordFilter, faker.URL(), 0, user)
+					// Fuzzy match keyword
 					_ = FabricateKeyword(fmt.Sprintf("%v %v %v", faker.Word(), keywordFilter, faker.Word()), faker.URL(), 0, user)
-					_ = FabricateKeyword("paragraph_paragraph_paragraph", faker.URL(), 0, user)
+					// non-match keyword
+					_ = FabricateKeyword("nonexpected__keyword", faker.URL(), 0, user)
 
 					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/dashboard?keyword=%v", keywordFilter), nil, nil, user)
 					body, err := ioutil.ReadAll(response.Body)
