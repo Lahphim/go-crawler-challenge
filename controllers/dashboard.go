@@ -46,12 +46,7 @@ func (c *DashboardController) actionPolicyMapping() {
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
-	var keyword string
-	err := c.Ctx.Input.Bind(&keyword, "keyword")
-	if err != nil {
-		logs.Critical(fmt.Sprintf("Get input keyword failed: %v", err.Error()))
-	}
-
+	keyword := c.GetString("keyword")
 	queryList := map[string]interface{}{
 		"user_id":            c.CurrentUser.Id,
 		"keyword__icontains": keyword,

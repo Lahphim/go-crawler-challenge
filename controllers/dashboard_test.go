@@ -9,6 +9,7 @@ import (
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -172,25 +173,25 @@ var _ = Describe("DashboardController", func() {
 					_ = FabricateKeyword(keywordFilter, faker.URL(), 0, user)
 					// Fuzzy match keyword
 					_ = FabricateKeyword(fmt.Sprintf("%v %v %v", faker.Word(), keywordFilter, faker.Word()), faker.URL(), 0, user)
-					// non-match keyword
+					// Non-match keyword
 					_ = FabricateKeyword("nonexpected__keyword", faker.URL(), 0, user)
 
 					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/dashboard?keyword=%v", keywordFilter), nil, nil, user)
-					body, err := ioutil.ReadAll(response.Body)
-					if err != nil {
-						Fail("Read body content failed: " + err.Error())
-					}
-					err = response.Body.Close()
+					err := response.Body.Close()
 					if err != nil {
 						Fail("Close body content failed: " + err.Error())
 					}
 
-					r, err := regexp.Compile(keywordFilter)
+					// Load the HTML document
+					document, err := goquery.NewDocumentFromReader(response.Body)
 					if err != nil {
-						Fail("Regexp failed: " + err.Error())
+						Fail("New document from reader failed: " + err.Error())
 					}
 
-					matches := r.FindAllString(string(body), -1)
+					var matches []string
+					document.Find(".list-keyword .table__row .table__cell .link").Each(func(_ int, selector *goquery.Selection) {
+						matches = append(matches, selector.Text())
+					})
 
 					Expect(len(matches)).To(BeNumerically("==", 2))
 				})
