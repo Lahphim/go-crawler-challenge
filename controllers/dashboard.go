@@ -117,7 +117,7 @@ func (c *DashboardController) FileSearch() {
 		fileForm := form.FileSearchForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
 		err = fileForm.Save()
 		if err != nil {
-			flash.Error("The specified file could not be uploaded :(")
+			flash.Error(err.Error())
 		} else {
 			flash.Success("Scraping all keywords :)")
 		}

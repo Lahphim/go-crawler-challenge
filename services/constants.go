@@ -1,8 +1,5 @@
 package services
 
-const ContentMinimumSize = 1
-const ContentMaximumSize = 1000
-
 var ValidationMessages = map[string]string{
 	"InvalidLinkList":   "All Link list must be valid URL",
 	"InvalidUrl":        "URL must be valid",

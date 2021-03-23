@@ -30,7 +30,7 @@ func (form *FileSearchForm) Valid(validation *validation.Validation) {
 		return
 	}
 
-	if !helpers.CheckMatchFileType(form.FileHeader, []string{ContentTypeCSV}) {
+	if !helpers.CheckMatchFileType(form.FileHeader, []string{KeywordUploadContentTypeCSV}) {
 		err := validation.SetError("File", ValidationMessages["InvalidFileType"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
@@ -46,7 +46,7 @@ func (form *FileSearchForm) Valid(validation *validation.Validation) {
 	}
 
 	contentLength := len(keywordList)
-	if contentLength < ContentMinimumSize || contentLength > ContentMaximumSize {
+	if contentLength < KeywordUploadMinimumSize || contentLength > KeywordUploadMaximumSize {
 		err := validation.SetError("File", ValidationMessages["InvalidKeywordSize"])
 		if err == nil {
 			logs.Warning("Set validation error failed")
@@ -76,10 +76,6 @@ func (form *FileSearchForm) Save() (err error) {
 	return nil
 }
 
-func (form *FileSearchForm) GetKeywordList() (keywordList []string) {
-	return form.keywordList
-}
-
 func (form *FileSearchForm) createKeywordList() (err error) {
 	ormer := orm.NewOrm()
 
@@ -91,7 +87,7 @@ func (form *FileSearchForm) createKeywordList() (err error) {
 
 	// Transaction : Keyword
 	var keywordList []models.Keyword
-	for _, keywordText := range form.GetKeywordList() {
+	for _, keywordText := range form.keywordList {
 		keyword := models.Keyword{
 			Keyword: keywordText,
 			User:    form.User,

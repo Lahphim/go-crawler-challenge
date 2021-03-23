@@ -1,10 +1,13 @@
-package tasks
+package initializers
 
 import (
+	. "go-crawler-challenge/tasks"
+
 	"github.com/beego/beego/v2/task"
 )
 
-func init() {
+// SetUpTask : Set up all the tasks by scheduler
+func SetUpTask() {
 	searchKeywordTask := SearchKeywordTask{Name: "search_keyword_task", Schedule: "0 * * * * *"}
 	searchKeywordTask.Setup()
 

@@ -84,7 +84,7 @@ func createKeywordResult(keywordResult *CreateKeywordResult) (keyword *models.Ke
 	// Transaction : Keyword
 	keyword = keywordResult.Keyword
 	keyword.Url = keywordResult.Url
-	keyword.Status = models.GetStatusKeyword("completed")
+	keyword.Status = models.GetKeywordStatus("completed")
 	_, err = txnOrmer.Update(keyword)
 	if err != nil {
 		errRollback := txnOrmer.Rollback()

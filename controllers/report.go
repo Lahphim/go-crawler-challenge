@@ -44,10 +44,10 @@ func (c *ReportController) Show() {
 	query := map[string]interface{}{
 		"id":      keywordId,
 		"user_id": c.CurrentUser.Id,
-		"status":  models.GetStatusKeyword("completed"),
+		"status":  models.GetKeywordStatus("completed"),
 	}
 
-	keyword, err := models.GetKeyword(query, []string{})
+	keyword, err := models.GetKeywordBy(query, []string{})
 	if err == nil {
 		reportGeneratorService := service.ReportGenerator{Keyword: keyword}
 		reportResult, err := reportGeneratorService.Generate()

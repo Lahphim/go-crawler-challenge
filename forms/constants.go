@@ -1,8 +1,8 @@
 package forms
 
-const ContentTypeCSV = "text/csv"
-const ContentMinimumSize = 1
-const ContentMaximumSize = 1000
+const KeywordUploadContentTypeCSV = "text/csv"
+const KeywordUploadMinimumSize = 1
+const KeywordUploadMaximumSize = 1000
 
 var ValidationMessages = map[string]string{
 	"ConfirmPassword":    "Confirm password confirmation must match",

@@ -31,7 +31,7 @@ var _ = Describe("ReportController", func() {
 			Context("given a valid report", func() {
 				It("renders with status 200", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetStatusKeyword("completed"), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetKeywordStatus("completed"), user)
 					position := FabricatePosition(faker.Word(), faker.Word(), "normal")
 					_ = FabricatePage(faker.Paragraph(), keyword)
 					_ = FabricateLink(faker.URL(), keyword, position)
@@ -45,7 +45,7 @@ var _ = Describe("ReportController", func() {
 			Context("given an INVALID report", func() {
 				It("redirects to dashboard page", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetStatusKeyword("pending"), user)
+					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetKeywordStatus("pending"), user)
 
 					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/report/%v", keyword.Id), nil, nil, user)
 					currentPath := GetCurrentPath(response)

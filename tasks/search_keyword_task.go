@@ -24,9 +24,9 @@ func (t *SearchKeywordTask) Setup() {
 
 func onScheduledTask(_ context.Context) (err error) {
 	// query an oldest pending status keyword from database
-	query := map[string]interface{}{"Status": models.GetStatusKeyword("pending")}
+	query := map[string]interface{}{"Status": models.GetKeywordStatus("pending")}
 	order := []string{"created_at asc"}
-	keyword, err := models.GetKeyword(query, order)
+	keyword, err := models.GetKeywordBy(query, order)
 	if err != nil {
 		// not found record
 		return nil
@@ -35,7 +35,7 @@ func onScheduledTask(_ context.Context) (err error) {
 	searchKeyword := scraper.SearchKeywordService{Keyword: keyword}
 	err = searchKeyword.Run()
 	if err != nil {
-		keyword.Status = models.GetStatusKeyword("failed")
+		keyword.Status = models.GetKeywordStatus("failed")
 
 		otherErr := models.UpdateKeyword(keyword)
 		if otherErr != nil {
@@ -44,7 +44,7 @@ func onScheduledTask(_ context.Context) (err error) {
 
 		return err
 	} else {
-		keyword.Status = models.GetStatusKeyword("completed")
+		keyword.Status = models.GetKeywordStatus("completed")
 
 		err = models.UpdateKeyword(keyword)
 		if err != nil {

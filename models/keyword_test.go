@@ -268,7 +268,7 @@ var _ = Describe("Keyword", func() {
 					"id": keyword.Id,
 				}
 
-				keywordResult, err := models.GetKeyword(query, []string{})
+				keywordResult, err := models.GetKeywordBy(query, []string{})
 				if err != nil {
 					Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 				}
@@ -285,7 +285,7 @@ var _ = Describe("Keyword", func() {
 						"user_id": user.Id,
 					}
 
-					keywordResult, err := models.GetKeyword(query, []string{})
+					keywordResult, err := models.GetKeywordBy(query, []string{})
 					if err != nil {
 						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 					}
@@ -304,7 +304,7 @@ var _ = Describe("Keyword", func() {
 						"user_id": user.Id,
 					}
 
-					keywordResult, err := models.GetKeyword(query, []string{})
+					keywordResult, err := models.GetKeywordBy(query, []string{})
 
 					Expect(keywordResult).To(BeNil())
 					Expect(err.Error()).To(ContainSubstring("no row found"))
@@ -321,7 +321,7 @@ var _ = Describe("Keyword", func() {
 					}
 					order := []string{"id asc"}
 
-					keywordResult, err := models.GetKeyword(query, order)
+					keywordResult, err := models.GetKeywordBy(query, order)
 					if err != nil {
 						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 					}
@@ -340,7 +340,7 @@ var _ = Describe("Keyword", func() {
 					}
 					order := []string{"id desc"}
 
-					keywordResult, err := models.GetKeyword(query, order)
+					keywordResult, err := models.GetKeywordBy(query, order)
 					if err != nil {
 						Fail(fmt.Sprintf("Get keyword failed: %v", err.Error()))
 					}
@@ -356,7 +356,7 @@ var _ = Describe("Keyword", func() {
 					"id": 1,
 				}
 
-				keyword, err := models.GetKeyword(query, []string{})
+				keyword, err := models.GetKeywordBy(query, []string{})
 
 				Expect(keyword).To(BeNil())
 				Expect(err.Error()).To(ContainSubstring("no row found"))
@@ -364,10 +364,10 @@ var _ = Describe("Keyword", func() {
 		})
 	})
 
-	Describe("#GetStatusKeyword", func() {
+	Describe("#GetKeywordStatus", func() {
 		Context("given `failed` status", func() {
 			It("returns -1", func() {
-				status := models.GetStatusKeyword("failed")
+				status := models.GetKeywordStatus("failed")
 
 				Expect(status).To(Equal(-1))
 			})
@@ -375,7 +375,7 @@ var _ = Describe("Keyword", func() {
 
 		Context("given `pending` status", func() {
 			It("returns 0", func() {
-				status := models.GetStatusKeyword("pending")
+				status := models.GetKeywordStatus("pending")
 
 				Expect(status).To(Equal(0))
 			})
@@ -383,7 +383,7 @@ var _ = Describe("Keyword", func() {
 
 		Context("given `completed` status", func() {
 			It("returns 1", func() {
-				status := models.GetStatusKeyword("completed")
+				status := models.GetKeywordStatus("completed")
 
 				Expect(status).To(Equal(1))
 			})
@@ -395,13 +395,13 @@ var _ = Describe("Keyword", func() {
 			user := FabricateUser(faker.Email(), faker.Password())
 			keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 
-			keyword.Status = models.GetStatusKeyword("completed")
+			keyword.Status = models.GetKeywordStatus("completed")
 			err := models.UpdateKeyword(keyword)
 			if err != nil {
 				Fail(fmt.Sprintf("Update keyword failed: %v", err))
 			}
 
-			refreshKeyword, err := models.GetKeyword(map[string]interface{}{"id": keyword.Id}, []string{})
+			refreshKeyword, err := models.GetKeywordBy(map[string]interface{}{"id": keyword.Id}, []string{})
 			if err != nil {
 				Fail(fmt.Sprintf("Get keyword failed: %v", err))
 			}
