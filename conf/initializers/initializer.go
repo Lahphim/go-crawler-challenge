@@ -9,7 +9,9 @@ import (
 
 func init() {
 	LoadAppConfig()
+
 	SetUpDatabase()
+	SetUpOauth2()
 	SetUpTask()
 	SetUpTemplate()
 }
