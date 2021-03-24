@@ -62,9 +62,9 @@ body.dashboard.index {
     .table__headline--fix-width-lg {
       @apply w-40 sm:w-72;
     }
+  }
 
-    .filter-keyword {
-      @apply mt-8 pb-0 rounded-bl-none rounded-br-none;
-    }
+  .filter-keyword {
+    @apply mt-8 pb-0 rounded-bl-none rounded-br-none;
   }
 }
