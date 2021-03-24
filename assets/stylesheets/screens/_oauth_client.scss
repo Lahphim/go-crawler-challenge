@@ -1,0 +1,12 @@
+body.oauth-client.new {
+  .app-content {
+    @apply flex justify-center py-8 sm:py-12;
+  }
+
+  .form {
+    @apply max-w-2xl border border-dashed rounded-3xl p-8;
+
+    border-color: map-get($brand-color, 'shark');
+    border-width: 3px;
+  }
+}
