@@ -3,6 +3,7 @@ module go-crawler-challenge
 go 1.15
 
 require (
+	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/beego/beego/v2 v2.0.1
 	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/dnaeon/go-vcr v1.1.0
