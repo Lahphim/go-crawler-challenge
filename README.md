@@ -46,7 +46,7 @@ $ make test
 
 #### Background Tasks
 Using [tasks](https://beego.me/docs/module/toolbox.md#tasks) which is provided in the BeeGo's [toolbox](https://beego.me/docs/module/toolbox.md) module.
-The mechanism of this module is very similarly to cron jobs 🍀.
+The mechanism of this module is very similar to cron jobs 🍀.
 So we can create a task and assign the schedule of time to the task, then we can do whatever after the task is triggered by the time we set.
 
 Initializing all the tasks from here `conf/initializers/task.go` and addressing those tasks within this path: `/tasks/*_task.go`

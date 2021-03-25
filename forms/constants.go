@@ -12,4 +12,5 @@ var ValidationMessages = map[string]string{
 	"InvalidKeywordSize": "Acceptance keyword size from 1 to 1,000",
 	"OpenFile":           "File cannot be opened",
 	"RequireFile":        "File cannot be empty",
+	"ValidationFailed":   "Set validation error failed",
 }

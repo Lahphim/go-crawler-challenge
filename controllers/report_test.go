@@ -2,9 +2,9 @@ package controllers_test
 
 import (
 	"fmt"
-	"go-crawler-challenge/models"
 	"net/http"
 
+	"go-crawler-challenge/models"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
 

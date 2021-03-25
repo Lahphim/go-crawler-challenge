@@ -24,7 +24,7 @@ func (form *FileSearchForm) Valid(validation *validation.Validation) {
 	if form.File == nil {
 		err := validation.SetError("File", ValidationMessages["RequireFile"])
 		if err == nil {
-			logs.Warning("Set validation error failed")
+			logs.Warning(ValidationMessages["ValidationFailed"])
 		}
 
 		return
@@ -33,24 +33,30 @@ func (form *FileSearchForm) Valid(validation *validation.Validation) {
 	if !helpers.CheckMatchFileType(form.FileHeader, []string{KeywordUploadContentTypeCSV}) {
 		err := validation.SetError("File", ValidationMessages["InvalidFileType"])
 		if err == nil {
-			logs.Warning("Set validation error failed")
+			logs.Warning(ValidationMessages["ValidationFailed"])
 		}
+
+		return
 	}
 
 	keywordList, err := helpers.ReadFileContent(form.File)
 	if err != nil {
 		err := validation.SetError("File", ValidationMessages["OpenFile"])
 		if err == nil {
-			logs.Warning("Set validation error failed")
+			logs.Warning(ValidationMessages["ValidationFailed"])
 		}
+
+		return
 	}
 
 	contentLength := len(keywordList)
 	if contentLength < KeywordUploadMinimumSize || contentLength > KeywordUploadMaximumSize {
 		err := validation.SetError("File", ValidationMessages["InvalidKeywordSize"])
 		if err == nil {
-			logs.Warning("Set validation error failed")
+			logs.Warning(ValidationMessages["ValidationFailed"])
 		}
+
+		return
 	} else {
 		form.keywordList = keywordList
 	}
