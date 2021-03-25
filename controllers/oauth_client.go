@@ -58,7 +58,8 @@ func (c *OauthClientController) Create() {
 	flash := web.NewFlash()
 	redirectPath := "/oauth_client"
 
-	serviceOauth := service.ClientGenerator{}
+	domain := c.Ctx.Request.Host
+	serviceOauth := service.ClientGenerator{Domain: domain}
 	clientId, err := serviceOauth.Generate()
 	if err != nil {
 		flash.Error(err.Error())

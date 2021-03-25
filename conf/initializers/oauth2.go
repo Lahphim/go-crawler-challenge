@@ -3,8 +3,9 @@ package initializers
 import (
 	"context"
 	"fmt"
-	"go-crawler-challenge/services/oauth"
 	"time"
+
+	"go-crawler-challenge/services/oauth"
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
@@ -53,11 +54,8 @@ func SetUpOauth2() {
 	oauthServer.SetInternalErrorHandler(internalErrorHandler)
 	oauthServer.SetResponseErrorHandler(responseErrorHandler)
 
-	service := oauth.Configuration{
-		Server:      oauthServer,
-		ClientStore: clientStore,
-	}
-	service.Run()
+	oauth.ServerOauth = oauthServer
+	oauth.ClientStore = clientStore
 }
 
 func internalErrorHandler(err error) (response *errors.Response) {
