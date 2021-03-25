@@ -34,7 +34,7 @@ func (c *ReportController) actionPolicyMapping() {
 // @Description show the search result of the given keyword stored in the database
 // @Success 200
 // @Failure 302 redirect to the dashboard page and show an error message
-// @router / [get]
+// @router /report/:keyword_id [get]
 func (c *ReportController) Show() {
 	flash := web.NewFlash()
 	hasReport := false

@@ -42,7 +42,7 @@ func (c *DashboardController) actionPolicyMapping() {
 // @Title Index
 // @Description show some widgets such as search, listing and summary detail
 // @Success 200
-// @router / [get]
+// @router /dashboard [get]
 func (c *DashboardController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
@@ -81,7 +81,7 @@ func (c *DashboardController) Index() {
 // @Description create a new scrapping result by plain text
 // @Success 302 redirect to the dashboard page
 // @Failure 302 redirect to the dashboard page and show an error message
-// @router / [post]
+// @router /dashboard/search [post]
 func (c *DashboardController) TextSearch() {
 	flash := web.NewFlash()
 	textSearchForm := form.TextSearchForm{}
@@ -109,7 +109,7 @@ func (c *DashboardController) TextSearch() {
 // @Description create a new scrapping result by CSV file
 // @Success 302 redirect to the dashboard page
 // @Failure 302 redirect to the dashboard page and show an error message
-// @router / [post]
+// @router /dashboard/upload [post]
 func (c *DashboardController) FileSearch() {
 	flash := web.NewFlash()
 	redirectPath := "/dashboard"
