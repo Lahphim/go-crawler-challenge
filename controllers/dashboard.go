@@ -5,9 +5,8 @@ import (
 	"html/template"
 	"net/http"
 
-	form "go-crawler-challenge/forms/scraper"
+	form "go-crawler-challenge/forms/keyword"
 	"go-crawler-challenge/models"
-	"go-crawler-challenge/services/scraper"
 
 	"github.com/beego/beego/v2/adapter/context"
 	"github.com/beego/beego/v2/adapter/utils/pagination"
@@ -81,28 +80,20 @@ func (c *DashboardController) Index() {
 // @router / [post]
 func (c *DashboardController) TextSearch() {
 	flash := web.NewFlash()
-	textKeywordForm := form.TextKeywordForm{}
+	textSearchForm := form.TextSearchForm{}
 	redirectPath := "/dashboard"
 
-	err := c.ParseForm(&textKeywordForm)
+	err := c.ParseForm(&textSearchForm)
 	if err != nil {
 		flash.Error(err.Error())
 	}
 
-	errors := textKeywordForm.Validate()
-	if len(errors) > 0 {
-		flash.Error(errors[0].Error())
+	textSearchForm.User = c.CurrentUser
+	err = textSearchForm.Create()
+	if err != nil {
+		flash.Error(err.Error())
 	} else {
-		positionList, err := models.GetAllPosition()
-		if err != nil {
-			flash.Error(err.Error())
-		} else {
-			searchKeyword := scraper.SearchKeywordService{User: c.CurrentUser, Keyword: textKeywordForm.Keyword}
-			searchKeyword.SetPositionList(positionList)
-			searchKeyword.Run()
-
-			flash.Success("Scraping a keyword :)")
-		}
+		flash.Success("Scraping a keyword :)")
 	}
 
 	flash.Store(&c.Controller)
@@ -119,7 +110,18 @@ func (c *DashboardController) FileSearch() {
 	flash := web.NewFlash()
 	redirectPath := "/dashboard"
 
-	flash.Success("Scraping all keywords :)")
+	file, fileHeader, err := c.GetFile("file")
+	if err != nil {
+		flash.Error("The specified file could not be uploaded :(")
+	} else {
+		fileForm := form.FileSearchForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
+		err = fileForm.Save()
+		if err != nil {
+			flash.Error(err.Error())
+		} else {
+			flash.Success("Scraping all keywords :)")
+		}
+	}
 
 	flash.Store(&c.Controller)
 	c.Redirect(redirectPath, http.StatusFound)

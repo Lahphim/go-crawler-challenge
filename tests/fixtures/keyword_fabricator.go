@@ -7,11 +7,12 @@ import (
 	"github.com/onsi/ginkgo"
 )
 
-func FabricateKeyword(keyword string, url string, user *models.User) (keywordRecord *models.Keyword) {
+func FabricateKeyword(keyword string, url string, status int, user *models.User) (keywordRecord *models.Keyword) {
 	keywordRecord = &models.Keyword{
 		User:    user,
 		Keyword: keyword,
 		Url:     url,
+		Status:  status,
 	}
 
 	ormer := orm.NewOrm()

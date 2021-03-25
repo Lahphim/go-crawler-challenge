@@ -3,7 +3,7 @@
 export const DEFAULT_SELECTOR = '.collapsible';
 
 const DEFAULT_OPTIONS = {
-    toggleClassname: 'collapsible',
+    toggleClassName: 'collapsible',
     suffixActiveClass: '--active'
 }
 
@@ -17,7 +17,7 @@ class Collapsible {
     constructor(elementRef, options) {
         // Initialise attributes
         this.options = Object.assign(DEFAULT_OPTIONS, options);
-        this.toggleClassname = `${this.options.toggleClassname}${this.options.suffixActiveClass}`;
+        this.toggleClassName = `${this.options.toggleClassName}${this.options.suffixActiveClass}`;
 
         this.elementRef = elementRef;
         this.elementToggle = this.elementRef.querySelector(`.${this.elementRef.dataset.collapsibleToggle}`);
@@ -28,10 +28,12 @@ class Collapsible {
 
     // Event Handlers
     onClickCollapsible() {
-        let activeElement = document.querySelector(`.${this.toggleClassname}`);
+        let activeElement = document.querySelector(`.${this.toggleClassName}`);
+
+        this.elementRef.classList.add(this.toggleClassName);
 
         if (activeElement) {
-            activeElement.classList.remove(this.toggleClassname);
+            activeElement.classList.remove(this.toggleClassName);
         }
     }
 

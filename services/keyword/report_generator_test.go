@@ -29,7 +29,7 @@ var _ = Describe("Keyword/ReportGenerator", func() {
 		Context("given a valid report", func() {
 			It("returns report details", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+				keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 				position := FabricatePosition(faker.Word(), faker.Word(), "normal")
 				page := FabricatePage(faker.Paragraph(), keyword)
 				link := FabricateLink(faker.URL(), keyword, position)
@@ -54,7 +54,7 @@ var _ = Describe("Keyword/ReportGenerator", func() {
 		Context("given an INVALID report", func() {
 			It("returns `nil` with an error message", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := FabricateKeyword(faker.Word(), faker.URL(), user)
+				keyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
 
 				reportGeneratorService := service.ReportGenerator{Keyword: keyword}
 				reportResult, err := reportGeneratorService.Generate()

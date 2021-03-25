@@ -43,8 +43,12 @@ body.dashboard.index {
       @apply hidden sm:table-cell;
     }
 
-    &__headline--fix-width {
-      width: 12.5rem;
+    .table__headline--fix-width-sm {
+      @apply w-12;
+    }
+
+    .table__headline--fix-width-lg {
+      @apply w-40 sm:w-72;
     }
   }
 }

@@ -47,9 +47,13 @@ func MakeRequest(method string, url string, body io.Reader) *http.Response {
 }
 
 // MakeAuthenticatedRequest makes a HTTP request and returns response by checking with the current session
-func MakeAuthenticatedRequest(method string, url string, body io.Reader, user *models.User) *http.Response {
+func MakeAuthenticatedRequest(method string, url string, headers http.Header, body io.Reader, user *models.User) *http.Response {
 	request := httpRequest(method, url, body)
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	if headers != nil {
+		request.Header = headers
+	}
 
 	responseRecorder := httptest.NewRecorder()
 	store, err := web.GlobalSessions.SessionStart(responseRecorder, request)

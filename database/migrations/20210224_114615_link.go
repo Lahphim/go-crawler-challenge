@@ -19,7 +19,7 @@ func init() {
 
 // Up : Run the migrations
 func (m *Link_20210224_114615) Up() {
-	m.SQL(`CREATE TABLE link
+	m.SQL(`CREATE TABLE "link"
 		(
 			id SERIAL,
 			keyword_id integer REFERENCES "keyword" ON DELETE CASCADE,

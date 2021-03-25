@@ -44,6 +44,31 @@ Visiting http://localhost:8080/ with a web browser will display the application.
 $ make test
 ````
 
+#### Background Tasks
+Using [tasks](https://beego.me/docs/module/toolbox.md#tasks) which is provided in the BeeGo's [toolbox](https://beego.me/docs/module/toolbox.md) module.
+The mechanism of this module is very similar to cron jobs 🍀.
+So we can create a task and assign the schedule of time to the task, then we can do whatever after the task is triggered by the time we set.
+
+Initializing all the tasks from here `conf/initializers/task.go` and addressing those tasks within this path: `/tasks/*_task.go`
+
+Example:
+Setting up the task to run in every minute (https://beego.me/docs/module/toolbox.md#spec-in-detail).
+```golang
+searchKeywordTask := SearchKeywordTask{Name: "search_keyword_task", Schedule: "0 * * * * *"}
+searchKeywordTask.Setup()
+
+...
+```
+
+Add the task then all of them will be executed with `StartTask()`.
+```golang
+task.AddTask(searchKeywordTask.Name, searchKeywordTask.Task)
+task.AddTask(***, ***)
+task.AddTask(***, ***)
+
+task.StartTask()
+```
+
 ## License
 This project is Copyright (c) 2014-2021 Nimble. It is free software,
 and may be redistributed under the terms specified in the [LICENSE] file.

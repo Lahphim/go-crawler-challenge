@@ -1,0 +1,13 @@
+.dot-status {
+  @apply block rounded m-auto w-2 h-2;
+
+  background-color: map-get($alert-color, 'error');
+
+  &[data-status="0"] {
+    background-color: map-get($alert-color, 'warning');
+  }
+
+  &[data-status="1"] {
+    background-color: map-get($alert-color, 'success');
+  }
+}

@@ -29,7 +29,7 @@ var _ = Describe("SessionController", func() {
 			It("redirects to root path", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")
 
-				response := MakeAuthenticatedRequest("GET", "/user/sign_in", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/user/sign_in", nil, nil, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -52,7 +52,7 @@ var _ = Describe("SessionController", func() {
 		Context("when the user has already signed in", func() {
 			It("redirects to root page", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")
-				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, nil, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))
@@ -61,7 +61,7 @@ var _ = Describe("SessionController", func() {
 
 			It("shows a success message", func() {
 				user := FabricateUser("dev@nimblehq.co", "password")
-				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, user)
+				response := MakeAuthenticatedRequest("GET", "/user/sign_out", nil, nil, user)
 				flash := GetFlashMessage(response.Cookies())
 
 				Expect(flash.Data["success"]).To(Equal("You have successfully signed out"))
@@ -209,7 +209,7 @@ var _ = Describe("SessionController", func() {
 					"password": "password",
 				})
 
-				response := MakeAuthenticatedRequest("POST", "/user/session", body, user)
+				response := MakeAuthenticatedRequest("POST", "/user/session", nil, body, user)
 				currentPath := GetCurrentPath(response)
 
 				Expect(response.StatusCode).To(Equal(http.StatusFound))

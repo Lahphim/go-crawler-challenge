@@ -1,13 +1,17 @@
 {{ if .Keywords }}
   <div class="list-keyword table table--zebra">
     <div class="table__row table__header">
+      <div class="table__headline table__headline--fix-width-sm">&nbsp;</div>
       <div class="table__headline">Keyword</div>
-      <div class="table__headline table__headline--fix-width">Created At</div>
+      <div class="table__headline table__headline--fix-width-lg">Created At</div>
     </div>
     {{ range $keyword := .Keywords }}
       <div class="table__row">
         <div class="table__cell">
-          <a href="{{ urlfor `ReportController.Show` `:keyword_id` $keyword.Id }}">{{ $keyword.Keyword }}</a>
+          <span class="dot-status" data-status="{{ $keyword.Status }}"></span>
+        </div>
+        <div class="table__cell">
+          <a class="link link--primary" href="{{ urlfor `ReportController.Show` `:keyword_id` $keyword.Id }}">{{ $keyword.Keyword }}</a>
         </div>
         <div class="table__cell">{{ $keyword.CreatedAt | toTimeAgo }}</div>
       </div>

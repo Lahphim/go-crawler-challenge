@@ -30,8 +30,8 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			It("returns a keyword record", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -45,7 +45,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				keywordRecord, _ := createKeywordResultService.Run()
@@ -57,8 +56,8 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			It("does NOT produce any errors", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -72,7 +71,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				_, err := createKeywordResultService.Run()
@@ -83,8 +81,8 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			It("saves keyword to keyword table", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -98,7 +96,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				_, _ = createKeywordResultService.Run()
@@ -112,7 +109,7 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 
 				Expect(keywordRecord).NotTo(BeNil())
 				Expect(keywordRecord.Id).To(BeNumerically(">", 0))
-				Expect(keywordRecord.Keyword).To(Equal(keyword))
+				Expect(keywordRecord.Keyword).To(Equal(keyword.Keyword))
 
 				Expect(keywordRecord.User.Id).To(Equal(user.Id))
 			})
@@ -120,8 +117,8 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			It("saves raw HTML to page table", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -135,7 +132,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				keywordRecord, _ := createKeywordResultService.Run()
@@ -157,8 +153,8 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			It("saves all links to link table", func() {
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -172,7 +168,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					Url:      url,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				keywordRecord, _ := createKeywordResultService.Run()
@@ -193,13 +188,12 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			})
 		})
 
-		Context("given INVALID keyword", func() {
+		Context("given INVALID url", func() {
 			It("does NOT return a keyword record", func() {
-				overLengthKeyword := faker.Word() + strings.Repeat("*", 500)
-
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				keyword := FabricateKeyword("keyword"+strings.Repeat("*", 120), "", 0, user)
+				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -209,11 +203,10 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 				}
 
 				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  overLengthKeyword,
-					Url:      url,
+					Keyword:  keyword,
+					Url:      overLengthUrl,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				keywordRecord, _ := createKeywordResultService.Run()
@@ -222,11 +215,10 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			})
 
 			It("returns an error", func() {
-				overLengthKeyword := faker.Word() + strings.Repeat("*", 500)
-
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				keyword := FabricateKeyword("keyword"+strings.Repeat("*", 120), "", 0, user)
+				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -236,11 +228,10 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 				}
 
 				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  overLengthKeyword,
-					Url:      url,
+					Keyword:  keyword,
+					Url:      overLengthUrl,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				_, err := createKeywordResultService.Run()
@@ -249,11 +240,10 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 			})
 
 			It("does NOT save to any tables", func() {
-				overLengthKeyword := faker.Word() + strings.Repeat("*", 500)
-
 				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
 				user := FabricateUser(faker.Email(), faker.Password())
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", overLengthKeyword)
+				keyword := FabricateKeyword("keyword"+strings.Repeat("*", 120), "", 0, user)
+				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				linkList := []Link{
 					{
@@ -263,18 +253,15 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 				}
 
 				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  overLengthKeyword,
-					Url:      url,
+					Keyword:  keyword,
+					Url:      overLengthUrl,
 					LinkList: linkList,
 					RawHtml:  rawHtml,
-					User:     user,
 				}
 
 				_, _ = createKeywordResultService.Run()
 
 				ormer := orm.NewOrm()
-				keywordRecord := &Keyword{}
-				keywordErr := ormer.QueryTable(Keyword{}).RelatedSel().One(keywordRecord)
 
 				pageRecord := &Page{}
 				pageErr := ormer.QueryTable(Page{}).RelatedSel().One(pageRecord)
@@ -282,106 +269,6 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 				linkRecord := &Link{}
 				linkErr := ormer.QueryTable(Link{}).RelatedSel().One(linkRecord)
 
-				Expect(keywordErr).NotTo(BeNil())
-				Expect(keywordErr.Error()).To(ContainSubstring("no row found"))
-				Expect(pageErr).NotTo(BeNil())
-				Expect(pageErr.Error()).To(ContainSubstring("no row found"))
-				Expect(linkErr).NotTo(BeNil())
-				Expect(linkErr.Error()).To(ContainSubstring("no row found"))
-			})
-		})
-
-		Context("given INVALID keyword", func() {
-			It("does NOT return a keyword record", func() {
-				keyword := "keyword" + strings.Repeat("*", 120)
-				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
-
-				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
-				user := FabricateUser(faker.Email(), faker.Password())
-				rawHtml := faker.Paragraph()
-				linkList := []Link{
-					{
-						Url:      fmt.Sprintf("https://www.google.com/search?q=%s", faker.Word()),
-						Position: position,
-					},
-				}
-
-				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  keyword,
-					Url:      overLengthUrl,
-					LinkList: linkList,
-					RawHtml:  rawHtml,
-					User:     user,
-				}
-
-				keywordRecord, _ := createKeywordResultService.Run()
-
-				Expect(keywordRecord).To(BeNil())
-			})
-
-			It("returns an error", func() {
-				keyword := "keyword" + strings.Repeat("*", 120)
-				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
-
-				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
-				user := FabricateUser(faker.Email(), faker.Password())
-				rawHtml := faker.Paragraph()
-				linkList := []Link{
-					{
-						Url:      fmt.Sprintf("https://www.google.com/search?q=%s", faker.Word()),
-						Position: position,
-					},
-				}
-
-				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  keyword,
-					Url:      overLengthUrl,
-					LinkList: linkList,
-					RawHtml:  rawHtml,
-					User:     user,
-				}
-
-				_, err := createKeywordResultService.Run()
-
-				Expect(err).NotTo(BeNil())
-			})
-
-			It("does NOT save to any tables", func() {
-				keyword := "keyword" + strings.Repeat("*", 120)
-				overLengthUrl := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
-
-				position := FabricatePosition(faker.Word(), faker.Word(), faker.Word())
-				user := FabricateUser(faker.Email(), faker.Password())
-				rawHtml := faker.Paragraph()
-				linkList := []Link{
-					{
-						Url:      fmt.Sprintf("https://www.google.com/search?q=%s", faker.Word()),
-						Position: position,
-					},
-				}
-
-				createKeywordResultService := service.CreateKeywordResult{
-					Keyword:  keyword,
-					Url:      overLengthUrl,
-					LinkList: linkList,
-					RawHtml:  rawHtml,
-					User:     user,
-				}
-
-				_, _ = createKeywordResultService.Run()
-
-				ormer := orm.NewOrm()
-				keywordRecord := &Keyword{}
-				keywordErr := ormer.QueryTable(Keyword{}).RelatedSel().One(keywordRecord)
-
-				pageRecord := &Page{}
-				pageErr := ormer.QueryTable(Page{}).RelatedSel().One(pageRecord)
-
-				linkRecord := &Link{}
-				linkErr := ormer.QueryTable(Link{}).RelatedSel().One(linkRecord)
-
-				Expect(keywordErr).NotTo(BeNil())
-				Expect(keywordErr.Error()).To(ContainSubstring("no row found"))
 				Expect(pageErr).NotTo(BeNil())
 				Expect(pageErr.Error()).To(ContainSubstring("no row found"))
 				Expect(linkErr).NotTo(BeNil())
@@ -394,14 +281,13 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 		Context("given valid params", func() {
 			It("does NOT produce any errors", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
-				keyword := faker.Word()
-				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+				keyword := FabricateKeyword(faker.Word(), "", 0, user)
+				url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 				rawHtml := faker.Paragraph()
 				createKeywordResultService := service.CreateKeywordResult{
 					Keyword: keyword,
 					Url:     url,
 					RawHtml: rawHtml,
-					User:    user,
 				}
 
 				formValidation := validation.Validation{}
@@ -412,41 +298,17 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 		})
 
 		Context("given INVALID params", func() {
-			Context("given NO user exists", func() {
-				It("produces an error", func() {
-					notExistingUser := &User{Base: Base{Id: 1}}
-
-					keyword := faker.Word()
-					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
-					rawHtml := faker.Paragraph()
-					createKeywordResultService := service.CreateKeywordResult{
-						Keyword: keyword,
-						Url:     url,
-						RawHtml: rawHtml,
-						User:    notExistingUser,
-					}
-
-					formValidation := validation.Validation{}
-					createKeywordResultService.Valid(&formValidation)
-
-					Expect(len(formValidation.Errors)).To(Equal(1))
-					Expect(formValidation.Errors[0].Key).To(Equal("User"))
-					Expect(formValidation.Errors[0].Message).To(Equal("User does not exist"))
-				})
-			})
-
 			Context("given an INVALID URL", func() {
 				It("produces an error", func() {
 					invalidUrl := "INVALID_URL"
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := faker.Word()
+					keyword := FabricateKeyword(faker.Word(), "", 0, user)
 					rawHtml := faker.Paragraph()
 					createKeywordResultService := service.CreateKeywordResult{
 						Keyword: keyword,
 						Url:     invalidUrl,
 						RawHtml: rawHtml,
-						User:    user,
 					}
 
 					formValidation := validation.Validation{}
@@ -465,15 +327,14 @@ var _ = Describe("Keyword/CreateKeywordResult", func() {
 					}
 
 					user := FabricateUser(faker.Email(), faker.Password())
-					keyword := faker.Word()
-					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword)
+					keyword := FabricateKeyword(faker.Word(), "", 0, user)
+					url := fmt.Sprintf("https://www.google.com/search?q=%s&lr=lang_en", keyword.Keyword)
 					rawHtml := faker.Paragraph()
 					createKeywordResultService := service.CreateKeywordResult{
 						Keyword:  keyword,
 						Url:      url,
 						RawHtml:  rawHtml,
 						LinkList: invalidLinkList,
-						User:     user,
 					}
 
 					formValidation := validation.Validation{}
