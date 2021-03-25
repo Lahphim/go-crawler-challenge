@@ -38,9 +38,21 @@ body.dashboard.index {
   }
 
   .list-keyword.table {
-    &__cell:last-of-type,
-    &__headline:last-of-type {
+    @apply mt-0;
+
+    .table__cell:last-of-type,
+    .table__headline:last-of-type {
       @apply hidden sm:table-cell;
+    }
+
+    .table__headline {
+      &:first-of-type {
+        @apply rounded-tl-none;
+      }
+
+      &:last-of-type {
+        @apply rounded-tr-none;
+      }
     }
 
     .table__headline--fix-width-sm {
@@ -50,5 +62,9 @@ body.dashboard.index {
     .table__headline--fix-width-lg {
       @apply w-40 sm:w-72;
     }
+  }
+
+  .filter-keyword {
+    @apply mt-8 pb-0 rounded-bl-none rounded-br-none;
   }
 }

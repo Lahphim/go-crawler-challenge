@@ -1,0 +1,6 @@
+<div class="filter-keyword">
+  <form action="{{ urlfor `DashboardController.Index` }}" method="get">
+    <input class="filter-keyword__form-input" type="text" name="keyword" value="{{ .Keyword }}"
+           placeholder="Filter keywords here...">
+  </form>
+</div>
