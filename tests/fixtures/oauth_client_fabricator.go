@@ -7,17 +7,17 @@ import (
 	. "github.com/onsi/ginkgo"
 )
 
-func FabricateOauthClient(id string, secret string, domain string) (oauth_client *models.Client) {
-	oauth_client = &models.Client{
+func FabricateOauthClient(id string, secret string, domain string) (oauthClient *models.Client) {
+	oauthClient = &models.Client{
 		ID:     id,
 		Secret: secret,
 		Domain: domain,
 	}
 
-	err := ClientStore.Create(oauth_client)
+	err := ClientStore.Create(oauthClient)
 	if err != nil {
-		Fail("Add page failed: " + err.Error())
+		Fail("Add OauthClient failed: " + err.Error())
 	}
 
-	return oauth_client
+	return oauthClient
 }

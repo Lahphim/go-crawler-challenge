@@ -131,8 +131,7 @@ var _ = Describe("OauthClientController", func() {
 							matches = append(matches, value)
 						})
 
-						Expect(len(matches)).To(BeNumerically("==", 1))
-						Expect(matches[0]).To(Equal(""))
+						Expect(len(matches)).To(BeZero())
 					})
 
 					It("does NOT show the `client_secret", func() {
@@ -156,8 +155,7 @@ var _ = Describe("OauthClientController", func() {
 							matches = append(matches, value)
 						})
 
-						Expect(len(matches)).To(BeNumerically("==", 1))
-						Expect(matches[0]).To(Equal(""))
+						Expect(len(matches)).To(BeZero())
 					})
 				})
 			})

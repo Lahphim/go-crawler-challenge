@@ -7,15 +7,19 @@
       <strong>Generate a new one :P</strong>
     </legend>
 
-    <div class="form__group">
-      <label class="form__label" for="client_id">id: </label>
-      <input class="form__input" type="text" id="client_id" value="{{ .ClientId }}" placeholder="* * * * * * * *" readonly>
-    </div>
+    {{ if .ClientId }}
+      <div class="form__group">
+        <label class="form__label" for="client_id">id: </label>
+        <input class="form__input" type="text" id="client_id" value="{{ .ClientId }}" placeholder="* * * * * * * *" readonly>
+      </div>
+    {{ end }}
 
-    <div class="form__group">
-      <label class="form__label" for="client_secret">secret: </label>
-      <input class="form__input" type="text" id="client_secret" value="{{ .ClientSecret }}" placeholder="* * * * * * * *" readonly>
-    </div>
+    {{ if .ClientSecret }}
+      <div class="form__group">
+        <label class="form__label" for="client_secret">secret: </label>
+        <input class="form__input" type="text" id="client_secret" value="{{ .ClientSecret }}" placeholder="* * * * * * * *" readonly>
+      </div>
+    {{ end }}
 
     <div class="form__group">
       <button type="submit" class="button button--primary">Generate</button>
