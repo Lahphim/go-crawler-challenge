@@ -24,6 +24,7 @@ type GeneratorForm struct {
 
 var currentUser *models.User
 
+// Valid handles some custom form validation about validating existing client, grant type and user
 func (form *GeneratorForm) Valid(validation *validation.Validation) {
 	_, err := form.validateClient()
 	if err != nil {
@@ -58,6 +59,8 @@ func (form *GeneratorForm) Valid(validation *validation.Validation) {
 	currentUser = user
 }
 
+// Generate handles generating a new token.
+// If there are some invalid cases, it will returns a first error to the controller.
 func (form *GeneratorForm) Generate() (authToken oauth2.TokenInfo, err error) {
 	validator := validation.Validation{}
 

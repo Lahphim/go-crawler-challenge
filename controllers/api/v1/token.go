@@ -10,14 +10,21 @@ import (
 	"github.com/google/jsonapi"
 )
 
+// TokenController operations for Token
 type TokenController struct {
 	BaseController
 }
 
+// URLMapping maps token controller actions to functions
 func (c *TokenController) URLMapping() {
 	c.Mapping("Create", c.Create)
 }
 
+// Create handles token generator by authenticate some client credentials and user credentials
+// @Title Create
+// @Description generate a token information
+// @Success 200
+// @router /api/v1/oauth/token [post]
 func (c *TokenController) Create() {
 	credential := &models.Credential{}
 	err := jsonapi.UnmarshalPayload(c.Ctx.Request.Body, credential)
