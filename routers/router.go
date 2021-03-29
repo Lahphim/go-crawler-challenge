@@ -2,6 +2,7 @@ package routers
 
 import (
 	"go-crawler-challenge/controllers"
+	apiv1controllers "go-crawler-challenge/controllers/api/v1"
 
 	"github.com/beego/beego/v2/server/web"
 )
@@ -28,4 +29,12 @@ func init() {
 	web.Router("/user/sign_in", &controllers.SessionController{}, "get:New")
 	web.Router("/user/sign_out", &controllers.SessionController{}, "get:Delete")
 	web.Router("/user/session", &controllers.SessionController{}, "post:Create")
+
+	// API
+	// V1
+	namespaceV1 := web.NewNamespace("/api/v1",
+		web.NSRouter("/oauth/token", &apiv1controllers.TokenController{}, "post:Create"),
+	)
+
+	web.AddNamespace(namespaceV1)
 }
