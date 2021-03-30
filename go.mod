@@ -22,6 +22,7 @@ require (
 	github.com/onsi/gomega v1.10.5
 	github.com/vgarvardt/go-oauth2-pg/v4 v4.1.0
 	github.com/vgarvardt/go-pg-adapter v1.0.0
+	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect

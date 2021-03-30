@@ -61,10 +61,7 @@ func SetUpOauth2() {
 func internalErrorHandler(err error) (response *errors.Response) {
 	logs.Critical("Oauth server internal error: %v", err.Error())
 
-	response = errors.NewResponse(errors.ErrInvalidClient, errors.StatusCodes[errors.ErrInvalidClient])
-	response.Description = errors.Descriptions[errors.ErrInvalidClient]
-
-	return response
+	return
 }
 
 func responseErrorHandler(response *errors.Response) {

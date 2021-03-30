@@ -7,6 +7,15 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:TokenController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:TokenController"],
+		beego.ControllerComments{
+			Method:           "Create",
+			Router:           "/api/v1/oauth/token",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
 		beego.ControllerComments{
 			Method:           "Index",

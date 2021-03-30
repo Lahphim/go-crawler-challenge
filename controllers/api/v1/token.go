@@ -1,13 +1,14 @@
 package apiv1controllers
 
 import (
-	. "go-crawler-challenge/controllers/api"
-	apiforms "go-crawler-challenge/forms/api/token"
-	"go-crawler-challenge/models"
-	v1serializers "go-crawler-challenge/serializers/v1"
+	"fmt"
+	"net/http"
 
-	"github.com/beego/beego/v2/core/logs"
-	"github.com/google/jsonapi"
+	. "go-crawler-challenge/controllers/api"
+	form "go-crawler-challenge/forms/session"
+	"go-crawler-challenge/services/oauth"
+
+	"github.com/go-oauth2/oauth2/v4/errors"
 )
 
 // TokenController operations for Token
@@ -26,40 +27,24 @@ func (c *TokenController) URLMapping() {
 // @Success 200
 // @router /api/v1/oauth/token [post]
 func (c *TokenController) Create() {
-	credential := &models.Credential{}
-	err := jsonapi.UnmarshalPayload(c.Ctx.Request.Body, credential)
+	oauth.ServerOauth.SetPasswordAuthorizationHandler(passwordAuthorizationHandler)
+
+	err := oauth.ServerOauth.HandleTokenRequest(c.Ctx.ResponseWriter, c.Ctx.Request)
 	if err != nil {
-		err = c.RenderGenericError(err)
-		if err != nil {
-			logs.Error("Generic error: ", err.Error())
-		}
-	} else {
-		tokenGeneratorForm := apiforms.GeneratorForm{
-			ClientId:     credential.ClientId,
-			ClientSecret: credential.ClientSecret,
-			GrantType:    credential.GrantType,
-			Email:        credential.Email,
-			Password:     credential.Password,
-		}
-		authToken, err := tokenGeneratorForm.Generate()
-		if err != nil {
-			err = c.RenderUnauthorizedError(err)
-			if err != nil {
-				logs.Error("Generic error: ", err.Error())
-			}
-		} else {
-			tokenInformationSerializer := v1serializers.TokenInformation{
-				AccessToken:  authToken.GetAccess(),
-				RefreshToken: authToken.GetRefresh(),
-				Expiry:       authToken.GetAccessExpiresIn(),
-			}
-			err = c.RenderJSON(tokenInformationSerializer.Data())
-			if err != nil {
-				err = c.RenderGenericError(err)
-				if err != nil {
-					logs.Error("Generic error: ", err.Error())
-				}
-			}
-		}
+		http.Error(c.Ctx.ResponseWriter, err.Error(), http.StatusForbidden)
 	}
+}
+
+func passwordAuthorizationHandler(email string, password string) (string, error) {
+	authenticationForm := form.AuthenticationForm{
+		Email:    email,
+		Password: password,
+	}
+
+	user, errorList := authenticationForm.Authenticate()
+	if len(errorList) > 0 {
+		return "", errors.ErrInvalidClient
+	}
+
+	return fmt.Sprint(user.Id), nil
 }
