@@ -55,7 +55,6 @@ func (c *OauthClientController) New() {
 
 	flash.Store(&c.Controller)
 	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
-	c.Layout = "layouts/application.html"
 	c.TplName = "oauth_client/new.html"
 }
 
@@ -69,8 +68,7 @@ func (c *OauthClientController) Create() {
 	flash := web.NewFlash()
 	redirectPath := "/oauth_client"
 
-	domain := c.Ctx.Request.Host
-	serviceOauth := service.ClientGenerator{Domain: domain}
+	serviceOauth := service.ClientGenerator{}
 	clientId, err := serviceOauth.Generate()
 	if err != nil {
 		flash.Error(err.Error())

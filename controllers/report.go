@@ -58,7 +58,6 @@ func (c *ReportController) Show() {
 	}
 
 	if hasReport {
-		c.Layout = "layouts/application.html"
 		c.TplName = "report/index.html"
 	} else {
 		flash.Error("Report not found!")

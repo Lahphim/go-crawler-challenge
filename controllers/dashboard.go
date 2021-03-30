@@ -72,7 +72,6 @@ func (c *DashboardController) Index() {
 
 	c.Data["Keyword"] = keyword
 	c.Data["XSRFForm"] = template.HTML(c.XSRFFormHTML())
-	c.Layout = "layouts/application.html"
 	c.TplName = "dashboard/index.html"
 }
 

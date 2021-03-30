@@ -7,9 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type ClientGenerator struct {
-	Domain string
-}
+type ClientGenerator struct{}
 
 func (service *ClientGenerator) Generate() (id string, err error) {
 	clientId := uuid.New().String()
@@ -21,7 +19,6 @@ func (service *ClientGenerator) Generate() (id string, err error) {
 	client := &models.Client{
 		ID:     clientId,
 		Secret: clientSecret,
-		Domain: service.Domain,
 	}
 	err = ClientStore.Create(client)
 	if err != nil {

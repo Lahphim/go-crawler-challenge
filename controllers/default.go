@@ -29,6 +29,5 @@ func (c *MainController) actionPolicyMapping() {
 func (c *MainController) Index() {
 	web.ReadFromRequest(&c.Controller)
 
-	c.Layout = "layouts/application.html"
 	c.TplName = "main/index.html"
 }

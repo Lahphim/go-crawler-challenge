@@ -7,11 +7,10 @@ import (
 	. "github.com/onsi/ginkgo"
 )
 
-func FabricateOauthClient(id string, secret string, domain string) (oauthClient *models.Client) {
+func FabricateOauthClient(id string, secret string) (oauthClient *models.Client) {
 	oauthClient = &models.Client{
 		ID:     id,
 		Secret: secret,
-		Domain: domain,
 	}
 
 	err := ClientStore.Create(oauthClient)

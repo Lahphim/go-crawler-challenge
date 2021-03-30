@@ -32,7 +32,7 @@ var _ = Describe("OauthClientController", func() {
 				Context("given a valid param", func() {
 					It("renders with status 200", func() {
 						user := FabricateUser(faker.Email(), faker.Password())
-						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password(), faker.URL())
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 						response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/oauth_client?client_id=%v", oauthClient.GetID()), nil, nil, user)
 
 						Expect(response.StatusCode).To(Equal(http.StatusOK))
@@ -41,7 +41,7 @@ var _ = Describe("OauthClientController", func() {
 					It("shows the `client_id`", func() {
 						user := FabricateUser(faker.Email(), faker.Password())
 						clientId := faker.UUIDHyphenated()
-						oauthClient := FabricateOauthClient(clientId, faker.Password(), faker.URL())
+						oauthClient := FabricateOauthClient(clientId, faker.Password())
 						response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/oauth_client?client_id=%v", oauthClient.GetID()), nil, nil, user)
 						err := response.Body.Close()
 						if err != nil {
@@ -67,7 +67,7 @@ var _ = Describe("OauthClientController", func() {
 					It("shows the `client_secret`", func() {
 						user := FabricateUser(faker.Email(), faker.Password())
 						clientSecret := faker.Password()
-						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), clientSecret, faker.URL())
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), clientSecret)
 						response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/oauth_client?client_id=%v", oauthClient.GetID()), nil, nil, user)
 						err := response.Body.Close()
 						if err != nil {

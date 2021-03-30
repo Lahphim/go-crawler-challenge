@@ -7,7 +7,6 @@ import (
 	"go-crawler-challenge/services/oauth"
 	. "go-crawler-challenge/tests"
 
-	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -20,7 +19,7 @@ var _ = Describe("Oauth/ClientGenerator", func() {
 
 	Describe("#Generate", func() {
 		It("returns an oauth client id", func() {
-			service := oauth.ClientGenerator{Domain: faker.URL()}
+			service := oauth.ClientGenerator{}
 			oauthClientId, err := service.Generate()
 			if err != nil {
 				Fail(fmt.Sprintf("Generate an oauth client failed: %v", err.Error()))
@@ -31,7 +30,7 @@ var _ = Describe("Oauth/ClientGenerator", func() {
 		})
 
 		It("creates a new oauth client record", func() {
-			service := oauth.ClientGenerator{Domain: faker.URL()}
+			service := oauth.ClientGenerator{}
 			oauthClientId, err := service.Generate()
 			if err != nil {
 				Fail(fmt.Sprintf("Generate an oauth client failed: %v", err.Error()))

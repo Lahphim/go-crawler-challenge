@@ -123,6 +123,7 @@ func (c *BaseController) applyCustomLayout() {
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["FlashMessage"] = "shared/_alert.html"
 	c.LayoutSections["HeaderContent"] = "shared/_header.html"
+	c.Layout = "layouts/application.html"
 }
 
 func (c *BaseController) initActionPolicy() {
