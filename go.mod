@@ -9,7 +9,6 @@ require (
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-oauth2/oauth2/v4 v4.2.0
 	github.com/gocolly/colly/v2 v2.1.0
-	github.com/google/jsonapi v0.0.0-20210306203318-b10ff4bf785b
 	github.com/google/uuid v1.1.1
 	github.com/iancoleman/strcase v0.1.3
 	github.com/jackc/pgx/v4 v4.10.1
