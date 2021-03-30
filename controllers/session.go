@@ -38,7 +38,7 @@ func (c *SessionController) actionPolicyMapping() {
 // @Title New
 // @Description show a sign-in form
 // @Success 200
-// @router / [get]
+// @router /user/sign_in [get]
 func (c *SessionController) New() {
 	web.ReadFromRequest(&c.Controller)
 
@@ -52,7 +52,7 @@ func (c *SessionController) New() {
 // @Description create a session
 // @Success 302 redirect to root path with success message
 // @Failure 302 redirect to sign-in path with error message
-// @router / [post]
+// @router /user/session [post]
 func (c *SessionController) Create() {
 	flash := web.NewFlash()
 	authenticationForm := form.AuthenticationForm{}
@@ -82,7 +82,7 @@ func (c *SessionController) Create() {
 // @Description revoke a session
 // @Success 302 redirect to root path with success message
 // @Failure 302 redirect to current path with error message
-// @router / [get]
+// @router /user/sign_out [get]
 func (c *SessionController) Delete() {
 	flash := web.NewFlash()
 	redirectPath := "/"

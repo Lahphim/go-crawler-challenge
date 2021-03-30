@@ -1,4 +1,4 @@
-package keyword_test
+package oauth_test
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestKeyword(t *testing.T) {
+func TestOauth(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Services/Keyword Suite")
+	RunSpecs(t, "Services/Oauth Suite")
 }

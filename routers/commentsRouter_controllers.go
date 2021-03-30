@@ -10,7 +10,7 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
 		beego.ControllerComments{
 			Method:           "Index",
-			Router:           "/",
+			Router:           "/dashboard",
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -19,7 +19,7 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
 		beego.ControllerComments{
 			Method:           "TextSearch",
-			Router:           "/",
+			Router:           "/dashboard/search",
 			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -28,7 +28,7 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:DashboardController"],
 		beego.ControllerComments{
 			Method:           "FileSearch",
-			Router:           "/",
+			Router:           "/dashboard/upload",
 			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -43,19 +43,28 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ReportController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ReportController"],
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:OauthClientController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:OauthClientController"],
 		beego.ControllerComments{
-			Method:           "Show",
-			Router:           "/",
+			Method:           "New",
+			Router:           "/oauth_client",
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:OauthClientController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:OauthClientController"],
 		beego.ControllerComments{
-			Method:           "New",
-			Router:           "/",
+			Method:           "Create",
+			Router:           "/oauth_client",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:ReportController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:ReportController"],
+		beego.ControllerComments{
+			Method:           "Show",
+			Router:           "/report/:keyword_id",
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -64,8 +73,17 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
 		beego.ControllerComments{
 			Method:           "Create",
-			Router:           "/",
+			Router:           "/user/session",
 			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
+		beego.ControllerComments{
+			Method:           "New",
+			Router:           "/user/sign_in",
+			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
@@ -73,16 +91,7 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:SessionController"],
 		beego.ControllerComments{
 			Method:           "Delete",
-			Router:           "/",
-			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"],
-		beego.ControllerComments{
-			Method:           "New",
-			Router:           "/",
+			Router:           "/user/sign_out",
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -91,8 +100,17 @@ func init() {
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "Create",
-			Router:           "/",
+			Router:           "/user/create",
 			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers:UserController"],
+		beego.ControllerComments{
+			Method:           "New",
+			Router:           "/user/sign_up",
+			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})

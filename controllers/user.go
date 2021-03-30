@@ -35,7 +35,7 @@ func (c *UserController) actionPolicyMapping() {
 // @Title New
 // @Description show a new user form
 // @Success 200
-// @router / [get]
+// @router /user/sign_up [get]
 func (c *UserController) New() {
 	web.ReadFromRequest(&c.Controller)
 
@@ -49,7 +49,7 @@ func (c *UserController) New() {
 // @Description create a new unique user
 // @Success 302 redirect to the sign-up page
 // @Failure 302 redirect to the sign-up page and print some error messages
-// @router / [post]
+// @router /user/create [post]
 func (c *UserController) Create() {
 	flash := web.NewFlash()
 	registrationForm := form.RegistrationForm{}

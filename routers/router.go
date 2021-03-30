@@ -9,6 +9,9 @@ import (
 func init() {
 	web.Router("/", &controllers.MainController{}, "get:Index")
 
+	// OAuth client
+	web.Router("/oauth_client", &controllers.OauthClientController{}, "get:New;post:Create")
+
 	// Dashboard
 	web.Router("/dashboard", &controllers.DashboardController{}, "get:Index")
 	web.Router("/dashboard/search", &controllers.DashboardController{}, "post:TextSearch")
