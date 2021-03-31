@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"time"
 
+	form "go-crawler-challenge/forms/session"
 	"go-crawler-challenge/services/oauth"
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
+	"github.com/go-oauth2/oauth2/v4/errors"
 	"github.com/go-oauth2/oauth2/v4/manage"
 	"github.com/go-oauth2/oauth2/v4/server"
 	"github.com/jackc/pgx/v4"
@@ -50,7 +52,22 @@ func SetUpOauth2() {
 	oauthServer := server.NewDefaultServer(manager)
 	oauthServer.SetAllowGetAccessRequest(true)
 	oauthServer.SetClientInfoHandler(server.ClientFormHandler)
+	oauthServer.SetPasswordAuthorizationHandler(passwordAuthorizationHandler)
 
 	oauth.ServerOauth = oauthServer
 	oauth.ClientStore = clientStore
+}
+
+func passwordAuthorizationHandler(email string, password string) (string, error) {
+	authenticationForm := form.AuthenticationForm{
+		Email:    email,
+		Password: password,
+	}
+
+	user, errorList := authenticationForm.Authenticate()
+	if len(errorList) > 0 {
+		return "", errors.ErrInvalidClient
+	}
+
+	return fmt.Sprint(user.Id), nil
 }
