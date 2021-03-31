@@ -128,11 +128,12 @@ var _ = Describe("TokenController", func() {
 			})
 
 			Context("given INVALID client credentials", func() {
-				It("returns status 500", func() {
+				It("returns status 401", func() {
+					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					password := faker.Password()
 					user := FabricateUser(faker.Email(), password)
 					form := url.Values{
-						"client_id":     {"INVALID"},
+						"client_id":     {oauthClient.ID},
 						"client_secret": {"INVALID"},
 						"grant_type":    {"password"},
 						"username":      {user.Email},
@@ -142,14 +143,15 @@ var _ = Describe("TokenController", func() {
 
 					response := MakeRequest("POST", "/api/v1/oauth/token", body)
 
-					Expect(response.StatusCode).To(Equal(http.StatusInternalServerError))
+					Expect(response.StatusCode).To(Equal(http.StatusUnauthorized))
 				})
 
 				It("returns error information", func() {
+					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					password := faker.Password()
 					user := FabricateUser(faker.Email(), password)
 					form := url.Values{
-						"client_id":     {"INVALID"},
+						"client_id":     {oauthClient.ID},
 						"client_secret": {"INVALID"},
 						"grant_type":    {"password"},
 						"username":      {user.Email},
