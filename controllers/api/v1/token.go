@@ -15,9 +15,19 @@ type TokenController struct {
 	BaseController
 }
 
+// NestPrepare prepares some configurations to the controller
+func (c *TokenController) NestPrepare() {
+	c.actionPolicyMapping()
+}
+
 // URLMapping maps token controller actions to functions
 func (c *TokenController) URLMapping() {
 	c.Mapping("Create", c.Create)
+}
+
+// actionPolicyMapping maps token controller actions to policies
+func (c *TokenController) actionPolicyMapping() {
+	c.MappingPolicy("Create", Policy{})
 }
 
 // Create handles token generator by authenticate some client credentials and user credentials

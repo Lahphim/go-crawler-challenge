@@ -3,28 +3,34 @@ package apiv1controllers
 import (
 	. "go-crawler-challenge/controllers/api"
 	form "go-crawler-challenge/forms/keyword"
-
-	"github.com/beego/beego/v2/core/logs"
-
-	"github.com/go-oauth2/oauth2/v4/errors"
+	v1serializers "go-crawler-challenge/serializers/v1"
 )
 
+// KeywordController operations for Keyword
 type KeywordController struct {
 	BaseController
 }
 
+// NestPrepare prepares some configurations to the controller
 func (c *KeywordController) NestPrepare() {
 	c.actionPolicyMapping()
 }
 
+// URLMapping maps keyword controller actions to functions
 func (c *KeywordController) URLMapping() {
 	c.Mapping("TextSearch", c.TextSearch)
 }
 
+// actionPolicyMapping maps keyword controller actions to policies
 func (c *KeywordController) actionPolicyMapping() {
-	//c.MappingPolicy("TextSearch", Policy{RequireAuthenticatedUser: true})
+	c.MappingPolicy("TextSearch", Policy{RequireAuthenticatedUser: true})
 }
 
+// TextSearch handles keyword for scrapping
+// @Title TextSearch
+// @Description create a new scrapping result by plain text
+// @Success 200
+// @router /api/v1/keyword/search [post]
 func (c *KeywordController) TextSearch() {
 	textSearchForm := form.TextSearchForm{}
 
@@ -33,30 +39,15 @@ func (c *KeywordController) TextSearch() {
 		return
 	}
 
-	//err = textSearchForm.Create()
-	//if err != nil {
-	//	return
-	//} else {
-	//	return
-	//}
-
-	type mystruct struct {
-		FieldOne string `json:"field_one"`
-	}
-
-	_ = mystruct{FieldOne: textSearchForm.Keyword}
-
-	err = c.RenderGenericError(errors.New("esjklfjsdklfjdksl"))
+	textSearchForm.User = c.CurrentUser
+	err = textSearchForm.Create()
 	if err != nil {
-		logs.Error("Generic error: ", err.Error())
+		c.RenderGenericError(err)
+
+		return
 	}
 
-	//response := mystruct{FieldOne: textSearchForm.Keyword}
-	//
-	//
-	//
-	//c.Ctx.Output.Header("Content-Type", ContentType)
-	//c.Ctx.Output.Status = 500
-	//c.Data["json"] = &response
-	//c.ServeJSON()
+	serializer := v1serializers.KeywordScraper{Message: "Scraping a keyword :)"}
+
+	c.RenderJSON(serializer.Data())
 }

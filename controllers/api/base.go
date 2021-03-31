@@ -1,21 +1,16 @@
 package apicontrollers
 
 import (
-	"fmt"
-	"go-crawler-challenge/models"
-	"go-crawler-challenge/services/oauth"
 	"net/http"
 	"strconv"
 
-	"github.com/go-oauth2/oauth2/v4/errors"
-
-	"github.com/go-oauth2/oauth2/v4"
+	"go-crawler-challenge/models"
+	"go-crawler-challenge/services/oauth"
 
 	"github.com/beego/beego/v2/server/web"
+	"github.com/go-oauth2/oauth2/v4"
 	"github.com/google/jsonapi"
 )
-
-const ContentType = "application/vnd.api+json; charset=utf-8"
 
 type NestPreparer interface {
 	NestPrepare()
@@ -47,53 +42,6 @@ func (c *BaseController) Prepare() {
 
 func (c *BaseController) MappingPolicy(method string, policy Policy) {
 	c.actionPolicy[method] = policy
-}
-
-func (c *BaseController) handleAuthorizeRequest() {
-	_, actionName := c.GetControllerAndAction()
-	actionPolicy := c.actionPolicy[actionName]
-
-	if actionPolicy.RequireAuthenticatedUser {
-		if c.ensureBearerToken() {
-			currentUser, err := c.getTokenUser()
-			if err != nil {
-				// return internal
-			}
-
-			c.CurrentUser = currentUser
-		} else {
-			// return unauthenticated
-		}
-	}
-}
-
-func (c *BaseController) ensureBearerToken() bool {
-	tokenInfo, err := oauth.ServerOauth.ValidationBearerToken(c.Ctx.Request)
-	if err != nil {
-		return false
-	}
-
-	c.CurrentTokenInfo = tokenInfo
-
-	return true
-}
-
-func (c *BaseController) getTokenUser() (user *models.User, err error) {
-	if c.CurrentTokenInfo == nil {
-		return nil, errors.New(fmt.Sprintf("No current token exists"))
-	}
-
-	userId, err := strconv.Atoi(c.CurrentTokenInfo.GetUserID())
-	if err != nil {
-		return nil, err
-	}
-
-	currentUser, err := models.GetUserById(int64(userId))
-	if err != nil {
-		return nil, err
-	}
-
-	return currentUser, nil
 }
 
 func (c *BaseController) RenderJSON(data interface{}) {
@@ -137,6 +85,58 @@ func (c *BaseController) RenderError(title string, detail string, status int, co
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func (c *BaseController) handleAuthorizeRequest() {
+	_, actionName := c.GetControllerAndAction()
+	actionPolicy := c.actionPolicy[actionName]
+
+	if actionPolicy.RequireAuthenticatedUser {
+		err := c.validateBearerToken()
+		if err != nil {
+			c.RenderUnauthorizedError(err)
+
+			return
+		}
+
+		err = c.validateExistingUser()
+		if err != nil {
+			c.RenderUnauthorizedError(err)
+
+			return
+		}
+	}
+}
+
+func (c *BaseController) validateBearerToken() error {
+	tokenInfo, err := oauth.ServerOauth.ValidationBearerToken(c.Ctx.Request)
+	if err != nil {
+		return err
+	}
+
+	c.CurrentTokenInfo = tokenInfo
+
+	return nil
+}
+
+func (c *BaseController) validateExistingUser() error {
+	if c.CurrentTokenInfo == nil {
+		return ErrorMissingAccessToken
+	}
+
+	userId, err := strconv.Atoi(c.CurrentTokenInfo.GetUserID())
+	if err != nil {
+		return ErrorInvalidUser
+	}
+
+	currentUser, err := models.GetUserById(int64(userId))
+	if err != nil {
+		return ErrorNotFoundUser
+	}
+
+	c.CurrentUser = currentUser
+
+	return nil
 }
 
 func (c *BaseController) disableXSRF() {
