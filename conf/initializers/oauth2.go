@@ -9,7 +9,6 @@ import (
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
-	"github.com/go-oauth2/oauth2/v4/errors"
 	"github.com/go-oauth2/oauth2/v4/manage"
 	"github.com/go-oauth2/oauth2/v4/server"
 	"github.com/jackc/pgx/v4"
@@ -51,19 +50,7 @@ func SetUpOauth2() {
 	oauthServer := server.NewDefaultServer(manager)
 	oauthServer.SetAllowGetAccessRequest(true)
 	oauthServer.SetClientInfoHandler(server.ClientFormHandler)
-	oauthServer.SetInternalErrorHandler(internalErrorHandler)
-	oauthServer.SetResponseErrorHandler(responseErrorHandler)
 
 	oauth.ServerOauth = oauthServer
 	oauth.ClientStore = clientStore
-}
-
-func internalErrorHandler(err error) (response *errors.Response) {
-	logs.Critical("Oauth server internal error: %v", err.Error())
-
-	return
-}
-
-func responseErrorHandler(response *errors.Response) {
-	logs.Critical("Oauth server response error: %v", response.Error.Error())
 }
