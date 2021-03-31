@@ -2,15 +2,29 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "error": {
-      "type": "string"
-    },
-    "error_description": {
-      "type": "string"
+    "errors": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "detail": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "detail",
+            "code"
+          ]
+        }
+      ]
     }
-  },
-  "required": [
-    "error",
-    "error_description"
-  ]
+  }
 }

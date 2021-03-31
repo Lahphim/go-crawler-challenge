@@ -1,18 +1,18 @@
 package apiv1controllers_test
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
 
+	v1serializers "go-crawler-challenge/serializers/v1"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/custom_matchers"
 	. "go-crawler-challenge/tests/fixtures"
 
 	"github.com/bxcodec/faker/v3"
+	"github.com/google/jsonapi"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -45,13 +45,6 @@ var _ = Describe("TokenController", func() {
 			})
 
 			It("returns token information", func() {
-				type tokenInfo struct {
-					AccessToken  string `json:"access_token"`
-					ExpiresIn    int    `json:"expires_in"`
-					RefreshToken string `json:"refresh_token"`
-					TokenType    string `json:"token_type"`
-				}
-
 				oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 				password := faker.Password()
 				user := FabricateUser(faker.Email(), password)
@@ -65,19 +58,11 @@ var _ = Describe("TokenController", func() {
 				body := strings.NewReader(form.Encode())
 
 				response := MakeRequest("POST", "/api/v1/oauth/token", body)
-				responseBody, err := ioutil.ReadAll(response.Body)
-				if err != nil {
-					Fail(fmt.Sprintf("Read body content failed: %v", err.Error()))
-				}
-				err = response.Body.Close()
-				if err != nil {
-					Fail(fmt.Sprintf("Close body content failed: %v", err.Error()))
-				}
 
-				var responseToken tokenInfo
-				err = json.Unmarshal(responseBody, &responseToken)
+				var responseToken v1serializers.TokenInformationResponse
+				err := jsonapi.UnmarshalPayload(response.Body, &responseToken)
 				if err != nil {
-					Fail(fmt.Sprintf("Unmarshal `TokenInfo` failed: %v", err.Error()))
+					Fail(fmt.Sprintf("Unmarshal payload `TokenInfo` failed: %v", err.Error()))
 				}
 
 				Expect(len(responseToken.AccessToken)).To(BeNumerically(">", 0))
