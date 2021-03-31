@@ -1,6 +1,9 @@
 package apiv1controllers_test
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -42,6 +45,48 @@ var _ = Describe("TokenController", func() {
 			})
 
 			It("returns token information", func() {
+				type tokenInfo struct {
+					AccessToken  string `json:"access_token"`
+					ExpiresIn    int    `json:"expires_in"`
+					RefreshToken string `json:"refresh_token"`
+					TokenType    string `json:"token_type"`
+				}
+
+				oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+				password := faker.Password()
+				user := FabricateUser(faker.Email(), password)
+				form := url.Values{
+					"client_id":     {oauthClient.ID},
+					"client_secret": {oauthClient.Secret},
+					"grant_type":    {"password"},
+					"username":      {user.Email},
+					"password":      {password},
+				}
+				body := strings.NewReader(form.Encode())
+
+				response := MakeRequest("POST", "/api/v1/oauth/token", body)
+				responseBody, err := ioutil.ReadAll(response.Body)
+				if err != nil {
+					Fail(fmt.Sprintf("Read body content failed: %v", err.Error()))
+				}
+				err = response.Body.Close()
+				if err != nil {
+					Fail(fmt.Sprintf("Close body content failed: %v", err.Error()))
+				}
+
+				var responseToken tokenInfo
+				err = json.Unmarshal(responseBody, &responseToken)
+				if err != nil {
+					Fail(fmt.Sprintf("Unmarshal `TokenInfo` failed: %v", err.Error()))
+				}
+
+				Expect(len(responseToken.AccessToken)).To(BeNumerically(">", 0))
+				Expect(len(responseToken.RefreshToken)).To(BeNumerically(">", 0))
+				Expect(len(responseToken.AccessToken)).To(BeNumerically(">", 0))
+				Expect(responseToken.TokenType).To(Equal("Bearer"))
+			})
+
+			It("matches with valid schema", func() {
 				oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 				password := faker.Password()
 				user := FabricateUser(faker.Email(), password)
