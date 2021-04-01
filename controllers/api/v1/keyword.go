@@ -29,7 +29,10 @@ func (c *KeywordController) actionPolicyMapping() {
 // TextSearch handles keyword for scrapping
 // @Title TextSearch
 // @Description create a new scrapping result by plain text
-// @Success 200
+// @Success 200 {object} v1serializers.KeywordScraper
+// @Param keyword formData string true
+// @Failure 500 Internal Server Error
+// @Accept json
 // @router /api/v1/keyword/search [post]
 func (c *KeywordController) TextSearch() {
 	textSearchForm := form.TextSearchForm{}

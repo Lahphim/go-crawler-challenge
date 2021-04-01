@@ -33,7 +33,15 @@ func (c *TokenController) actionPolicyMapping() {
 // Create handles token generator by authenticate some client credentials and user credentials
 // @Title Create
 // @Description generate a token information
-// @Success 200
+// @Success 200 {object} v1serializers.TokenInformation
+// @Param client_id		formData string true
+// @Param client_secret formData string true
+// @Param grant_type	formData string true
+// @Param username		formData string true
+// @Param password		formData string true
+// @Failure 401 Unauthorized Error
+// @Failure 500 Internal Server Error
+// @Accept json
 // @router /api/v1/oauth/token [post]
 func (c *TokenController) Create() {
 	writer := httptest.NewRecorder()
