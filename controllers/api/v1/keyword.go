@@ -1,10 +1,11 @@
 package apiv1controllers
 
 import (
+	"net/http"
+
 	. "go-crawler-challenge/controllers/api"
 	form "go-crawler-challenge/forms/keyword"
 	v1serializers "go-crawler-challenge/serializers/v1"
-	"net/http"
 )
 
 // KeywordController operations for Keyword
