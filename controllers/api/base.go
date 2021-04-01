@@ -40,6 +40,14 @@ func (c *BaseController) Prepare() {
 	c.handleAuthorizeRequest()
 }
 
+func (c *BaseController) GetPageSize() (pageSize int) {
+	return DefaultPageSize
+}
+
+func (c *BaseController) GetOrderBy() (orderBy []string) {
+	return DefaultOrderBy
+}
+
 func (c *BaseController) MappingPolicy(method string, policy Policy) {
 	c.actionPolicy[method] = policy
 }

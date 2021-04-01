@@ -33,7 +33,11 @@ func init() {
 	// API
 	// V1
 	namespaceV1 := web.NewNamespace("/api/v1",
+		// OAuth
 		web.NSRouter("/oauth/token", &apiv1controllers.TokenController{}, "post:Create"),
+
+		// Keyword
+		web.NSRouter("/keywords", &apiv1controllers.KeywordController{}, "get:Index"),
 		web.NSRouter("/keyword/search", &apiv1controllers.KeywordController{}, "post:TextSearch"),
 	)
 
