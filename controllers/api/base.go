@@ -44,7 +44,10 @@ func (c *BaseController) MappingPolicy(method string, policy Policy) {
 	c.actionPolicy[method] = policy
 }
 
-func (c *BaseController) RenderJSON(data interface{}) {
+func (c *BaseController) RenderJSON(data interface{}, status int) {
+	c.Ctx.Output.Header("Content-Type", ContentType)
+	c.Ctx.ResponseWriter.WriteHeader(status)
+
 	response, err := jsonapi.Marshal(data)
 	if err != nil {
 		c.RenderGenericError(err)

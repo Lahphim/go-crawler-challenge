@@ -56,6 +56,7 @@ func SetUpOauth2() {
 
 	oauth.ServerOauth = oauthServer
 	oauth.ClientStore = clientStore
+	oauth.TokenStore = tokenStore
 }
 
 func passwordAuthorizationHandler(email string, password string) (string, error) {

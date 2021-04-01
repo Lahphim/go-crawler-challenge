@@ -70,7 +70,7 @@ func (c *TokenController) Create() {
 		return
 	}
 
-	c.RenderJSON(tokenResponseObject.Data())
+	c.RenderJSON(tokenResponseObject.Data(), http.StatusOK)
 }
 
 func (c *TokenController) handleResponseError(writer *httptest.ResponseRecorder) {

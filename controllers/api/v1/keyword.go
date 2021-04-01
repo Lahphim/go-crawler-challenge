@@ -4,6 +4,7 @@ import (
 	. "go-crawler-challenge/controllers/api"
 	form "go-crawler-challenge/forms/keyword"
 	v1serializers "go-crawler-challenge/serializers/v1"
+	"net/http"
 )
 
 // KeywordController operations for Keyword
@@ -29,7 +30,7 @@ func (c *KeywordController) actionPolicyMapping() {
 // TextSearch handles keyword for scrapping
 // @Title TextSearch
 // @Description create a new scrapping result by plain text
-// @Success 200 {object} v1serializers.KeywordScraper
+// @Success 201 {object} v1serializers.KeywordScraper
 // @Param keyword formData string true
 // @Failure 500 Internal Server Error
 // @Accept json
@@ -52,5 +53,5 @@ func (c *KeywordController) TextSearch() {
 
 	serializer := v1serializers.KeywordScraper{Message: "Scraping a keyword :)"}
 
-	c.RenderJSON(serializer.Data())
+	c.RenderJSON(serializer.Data(), http.StatusCreated)
 }
