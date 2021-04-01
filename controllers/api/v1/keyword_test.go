@@ -32,13 +32,11 @@ var _ = Describe("KeywordController", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
 					keyword := faker.Word()
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {keyword},
-					}
+					form := url.Values{"keyword": {keyword}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 
-					response := MakeRequest("POST", "/api/v1/keyword/search", body)
+					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					Expect(response.StatusCode).To(Equal(http.StatusCreated))
 				})
@@ -48,10 +46,8 @@ var _ = Describe("KeywordController", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
 					keyword := faker.Word()
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {keyword},
-					}
+					form := url.Values{"keyword": {keyword}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 					queryList := map[string]interface{}{"user_id": user.Id}
 
@@ -60,7 +56,7 @@ var _ = Describe("KeywordController", func() {
 						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
 					}
 
-					_ = MakeRequest("POST", "/api/v1/keyword/search", body)
+					_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
 					if err != nil {
@@ -75,13 +71,11 @@ var _ = Describe("KeywordController", func() {
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
 					keyword := faker.Word()
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {keyword},
-					}
+					form := url.Values{"keyword": {keyword}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 
-					response := MakeRequest("POST", "/api/v1/keyword/search", body)
+					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					Expect(response).To(MatchJSONSchema("keyword/search/valid"))
 				})
@@ -92,13 +86,11 @@ var _ = Describe("KeywordController", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {""},
-					}
+					form := url.Values{"keyword": {""}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 
-					response := MakeRequest("POST", "/api/v1/keyword/search", body)
+					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					Expect(response.StatusCode).To(Equal(http.StatusInternalServerError))
 				})
@@ -107,10 +99,8 @@ var _ = Describe("KeywordController", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {""},
-					}
+					form := url.Values{"keyword": {""}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 					queryList := map[string]interface{}{"user_id": user.Id}
 
@@ -119,7 +109,7 @@ var _ = Describe("KeywordController", func() {
 						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
 					}
 
-					_ = MakeRequest("POST", "/api/v1/keyword/search", body)
+					_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
 					if err != nil {
@@ -133,13 +123,11 @@ var _ = Describe("KeywordController", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					form := url.Values{
-						"access_token": {accessToken},
-						"keyword":      {""},
-					}
+					form := url.Values{"keyword": {""}}
+					headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 					body := strings.NewReader(form.Encode())
 
-					response := MakeRequest("POST", "/api/v1/keyword/search", body)
+					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 					Expect(response).To(MatchJSONSchema("keyword/search/invalid"))
 				})
@@ -150,13 +138,11 @@ var _ = Describe("KeywordController", func() {
 			It("returns status 401", func() {
 				accessToken := "INVALID"
 				keyword := faker.Word()
-				form := url.Values{
-					"access_token": {accessToken},
-					"keyword":      {keyword},
-				}
+				form := url.Values{"keyword": {keyword}}
+				headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 				body := strings.NewReader(form.Encode())
 
-				response := MakeRequest("POST", "/api/v1/keyword/search", body)
+				response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 				Expect(response.StatusCode).To(Equal(http.StatusUnauthorized))
 			})
@@ -164,13 +150,11 @@ var _ = Describe("KeywordController", func() {
 			It("matches with INVALID schema", func() {
 				accessToken := "INVALID"
 				keyword := faker.Word()
-				form := url.Values{
-					"access_token": {accessToken},
-					"keyword":      {keyword},
-				}
+				form := url.Values{"keyword": {keyword}}
+				headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 				body := strings.NewReader(form.Encode())
 
-				response := MakeRequest("POST", "/api/v1/keyword/search", body)
+				response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/search", headers, body, nil)
 
 				Expect(response).To(MatchJSONSchema("keyword/search/invalid"))
 			})

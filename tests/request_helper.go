@@ -49,21 +49,26 @@ func MakeRequest(method string, url string, body io.Reader) *http.Response {
 // MakeAuthenticatedRequest makes a HTTP request and returns response by checking with the current session
 func MakeAuthenticatedRequest(method string, url string, headers http.Header, body io.Reader, user *models.User) *http.Response {
 	request := httpRequest(method, url, body)
-	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
 	if headers != nil {
 		request.Header = headers
 	}
 
-	responseRecorder := httptest.NewRecorder()
-	store, err := web.GlobalSessions.SessionStart(responseRecorder, request)
-	if err != nil {
-		ginkgo.Fail("Start session failed: " + err.Error())
+	if body != nil {
+		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	}
 
-	err = store.Set(context.Background(), controllers.CurrentUserKey, user.Id)
-	if err != nil {
-		ginkgo.Fail("Set current user failed: " + err.Error())
+	responseRecorder := httptest.NewRecorder()
+
+	if user != nil {
+		store, err := web.GlobalSessions.SessionStart(responseRecorder, request)
+		if err != nil {
+			ginkgo.Fail("Start session failed: " + err.Error())
+		}
+
+		err = store.Set(context.Background(), controllers.CurrentUserKey, user.Id)
+		if err != nil {
+			ginkgo.Fail("Set current user failed: " + err.Error())
+		}
 	}
 
 	web.BeeApp.Handlers.ServeHTTP(responseRecorder, request)
