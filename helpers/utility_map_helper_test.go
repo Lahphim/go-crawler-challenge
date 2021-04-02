@@ -11,11 +11,11 @@ var _ = Describe("UtilityMapHelper", func() {
 	Describe("#GetMapKeyByNumber", func() {
 		Context("given a valid map list with integer", func() {
 			It("returns a firstly key", func() {
-				mapList := map[string]int{"one": 1, "two": 2, "another_one": 1}
+				mapList := map[string]int{"one": 1, "two": 2}
 				key := helpers.GetMapKeyByNumber(mapList, 1)
 
 				Expect(key).To(Equal("one"))
-				Expect(key).NotTo(Equal("another_one"))
+				Expect(key).NotTo(Equal("two"))
 			})
 		})
 	})
