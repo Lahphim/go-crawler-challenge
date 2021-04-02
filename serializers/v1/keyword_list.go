@@ -5,12 +5,14 @@ import (
 
 	"go-crawler-challenge/helpers"
 	"go-crawler-challenge/models"
+
+	"github.com/beego/beego/v2/adapter/utils/pagination"
+	"github.com/google/jsonapi"
 )
 
 type KeywordList struct {
 	KeywordList []*models.Keyword
-	TotalRows   int
-	PageSize    int
+	Paginator   *pagination.Paginator
 }
 
 type keywordItemResponse struct {
@@ -20,7 +22,6 @@ type keywordItemResponse struct {
 	Status           int    `jsonapi:"attr,status"`
 	StatusDetail     string `jsonapi:"attr,status_detail"`
 	CreatedAtTimeAgo string `jsonapi:"attr,created_at_time_ago"`
-	TotalPages       int    `jsonapi:"meta,total_pages"`
 }
 
 func (serializer *KeywordList) Data() (dataList []*keywordItemResponse) {
@@ -36,4 +37,26 @@ func (serializer *KeywordList) Data() (dataList []*keywordItemResponse) {
 	}
 
 	return dataList
+}
+
+func (serializer *KeywordList) Meta() (meta *jsonapi.Meta) {
+	meta = &jsonapi.Meta{
+		"total_pages": serializer.Paginator.PageNums(),
+	}
+
+	return meta
+}
+
+func (serializer *KeywordList) Links() (links *jsonapi.Links) {
+	currentPageAt := serializer.Paginator.Page()
+
+	links = &jsonapi.Links{
+		"self":  serializer.Paginator.PageLink(currentPageAt),
+		"first": serializer.Paginator.PageLinkFirst(),
+		"prev":  serializer.Paginator.PageLinkPrev(),
+		"next":  serializer.Paginator.PageLinkNext(),
+		"last":  serializer.Paginator.PageLinkLast(),
+	}
+
+	return links
 }

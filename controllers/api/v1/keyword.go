@@ -1,16 +1,15 @@
 package apiv1controllers
 
 import (
-	"go-crawler-challenge/models"
 	"net/http"
-
-	"github.com/beego/beego/v2/adapter/utils/pagination"
 
 	. "go-crawler-challenge/controllers/api"
 	form "go-crawler-challenge/forms/keyword"
+	"go-crawler-challenge/models"
 	v1serializers "go-crawler-challenge/serializers/v1"
 
 	"github.com/beego/beego/v2/adapter/context"
+	"github.com/beego/beego/v2/adapter/utils/pagination"
 )
 
 // KeywordController operations for Keyword
@@ -35,6 +34,15 @@ func (c *KeywordController) actionPolicyMapping() {
 	c.MappingPolicy("TextSearch", Policy{RequireAuthenticatedUser: true})
 }
 
+// Index handles keyword list
+// @Title Index
+// @Description response with keyword list filterable with keyword and page number
+// @Success 200 {object} v1serializers.KeywordList
+// @Param keyword	query string	false
+// @Param p			query integer	false
+// @Failure 500 Internal Server Error
+// @Accept json
+// @router /api/v1/keywords [get]
 func (c *KeywordController) Index() {
 	keyword := c.GetString("keyword")
 	queryList := map[string]interface{}{
@@ -62,11 +70,10 @@ func (c *KeywordController) Index() {
 
 	serializer := v1serializers.KeywordList{
 		KeywordList: keywords,
-		TotalRows:   int(totalRows),
-		PageSize:    pageSize,
+		Paginator:   paginator,
 	}
 
-	c.RenderJSON(serializer.Data(), http.StatusOK)
+	c.RenderJSONMany(serializer.Data(), serializer.Meta(), serializer.Links(), http.StatusOK)
 }
 
 // TextSearch handles keyword for scrapping
