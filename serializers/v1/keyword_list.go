@@ -15,7 +15,7 @@ type KeywordList struct {
 	Paginator   *pagination.Paginator
 }
 
-type keywordItemResponse struct {
+type KeywordItemResponse struct {
 	Id               string `jsonapi:"primary,keywords"`
 	Keyword          string `jsonapi:"attr,keyword"`
 	Url              string `jsonapi:"attr,url"`
@@ -24,9 +24,9 @@ type keywordItemResponse struct {
 	CreatedAtTimeAgo string `jsonapi:"attr,created_at_time_ago"`
 }
 
-func (serializer *KeywordList) Data() (dataList []*keywordItemResponse) {
+func (serializer *KeywordList) Data() (dataList []*KeywordItemResponse) {
 	for _, keyword := range serializer.KeywordList {
-		dataList = append(dataList, &keywordItemResponse{
+		dataList = append(dataList, &KeywordItemResponse{
 			Id:               fmt.Sprint(keyword.Id),
 			Keyword:          keyword.Keyword,
 			Url:              keyword.Url,
