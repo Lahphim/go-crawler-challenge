@@ -1,8 +1,6 @@
 package keyword
 
 import (
-	"time"
-
 	"go-crawler-challenge/models"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -10,22 +8,6 @@ import (
 
 type ReportGenerator struct {
 	Keyword *models.Keyword
-}
-
-type Report struct {
-	Keyword string
-	Url     string
-	RawHtml string
-
-	LinkList map[string][]string
-
-	CreatedAt time.Time
-	UpdatedAt time.Time
-
-	TotalAdsTop int
-	TotalAds    int
-	TotalNonAds int
-	TotalLink   int
 }
 
 // Generate handles processing and generating the report based on a given keyword.
@@ -64,7 +46,8 @@ func (service *ReportGenerator) Generate() (reportInterface interface{}, err err
 	totalAdsOther := len(linkList["other"])
 	totalNonAds := len(linkList["normal"])
 
-	reportResult := Report{
+	reportResult := &models.Report{
+		Id:      keywordRecord.Id,
 		Keyword: keywordRecord.Keyword,
 		Url:     keywordRecord.Url,
 		RawHtml: keywordRecord.Page.RawHtml,

@@ -1,12 +1,12 @@
-package controllers
+package apiv1controllers
 
 import (
 	"net/http"
 
+	. "go-crawler-challenge/controllers/api"
 	"go-crawler-challenge/models"
+	v1serializers "go-crawler-challenge/serializers/v1"
 	service "go-crawler-challenge/services/keyword"
-
-	"github.com/beego/beego/v2/server/web"
 )
 
 // ReportController operations for Report
@@ -26,20 +26,18 @@ func (c *ReportController) URLMapping() {
 
 // actionPolicyMapping maps report controller actions to policies
 func (c *ReportController) actionPolicyMapping() {
-	c.MappingPolicy("Show", Policy{requireAuthenticatedUser: true})
+	c.MappingPolicy("Show", Policy{RequireAuthenticatedUser: true})
 }
 
-// Show handles report page
+// Show handles report detail
 // @Title Show
 // @Description show the search result of the given keyword stored in the database
-// @Success 200
-// @Failure 302 redirect to the dashboard page and show an error message
-// @router /report/:keyword_id [get]
+// @Success 202 {object} v1serializers.ReportDetail
+// @Param :keyword_id path string true
+// @Failure 500 Internal Server Error
+// @Accept json
+// @router /api/v1/report/:keyword_id [post]
 func (c *ReportController) Show() {
-	flash := web.NewFlash()
-	hasReport := false
-	redirectPath := "/dashboard"
-
 	keywordId := c.GetString(":keyword_id")
 	query := map[string]interface{}{
 		"id":      keywordId,
@@ -48,20 +46,23 @@ func (c *ReportController) Show() {
 	}
 
 	keyword, err := models.GetKeywordBy(query, []string{})
-	if err == nil {
-		reportGeneratorService := service.ReportGenerator{Keyword: keyword}
-		reportResult, err := reportGeneratorService.Generate()
-		if err == nil {
-			hasReport = true
-			c.Data["ReportResult"] = reportResult
-		}
+	if err != nil {
+		c.RenderGenericError(ErrorNotFoundReport)
+
+		return
 	}
 
-	if hasReport {
-		c.TplName = "report/index.html"
-	} else {
-		flash.Error("Report not found!")
-		flash.Store(&c.Controller)
-		c.Redirect(redirectPath, http.StatusFound)
+	reportGeneratorService := service.ReportGenerator{Keyword: keyword}
+	reportResult, err := reportGeneratorService.Generate()
+	if err != nil {
+		c.RenderGenericError(ErrorGenerateReportFailed)
+
+		return
 	}
+
+	serializer := v1serializers.ReportDetail{
+		Report: reportResult.(*models.Report),
+	}
+
+	c.RenderJSON(serializer.Data(), http.StatusOK)
 }
