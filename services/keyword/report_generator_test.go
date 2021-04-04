@@ -40,7 +40,7 @@ var _ = Describe("Keyword/ReportGenerator", func() {
 				if err != nil {
 					Fail(fmt.Sprintf("Generate report failed: %v", err.Error()))
 				} else {
-					reportInterface := reportResult.(models.Report)
+					reportInterface := reportResult.(*models.Report)
 
 					Expect(reportInterface.Keyword).To(Equal(keyword.Keyword))
 					Expect(reportInterface.Url).To(Equal(keyword.Url))
