@@ -9,7 +9,7 @@ The requirement of this project is about extracting large amounts of data from t
 - [Production](https://go-challenge.herokuapp.com/)
 
 ## Prerequisite
-* [Go - 1.15](https://golang.org/doc/go1.15)
+* [Go - 1.16](https://golang.org/doc/go1.16)
 
 ## Usage
 

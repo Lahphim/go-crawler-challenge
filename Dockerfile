@@ -7,7 +7,7 @@ COPY . .
 RUN npm install && npm run build
 
 
-FROM golang:1.15-alpine AS migration
+FROM golang:1.16-alpine AS migration
 
 ARG DATABASE_URL
 
@@ -30,7 +30,7 @@ RUN go get github.com/beego/bee/v2
 RUN bee migrate -driver=postgres -conn=$DATABASE_URL
 
 
-FROM golang:1.15-alpine AS app
+FROM golang:1.16-alpine AS app
 
 # Set necessary environment variables needed for our image
 ENV GO111MODULE=on \
