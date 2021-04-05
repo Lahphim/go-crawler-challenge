@@ -5,6 +5,7 @@ import (
 
 	"go-crawler-challenge/models"
 	v1serializers "go-crawler-challenge/serializers/v1"
+	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
 
 	"github.com/bxcodec/faker/v3"
@@ -13,6 +14,11 @@ import (
 )
 
 var _ = Describe("V1/KeywordList", func() {
+	AfterEach(func() {
+		TruncateTable("keyword")
+		TruncateTable("user")
+	})
+
 	Describe("#Data", func() {
 		Context("given a valid data", func() {
 			It("returns serialize data", func() {
