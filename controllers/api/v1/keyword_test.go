@@ -64,7 +64,7 @@ var _ = Describe("KeywordController", func() {
 			})
 
 			Context("given `p`(page) param is set", func() {
-				It("shows only records in page number 2", func() {
+				It("shows only records of page number 2", func() {
 					pageAt := 2
 					totalRecords := 12
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())

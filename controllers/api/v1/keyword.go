@@ -73,7 +73,7 @@ func (c *KeywordController) Index() {
 		Paginator:   paginator,
 	}
 
-	c.RenderJSONMany(serializer.Data(), serializer.Meta(), serializer.Links(), http.StatusOK)
+	c.RenderJSONList(serializer.Data(), serializer.Meta(), serializer.Links(), http.StatusOK)
 }
 
 // TextSearch handles keyword for scrapping

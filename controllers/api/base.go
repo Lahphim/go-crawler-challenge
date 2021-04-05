@@ -54,7 +54,7 @@ func (c *BaseController) MappingPolicy(method string, policy Policy) {
 	c.actionPolicy[method] = policy
 }
 
-func (c *BaseController) RenderJSONMany(data interface{}, meta *jsonapi.Meta, links *jsonapi.Links, status int) {
+func (c *BaseController) RenderJSONList(data interface{}, meta *jsonapi.Meta, links *jsonapi.Links, status int) {
 	response, err := jsonapi.Marshal(data)
 	if err != nil {
 		c.RenderGenericError(err)
