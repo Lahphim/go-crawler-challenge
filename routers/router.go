@@ -34,6 +34,7 @@ func init() {
 	// V1
 	namespaceV1 := web.NewNamespace("/api/v1",
 		web.NSRouter("/oauth/token", &apiv1controllers.TokenController{}, "post:Create"),
+		web.NSRouter("/keyword/search", &apiv1controllers.KeywordController{}, "post:TextSearch"),
 	)
 
 	web.AddNamespace(namespaceV1)

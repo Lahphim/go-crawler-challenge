@@ -5,5 +5,8 @@ import (
 	pg "github.com/vgarvardt/go-oauth2-pg/v4"
 )
 
-var ServerOauth *server.Server
-var ClientStore *pg.ClientStore
+var (
+	ServerOauth *server.Server
+	ClientStore *pg.ClientStore
+	TokenStore  *pg.TokenStore
+)

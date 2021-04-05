@@ -15,15 +15,33 @@ type TokenController struct {
 	BaseController
 }
 
+// NestPrepare prepares some configurations to the controller
+func (c *TokenController) NestPrepare() {
+	c.actionPolicyMapping()
+}
+
 // URLMapping maps token controller actions to functions
 func (c *TokenController) URLMapping() {
 	c.Mapping("Create", c.Create)
 }
 
+// actionPolicyMapping maps token controller actions to policies
+func (c *TokenController) actionPolicyMapping() {
+	c.MappingPolicy("Create", Policy{})
+}
+
 // Create handles token generator by authenticate some client credentials and user credentials
 // @Title Create
 // @Description generate a token information
-// @Success 200
+// @Success 200 {object} v1serializers.TokenInformation
+// @Param client_id			formData string true
+// @Param client_secret		formData string true
+// @Param grant_type		formData string true
+// @Param username			formData string true
+// @Param password			formData string true
+// @Failure 401 Unauthorized Error
+// @Failure 500 Internal Server Error
+// @Accept json
 // @router /api/v1/oauth/token [post]
 func (c *TokenController) Create() {
 	writer := httptest.NewRecorder()
@@ -52,7 +70,7 @@ func (c *TokenController) Create() {
 		return
 	}
 
-	c.RenderJSON(tokenResponseObject.Data())
+	c.RenderJSON(tokenResponseObject.Data(), http.StatusOK)
 }
 
 func (c *TokenController) handleResponseError(writer *httptest.ResponseRecorder) {
