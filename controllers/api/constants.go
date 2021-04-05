@@ -19,4 +19,5 @@ var (
 	ErrorNotFoundUser          = errors.New("user not found")
 	ErrorGenerateReportFailed  = errors.New("there was a problem generating a report")
 	ErrorRetrieveKeywordFailed = errors.New("there was a problem retrieving all keywords")
+	ErrorUploadFileFailed      = errors.New("the specified file could not be uploaded")
 )

@@ -79,6 +79,10 @@ func (c *BaseController) RenderJSONList(data interface{}, meta *jsonapi.Meta, li
 }
 
 func (c *BaseController) RenderJSON(data interface{}, status int) {
+	if data == nil {
+		c.renderJSON(nil, status)
+	}
+
 	response, err := jsonapi.Marshal(data)
 	if err != nil {
 		c.RenderGenericError(err)

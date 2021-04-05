@@ -39,6 +39,7 @@ func init() {
 		// Keyword
 		web.NSRouter("/keywords", &apiv1controllers.KeywordController{}, "get:Index"),
 		web.NSRouter("/keyword/search", &apiv1controllers.KeywordController{}, "post:TextSearch"),
+		web.NSRouter("/keyword/upload", &apiv1controllers.KeywordController{}, "post:FileSearch"),
 
 		// Report
 		web.NSRouter("/report/:keyword_id", &apiv1controllers.ReportController{}, "get:Show"),
