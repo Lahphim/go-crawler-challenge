@@ -20,7 +20,7 @@ var _ = Describe("V1/KeywordList", func() {
 	})
 
 	Describe("#Data", func() {
-		Context("given a valid data", func() {
+		Context("given valid data", func() {
 			It("returns serialize data", func() {
 				user := FabricateUser(faker.Email(), faker.Password())
 				firstKeyword := FabricateKeyword(faker.Word(), faker.URL(), 0, user)
