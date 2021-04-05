@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	form "go-crawler-challenge/forms/session"
 	"go-crawler-challenge/services/oauth"
 
 	"github.com/beego/beego/v2/core/logs"
@@ -51,22 +52,22 @@ func SetUpOauth2() {
 	oauthServer := server.NewDefaultServer(manager)
 	oauthServer.SetAllowGetAccessRequest(true)
 	oauthServer.SetClientInfoHandler(server.ClientFormHandler)
-	oauthServer.SetInternalErrorHandler(internalErrorHandler)
-	oauthServer.SetResponseErrorHandler(responseErrorHandler)
+	oauthServer.SetPasswordAuthorizationHandler(passwordAuthorizationHandler)
 
 	oauth.ServerOauth = oauthServer
 	oauth.ClientStore = clientStore
 }
 
-func internalErrorHandler(err error) (response *errors.Response) {
-	logs.Critical("Oauth server internal error: %v", err.Error())
+func passwordAuthorizationHandler(email string, password string) (string, error) {
+	authenticationForm := form.AuthenticationForm{
+		Email:    email,
+		Password: password,
+	}
 
-	response = errors.NewResponse(errors.ErrInvalidClient, errors.StatusCodes[errors.ErrInvalidClient])
-	response.Description = errors.Descriptions[errors.ErrInvalidClient]
+	user, errorList := authenticationForm.Authenticate()
+	if len(errorList) > 0 {
+		return "", errors.ErrInvalidClient
+	}
 
-	return response
-}
-
-func responseErrorHandler(response *errors.Response) {
-	logs.Critical("Oauth server response error: %v", response.Error.Error())
+	return fmt.Sprint(user.Id), nil
 }
