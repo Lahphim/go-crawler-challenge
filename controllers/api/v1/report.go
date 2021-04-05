@@ -48,16 +48,12 @@ func (c *ReportController) Show() {
 	keyword, err := models.GetKeywordBy(query, []string{})
 	if err != nil {
 		c.RenderGenericError(ErrorNotFoundReport)
-
-		return
 	}
 
 	reportGeneratorService := service.ReportGenerator{Keyword: keyword}
 	reportResult, err := reportGeneratorService.Generate()
 	if err != nil {
 		c.RenderGenericError(ErrorGenerateReportFailed)
-
-		return
 	}
 
 	serializer := v1serializers.ReportDetail{
