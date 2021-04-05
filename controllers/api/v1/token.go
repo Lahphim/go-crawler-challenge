@@ -49,16 +49,12 @@ func (c *TokenController) Create() {
 	err := oauth.ServerOauth.HandleTokenRequest(writer, c.Ctx.Request)
 	if err != nil {
 		c.RenderUnauthorizedError(err)
-
-		return
 	}
 
 	jsonResponse := writer.Body.Bytes()
 
 	if writer.Code != 200 {
 		c.handleResponseError(writer)
-
-		return
 	}
 
 	var tokenResponseObject v1serializers.TokenInformation
@@ -66,8 +62,6 @@ func (c *TokenController) Create() {
 	err = json.Unmarshal(jsonResponse, &tokenResponseObject)
 	if err != nil {
 		c.RenderGenericError(err)
-
-		return
 	}
 
 	c.RenderJSON(tokenResponseObject.Data(), http.StatusOK)

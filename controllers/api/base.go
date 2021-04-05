@@ -124,6 +124,8 @@ func (c *BaseController) RenderError(title string, detail string, status int, co
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 	}
+
+	c.StopRun()
 }
 
 func (c *BaseController) handleAuthorizeRequest() {
@@ -134,15 +136,11 @@ func (c *BaseController) handleAuthorizeRequest() {
 		err := c.validateBearerToken()
 		if err != nil {
 			c.RenderUnauthorizedError(err)
-
-			return
 		}
 
 		err = c.validateExistingUser()
 		if err != nil {
 			c.RenderUnauthorizedError(err)
-
-			return
 		}
 	}
 }

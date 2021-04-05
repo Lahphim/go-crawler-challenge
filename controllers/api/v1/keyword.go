@@ -64,8 +64,6 @@ func (c *KeywordController) Index() {
 	keywords, err := models.GetAllKeyword(queryList, orderByList, int64(paginator.Offset()), int64(pageSize))
 	if err != nil {
 		c.RenderGenericError(ErrorRetrieveKeywordFailed)
-
-		return
 	}
 
 	serializer := v1serializers.KeywordList{
@@ -96,8 +94,6 @@ func (c *KeywordController) TextSearch() {
 	err = textSearchForm.Create()
 	if err != nil {
 		c.RenderGenericError(err)
-
-		return
 	}
 
 	serializer := v1serializers.KeywordScraper{Message: "Scraping a keyword :)"}
