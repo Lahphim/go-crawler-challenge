@@ -67,7 +67,6 @@ var _ = Describe("TokenController", func() {
 
 				Expect(len(responseToken.AccessToken)).To(BeNumerically(">", 0))
 				Expect(len(responseToken.RefreshToken)).To(BeNumerically(">", 0))
-				Expect(len(responseToken.AccessToken)).To(BeNumerically(">", 0))
 				Expect(responseToken.TokenType).To(Equal("Bearer"))
 			})
 
