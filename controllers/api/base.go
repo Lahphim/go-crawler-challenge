@@ -29,6 +29,8 @@ type Policy struct {
 }
 
 func (c *BaseController) Prepare() {
+	c.Ctx.Output.Header("Content-Type", ContentType)
+
 	c.disableXSRF()
 	c.initActionPolicy()
 
@@ -88,7 +90,6 @@ func (c *BaseController) RenderJSON(data interface{}, status int) {
 }
 
 func (c *BaseController) renderJSON(payloader interface{}, status int) {
-	c.Ctx.Output.Header("Content-Type", ContentType)
 	c.Ctx.ResponseWriter.WriteHeader(status)
 
 	c.Data["json"] = payloader
@@ -111,7 +112,6 @@ func (c *BaseController) RenderUnauthorizedError(err error) {
 }
 
 func (c *BaseController) RenderError(title string, detail string, status int, code string) {
-	c.Ctx.Output.Header("Content-Type", ContentType)
 	c.Ctx.ResponseWriter.WriteHeader(status)
 
 	writer := c.Ctx.ResponseWriter
