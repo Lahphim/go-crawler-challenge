@@ -31,7 +31,7 @@ func (serializer *KeywordList) Data() (dataList []*KeywordItemResponse) {
 			Keyword:          keyword.Keyword,
 			Url:              keyword.Url,
 			Status:           keyword.Status,
-			StatusDetail:     helpers.GetMapKeyByNumber(models.GetKeywordStatuses(), keyword.Status),
+			StatusDetail:     helpers.GetMapKeyByNumberValue(models.GetKeywordStatuses(), keyword.Status),
 			CreatedAtTimeAgo: helpers.ToTimeAgo(keyword.CreatedAt),
 		})
 	}
