@@ -117,7 +117,7 @@ func (c *KeywordController) FileSearch() {
 	fileForm := form.FileSearchForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
 	err = fileForm.Save()
 	if err != nil {
-		c.RenderGenericError(err)
+		c.RenderUnprocessableEntityError(err)
 	}
 
 	c.RenderJSON(nil, http.StatusNoContent)

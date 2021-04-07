@@ -317,51 +317,99 @@ var _ = Describe("KeywordController", func() {
 			})
 
 			Context("given an INVALID upload file", func() {
-				It("returns status 422", func() {
-					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
-					user := FabricateUser(faker.Email(), faker.Password())
-					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
-					headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+				Context("given an empty upload file", func() {
+					It("returns status 422", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
 
-					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
 
-					Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
+						Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
+					})
+
+					It("does NOT create any new keywords", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+						queryList := map[string]interface{}{"user_id": user.Id}
+
+						totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+						totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically("==", 0))
+					})
+
+					It("matches with INVALID schema", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+						Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+					})
 				})
 
-				It("does NOT create any new keywords", func() {
-					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
-					user := FabricateUser(faker.Email(), faker.Password())
-					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
-					headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
-					queryList := map[string]interface{}{"user_id": user.Id}
+				Context("given a different upload file format", func() {
+					It("returns status 422", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
 
-					totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
-					if err != nil {
-						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
-					}
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
 
-					_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+						Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
+					})
 
-					totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
-					if err != nil {
-						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
-					}
+					It("does NOT create any new keywords", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+						queryList := map[string]interface{}{"user_id": user.Id}
 
-					Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically("==", 0))
-				})
+						totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
 
-				It("matches with INVALID schema", func() {
-					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
-					user := FabricateUser(faker.Email(), faker.Password())
-					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
-					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
-					headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+						_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
 
-					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+						totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
 
-					Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+						Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically("==", 0))
+					})
+
+					It("matches with INVALID schema", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+						Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+					})
 				})
 			})
 		})
