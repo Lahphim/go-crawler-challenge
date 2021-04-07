@@ -25,6 +25,15 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:ReportController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:ReportController"],
+		beego.ControllerComments{
+			Method:           "Show",
+			Router:           "/api/v1/report/:keyword_id",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:TokenController"] = append(beego.GlobalControllerRouter["go-crawler-challenge/controllers/api/v1:TokenController"],
 		beego.ControllerComments{
 			Method:           "Create",

@@ -26,7 +26,7 @@ var _ = Describe("ReportController", func() {
 		TruncateTable("user")
 	})
 
-	Describe("GET /report/:key_id", func() {
+	Describe("GET /report/:keyword_id", func() {
 		Context("when the user has already signed in", func() {
 			Context("given a valid report", func() {
 				It("renders with status 200", func() {

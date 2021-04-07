@@ -28,11 +28,16 @@ func GenerateRequestBody(data map[string]string) (body io.Reader) {
 
 // GetCurrentPath gets current path from HTTP response and return the current url path
 func GetCurrentPath(response *http.Response) string {
-	url, err := response.Location()
+	locationUrl, err := response.Location()
 	if err != nil {
 		ginkgo.Fail("Get current path failed: " + err.Error())
 	}
-	return url.Path
+
+	if locationUrl == nil {
+		return ""
+	}
+
+	return locationUrl.Path
 }
 
 // MakeRequest makes a HTTP request and returns response

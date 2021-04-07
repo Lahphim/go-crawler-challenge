@@ -3,6 +3,7 @@ package keyword_test
 import (
 	"fmt"
 
+	"go-crawler-challenge/models"
 	service "go-crawler-challenge/services/keyword"
 	. "go-crawler-challenge/tests"
 	. "go-crawler-challenge/tests/fixtures"
@@ -39,7 +40,7 @@ var _ = Describe("Keyword/ReportGenerator", func() {
 				if err != nil {
 					Fail(fmt.Sprintf("Generate report failed: %v", err.Error()))
 				} else {
-					reportInterface := reportResult.(service.Report)
+					reportInterface := reportResult.(*models.Report)
 
 					Expect(reportInterface.Keyword).To(Equal(keyword.Keyword))
 					Expect(reportInterface.Url).To(Equal(keyword.Url))

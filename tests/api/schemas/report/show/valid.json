@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "keyword": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "raw_html": {
+              "type": "string"
+            },
+            "link_list": {
+              "type": "object",
+              "properties": {
+                "normal": {
+                  "type": "array"
+                },
+                "other": {
+                  "type": "array"
+                },
+                "top": {
+                  "type": "array"
+                }
+              }
+            },
+            "created_at": {
+              "type": "integer"
+            },
+            "updated_at": {
+              "type": "integer"
+            },
+            "total_ads_top": {
+              "type": "integer"
+            },
+            "total_ads": {
+              "type": "integer"
+            },
+            "total_non_ads": {
+              "type": "integer"
+            },
+            "total_link": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "keyword",
+            "url",
+            "raw_html",
+            "link_list",
+            "created_at",
+            "updated_at",
+            "total_ads_top",
+            "total_ads",
+            "total_non_ads",
+            "total_link"
+          ]
+        }
+      }
+    }
+  }
+}
