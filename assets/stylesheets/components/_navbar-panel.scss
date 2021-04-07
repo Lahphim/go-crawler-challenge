@@ -1,0 +1,7 @@
+.navbar-panel {
+  @apply flex justify-between items-center w-full max-w-screen-xl;
+
+  &__navigation {
+    @apply flex flex-col items-end;
+  }
+}

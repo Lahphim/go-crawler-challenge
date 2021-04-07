@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:12
+    container_name: go_challenge_database_development
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=go_crawler_challenge_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

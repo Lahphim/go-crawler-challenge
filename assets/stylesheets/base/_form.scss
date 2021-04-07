@@ -1,0 +1,55 @@
+.form {
+  @apply p-4;
+}
+
+.form--right-align {
+  @apply text-right;
+
+  .form__group {
+    @apply justify-end;
+  }
+}
+
+.form__headline {
+  @apply border-b border-dashed mb-8 pb-4 w-full;
+
+  border-bottom-color: map-get($brand-gray, 300);
+
+  > strong {
+    @apply block text-2xl my-2;
+
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+}
+
+.form__group {
+  @apply flex items-center mb-4;
+}
+
+.form__label {
+  @apply block sm:inline-block mr-2 mb-2 sm:mb-0 capitalize cursor-pointer;
+}
+
+.form__input {
+  @apply block sm:inline-block w-full sm:w-auto rounded-3xl border border-solid outline-none px-4 py-2 transition;
+
+  border-color: map-get($brand-gray, 300);
+
+  &:focus {
+    border-color: map-get($brand-color, 'shark');
+  }
+
+  &::placeholder {
+    color: map-get($brand-gray, 300);
+  }
+}
+
+.form__action {
+  @apply mt-8;
+}

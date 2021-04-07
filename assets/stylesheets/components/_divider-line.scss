@@ -1,0 +1,12 @@
+.divider-line {
+  @apply border-transparent;
+
+  &--dot {
+    &:before {
+      @apply absolute h-6 text-2xl text-center w-full left-0;
+
+      content: "\00B7 \00B7 \00B7";
+      transform: translateY(-1rem);
+    }
+  }
+}

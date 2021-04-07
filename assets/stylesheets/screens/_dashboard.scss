@@ -1,0 +1,70 @@
+body.dashboard.index {
+  .search-keyword {
+    @apply relative py-4 sm:py-8;
+
+    .form.form--invisible {
+      @apply absolute top-6 sm:top-10 left-4;
+
+      z-index: -1;
+
+      input[type="file"] {
+        @apply w-8;
+      }
+    }
+
+    .form .form__group:last-of-type {
+      @apply mb-0;
+    }
+
+    .form .form__input + .button {
+      @apply ml-2;
+    }
+
+    .form .form__input {
+      @apply w-full;
+    }
+  }
+
+  .upload-file-button {
+    @apply relative ml-4;
+
+    &:before {
+      @apply absolute;
+
+      content: "\00B7";
+      color: map-get($brand-color, 'shark');
+      left: -0.875rem;
+    }
+  }
+
+  .list-keyword.table {
+    @apply mt-0;
+
+    .table__cell:last-of-type,
+    .table__headline:last-of-type {
+      @apply hidden sm:table-cell;
+    }
+
+    .table__headline {
+      &:first-of-type {
+        @apply rounded-tl-none;
+      }
+
+      &:last-of-type {
+        @apply rounded-tr-none;
+      }
+    }
+
+    .table__headline--fix-width-sm {
+      @apply w-12;
+    }
+
+    .table__headline--fix-width-lg {
+      @apply w-40 sm:w-72;
+    }
+  }
+
+  .filter-keyword {
+    @apply mt-8 pb-0 rounded-bl-none rounded-br-none;
+  }
+}

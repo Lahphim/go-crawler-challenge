@@ -1,0 +1,38 @@
+{
+  "name": "go-crawler-challenge",
+  "version": "1.0.0",
+  "description": "A project to challenge ourself with specific web stack to achieve the Internal Certification.",
+  "scripts": {
+    "dev": "webpack --watch --config conf/webpack/development.js",
+    "build": "NODE_ENV=production webpack --config conf/webpack/production.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lahphim/go-crawler-challenge.git"
+  },
+  "keywords": [],
+  "author": "Somsak Arnon <somsak@nimblehq.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lahphim/go-crawler-challenge/issues"
+  },
+  "homepage": "https://github.com/Lahphim/go-crawler-challenge#readme",
+  "devDependencies": {
+    "autoprefixer": "10.2.4",
+    "clean-webpack-plugin": "3.0.0",
+    "css-loader": "5.0.2",
+    "mini-css-extract-plugin": "1.3.8",
+    "postcss": "8.2.6",
+    "postcss-import": "14.0.0",
+    "postcss-loader": "5.0.0",
+    "sass": "1.32.8",
+    "sass-loader": "11.0.1",
+    "style-loader": "2.0.0",
+    "tailwindcss": "2.0.3",
+    "url-loader": "4.1.1",
+    "webpack": "5.24.2",
+    "webpack-cli": "4.5.0",
+    "webpack-dev-server": "3.11.2",
+    "webpack-merge": "5.7.3"
+  }
+}

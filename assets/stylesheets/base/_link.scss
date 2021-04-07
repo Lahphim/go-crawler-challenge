@@ -1,0 +1,20 @@
+.link {
+  @apply underline hover:no-underline transition bg-transparent px-1;
+}
+
+// Alternate buttons
+@each $color, $value in $button-color {
+  .link--#{$color} {
+    color: $value;
+
+    &:visited {
+      color: $value;
+    }
+
+    &:hover,
+    &:hover:visited {
+      color: hsl(0, 0%, 100%);
+      background-color: $value;
+    }
+  }
+}

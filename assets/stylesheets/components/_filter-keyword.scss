@@ -1,0 +1,16 @@
+.filter-keyword {
+  @apply p-2;
+
+  background-color: map-get($brand-color, 'shark');
+  border-radius: 0.25rem;
+
+  &__form-input {
+    @apply block w-full outline-none px-2 py-1;
+
+    border-radius: 0.25rem;
+
+    &::placeholder {
+      color: map-get($brand-gray, 300);
+    }
+  }
+}

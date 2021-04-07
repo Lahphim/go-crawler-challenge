@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" class="layout-default">
+  <head>
+    <title>Internal Certification : Go + Beego</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    {{ assets_css "/static/stylesheets/application.css" }}
+  </head>
+
+  <body class="{{.ControllerName}} {{.ActionName}}">
+    {{ .FlashMessage }}
+
+    <header class="app-header">{{ .HeaderContent }}</header>
+    <main class="app-content">{{ .LayoutContent }}</main>
+
+    {{ assets_js "/static/javascripts/application.js" }}
+  </body>
+</html>

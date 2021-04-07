@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 100;
+  src: url('/assets/fonts/JetBrainsMono-ExtraLight.ttf'),
+       url('/assets/fonts/JetBrainsMono-ExtraLight.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 400;
+  src: url('/assets/fonts/JetBrainsMono-Medium.ttf'),
+       url('/assets/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  src: url('/assets/fonts/JetBrainsMono-Bold.ttf'),
+       url('/assets/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Material Icon';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/MaterialIcons-Regular.ttf'),
+       url('/assets/fonts/MaterialIcons-Regular.woff2') format('woff2');
+}

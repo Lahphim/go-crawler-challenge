@@ -1,0 +1,40 @@
+body.main.index {
+  .app-content {
+    font-family: Georgia, sans-serif;
+    line-height: 2rem;
+    font-size: 1.3rem;
+    margin: 0 auto 2rem;
+    padding: 1rem 0 0;
+    text-align: center;
+    color: #000;
+
+    > p,
+    > h1 {
+      margin: 1rem 0;
+    }
+
+    img {
+      display: initial;
+    }
+
+    h1 {
+      font-weight: normal;
+      line-height: 2.8rem;
+      font-size: 2.5rem;
+      letter-spacing: -1px;
+      color: #000;
+    }
+
+    @media only screen and (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .welcome {
+      width: 37.5rem;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}

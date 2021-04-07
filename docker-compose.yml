@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DATABASE_URL=${DATABASE_URL}
+    container_name: go_challenge_web
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - APP_RUN_MODE=prod

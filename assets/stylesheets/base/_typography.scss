@@ -1,0 +1,7 @@
+body {
+  @apply text-base;
+
+  color: $base-font-color;
+  font-family: $base-font-family;
+  line-height: $base-line-height;
+}

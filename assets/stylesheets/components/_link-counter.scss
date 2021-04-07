@@ -1,0 +1,79 @@
+.link-counter {
+  @apply my-4;
+
+  &__item {
+    @apply grid mb-2;
+
+    grid-template-columns: 3rem auto;
+    grid-template-areas:
+      'number title'
+      'link-list link-list'
+  }
+
+  &__number {
+    @apply relative pl-2;
+
+    grid-area: number;
+
+    &:after {
+      @apply absolute right-0;
+
+      content: "\00B7";
+    }
+
+    &:before {
+      @apply absolute left-0 top-0 text-xs;
+
+      content: "#";
+    }
+  }
+
+  &__title {
+    @apply pl-2 cursor-pointer;
+
+    grid-area: title;
+
+    &:hover {
+      background-color: map-get($brand-gray, 100);
+    }
+  }
+
+  &__link-list {
+    @apply hidden;
+    grid-area: link-list;
+  }
+
+  &__number,
+  &__title {
+    @apply font-bold text-xl transition;
+  }
+
+  &__link-url {
+    @apply whitespace-nowrap overflow-hidden overflow-ellipsis m-2 text-base;
+
+    width: 86vw;
+    max-width: 77rem;
+
+    &:before {
+      @apply mr-2;
+
+      content: "\2192";
+    }
+  }
+
+  &__item--active {
+    .link-counter__number {
+      background-color: map-get($brand-gray, 100);
+    }
+
+    .link-counter__title {
+      @apply text-white;
+
+      background-color: map-get($brand-color, 'shark');
+    }
+
+    .link-counter__link-list {
+      @apply block;
+    }
+  }
+}

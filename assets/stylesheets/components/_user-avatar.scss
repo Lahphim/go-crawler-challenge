@@ -1,0 +1,5 @@
+.user-avatar {
+  @apply w-10 h-10 border-2 border-transparent rounded-full cursor-pointer;
+
+  border-color: map-get($brand-color, 'shark');
+}

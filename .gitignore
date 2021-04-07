@@ -13,3 +13,24 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Mac OS files
+.DS_Store
+
+# Environment variables
+.env
+
+# Except the environment file for test
+!.env.test
+
+# Node packages
+node_modules/
+
+# JetBrains IDE files
+.idea/*
+report.**.json
+
+# Beego compiled files
+go-crawler-challenge
+lastupdate.tmp
+static/

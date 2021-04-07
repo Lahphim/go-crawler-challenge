@@ -1,0 +1,8 @@
+.layout-default body {
+  background-color: hsl(0, 0%, 100%);
+  margin-top: 6.875rem;
+
+  .app-content {
+    @apply w-full max-w-screen-xl m-auto px-4;
+  }
+}
