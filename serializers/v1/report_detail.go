@@ -12,7 +12,7 @@ type ReportDetail struct {
 }
 
 type reportDetailResponse struct {
-	Id      string `jsonapi:"primary,reports"`
+	Id      string `jsonapi:"primary,report"`
 	Keyword string `jsonapi:"attr,keyword"`
 	Url     string `jsonapi:"attr,url"`
 	RawHtml string `jsonapi:"attr,raw_html"`

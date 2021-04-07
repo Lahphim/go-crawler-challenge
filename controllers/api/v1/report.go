@@ -34,6 +34,7 @@ func (c *ReportController) actionPolicyMapping() {
 // @Description show the search result of the given keyword stored in the database
 // @Success 202 {object} v1serializers.ReportDetail
 // @Param :keyword_id path string true
+// @Failure 404 Report Not Error
 // @Failure 500 Internal Server Error
 // @Accept json
 // @router /api/v1/report/:keyword_id [post]
@@ -47,7 +48,7 @@ func (c *ReportController) Show() {
 
 	keyword, err := models.GetKeywordBy(query, []string{})
 	if err != nil {
-		c.RenderNotFoundError(ErrorGenerateReportFailed)
+		c.RenderNotFoundError(ErrorNotFoundReport)
 	}
 
 	reportGeneratorService := service.ReportGenerator{Keyword: keyword}
