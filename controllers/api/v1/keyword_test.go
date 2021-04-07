@@ -317,7 +317,7 @@ var _ = Describe("KeywordController", func() {
 			})
 
 			Context("given an INVALID upload file", func() {
-				It("returns status 500", func() {
+				It("returns status 422", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
 					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
@@ -326,7 +326,7 @@ var _ = Describe("KeywordController", func() {
 
 					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
 
-					Expect(response.StatusCode).To(Equal(http.StatusInternalServerError))
+					Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
 				})
 
 				It("does NOT create any new keywords", func() {

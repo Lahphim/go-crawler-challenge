@@ -121,6 +121,12 @@ func (c *BaseController) RenderUnauthorizedError(err error) {
 	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "unauthorized_error")
 }
 
+func (c *BaseController) RenderUnprocessableEntityError(err error) {
+	statusCode := http.StatusUnprocessableEntity
+
+	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "unprocessable_entity_error")
+}
+
 func (c *BaseController) RenderError(title string, detail string, status int, code string) {
 	c.Ctx.ResponseWriter.WriteHeader(status)
 

@@ -111,7 +111,7 @@ func (c *KeywordController) TextSearch() {
 func (c *KeywordController) FileSearch() {
 	file, fileHeader, err := c.GetFile("file")
 	if err != nil {
-		c.RenderGenericError(ErrorUploadFileFailed)
+		c.RenderUnprocessableEntityError(ErrorUploadFileFailed)
 	}
 
 	fileForm := form.FileSearchForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
