@@ -53,8 +53,6 @@ func (c *KeywordController) Index() {
 	totalRows, err := models.CountAllKeyword(queryList)
 	if err != nil {
 		c.RenderGenericError(ErrorRetrieveKeywordFailed)
-
-		return
 	}
 
 	orderByList := c.GetOrderBy()
