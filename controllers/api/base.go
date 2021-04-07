@@ -105,6 +105,12 @@ func (c *BaseController) RenderGenericError(err error) {
 	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "generic_error")
 }
 
+func (c *BaseController) RenderNotFoundError(err error) {
+	statusCode := http.StatusNotFound
+
+	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "not_found_error")
+}
+
 func (c *BaseController) RenderUnauthorizedError(err error) {
 	statusCode := http.StatusUnauthorized
 

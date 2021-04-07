@@ -27,7 +27,7 @@ var _ = Describe("ReportController", func() {
 
 	Describe("GET /api/v1/report/:keyword_id", func() {
 		Context("given a valid access token", func() {
-			Context("given a valid report", func() {
+			Context("given a valid keyword ID", func() {
 				It("returns status 200", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
@@ -61,8 +61,8 @@ var _ = Describe("ReportController", func() {
 				})
 			})
 
-			Context("given an INVALID report", func() {
-				It("returns status 500", func() {
+			Context("given an INVALID keyword ID", func() {
+				It("returns status 404", func() {
 					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
 					user := FabricateUser(faker.Email(), faker.Password())
 					keyword := FabricateKeyword(faker.Word(), faker.URL(), models.GetKeywordStatus("pending"), user)
@@ -72,7 +72,7 @@ var _ = Describe("ReportController", func() {
 
 					response := MakeAuthenticatedRequest("GET", fmt.Sprintf("/api/v1/report/%v", keyword.Id), headers, nil, nil)
 
-					Expect(response.StatusCode).To(Equal(http.StatusInternalServerError))
+					Expect(response.StatusCode).To(Equal(http.StatusNotFound))
 				})
 
 				It("matches with INVALID schema", func() {

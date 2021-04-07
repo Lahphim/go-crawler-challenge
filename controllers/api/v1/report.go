@@ -47,7 +47,7 @@ func (c *ReportController) Show() {
 
 	keyword, err := models.GetKeywordBy(query, []string{})
 	if err != nil {
-		c.RenderGenericError(ErrorNotFoundReport)
+		c.RenderNotFoundError(ErrorGenerateReportFailed)
 	}
 
 	reportGeneratorService := service.ReportGenerator{Keyword: keyword}
