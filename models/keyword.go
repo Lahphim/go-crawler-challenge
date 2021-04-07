@@ -81,6 +81,11 @@ func GetKeywordStatus(status string) int {
 	return keywordStatuses[status]
 }
 
+// GetKeywordStatuses returns keyword status list
+func GetKeywordStatuses() map[string]int {
+	return keywordStatuses
+}
+
 // UpdateKeyword updates Keyword by Id and returns error if the record to be updated doesn't exist
 func UpdateKeyword(keyword *Keyword) (err error) {
 	ormer := orm.NewOrm()

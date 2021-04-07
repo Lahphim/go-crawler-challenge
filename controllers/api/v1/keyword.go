@@ -5,7 +5,11 @@ import (
 
 	. "go-crawler-challenge/controllers/api"
 	form "go-crawler-challenge/forms/keyword"
+	"go-crawler-challenge/models"
 	v1serializers "go-crawler-challenge/serializers/v1"
+
+	"github.com/beego/beego/v2/adapter/context"
+	"github.com/beego/beego/v2/adapter/utils/pagination"
 )
 
 // KeywordController operations for Keyword
@@ -20,12 +24,52 @@ func (c *KeywordController) NestPrepare() {
 
 // URLMapping maps keyword controller actions to functions
 func (c *KeywordController) URLMapping() {
+	c.Mapping("Index", c.Index)
 	c.Mapping("TextSearch", c.TextSearch)
 }
 
 // actionPolicyMapping maps keyword controller actions to policies
 func (c *KeywordController) actionPolicyMapping() {
+	c.MappingPolicy("Index", Policy{RequireAuthenticatedUser: true})
 	c.MappingPolicy("TextSearch", Policy{RequireAuthenticatedUser: true})
+}
+
+// Index handles keyword list
+// @Title Index
+// @Description response with keyword list filterable with keyword and page number
+// @Success 200 {object} v1serializers.KeywordList
+// @Param keyword	query string	false
+// @Param p			query integer	false
+// @Failure 500 Internal Server Error
+// @Accept json
+// @router /api/v1/keywords [get]
+func (c *KeywordController) Index() {
+	keyword := c.GetString("keyword")
+	queryList := map[string]interface{}{
+		"user_id":            c.CurrentUser.Id,
+		"keyword__icontains": keyword,
+	}
+
+	totalRows, err := models.CountAllKeyword(queryList)
+	if err != nil {
+		c.RenderGenericError(ErrorRetrieveKeywordFailed)
+	}
+
+	orderByList := c.GetOrderBy()
+	pageSize := c.GetPageSize()
+	paginator := pagination.SetPaginator((*context.Context)(c.Ctx), pageSize, totalRows)
+
+	keywords, err := models.GetAllKeyword(queryList, orderByList, int64(paginator.Offset()), int64(pageSize))
+	if err != nil {
+		c.RenderGenericError(ErrorRetrieveKeywordFailed)
+	}
+
+	serializer := v1serializers.KeywordList{
+		KeywordList: keywords,
+		Paginator:   paginator,
+	}
+
+	c.RenderJSONList(serializer.Data(), serializer.Meta(), serializer.Links(), http.StatusOK)
 }
 
 // TextSearch handles keyword for scrapping
@@ -48,8 +92,6 @@ func (c *KeywordController) TextSearch() {
 	err = textSearchForm.Create()
 	if err != nil {
 		c.RenderGenericError(err)
-
-		return
 	}
 
 	serializer := v1serializers.KeywordScraper{Message: "Scraping a keyword :)"}

@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "created_at_time_ago": {
+                  "type": "string"
+                },
+                "keyword": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "status_detail": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "created_at_time_ago",
+                "keyword",
+                "status",
+                "status_detail",
+                "url"
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "attributes"
+          ]
+        }
+      ]
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "prev": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "first",
+        "last",
+        "next",
+        "prev",
+        "self"
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "total_pages": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_pages"
+      ]
+    }
+  }
+}

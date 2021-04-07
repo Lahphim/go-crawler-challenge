@@ -412,6 +412,17 @@ var _ = Describe("Keyword", func() {
 		})
 	})
 
+	Describe("#GetKeywordStatuses", func() {
+		It("returns list of keyword status", func() {
+			keywordStatuses := models.GetKeywordStatuses()
+
+			Expect(keywordStatuses["failed"]).To(Equal(-1))
+			Expect(keywordStatuses["pending"]).To(Equal(0))
+			Expect(keywordStatuses["completed"]).To(Equal(1))
+			Expect(len(keywordStatuses)).To(Equal(3))
+		})
+	})
+
 	Describe("#UpdateKeyword", func() {
 		Context("given update keyword status from `pending` to `completed", func() {
 			user := FabricateUser(faker.Email(), faker.Password())

@@ -29,6 +29,8 @@ type Policy struct {
 }
 
 func (c *BaseController) Prepare() {
+	c.Ctx.Output.Header("Content-Type", ContentType)
+
 	c.disableXSRF()
 	c.initActionPolicy()
 
@@ -40,14 +42,19 @@ func (c *BaseController) Prepare() {
 	c.handleAuthorizeRequest()
 }
 
+func (c *BaseController) GetPageSize() (pageSize int) {
+	return DefaultPageSize
+}
+
+func (c *BaseController) GetOrderBy() (orderBy []string) {
+	return DefaultOrderBy
+}
+
 func (c *BaseController) MappingPolicy(method string, policy Policy) {
 	c.actionPolicy[method] = policy
 }
 
-func (c *BaseController) RenderJSON(data interface{}, status int) {
-	c.Ctx.Output.Header("Content-Type", ContentType)
-	c.Ctx.ResponseWriter.WriteHeader(status)
-
+func (c *BaseController) RenderJSONList(data interface{}, meta *jsonapi.Meta, links *jsonapi.Links, status int) {
 	response, err := jsonapi.Marshal(data)
 	if err != nil {
 		c.RenderGenericError(err)
@@ -55,8 +62,38 @@ func (c *BaseController) RenderJSON(data interface{}, status int) {
 		return
 	}
 
-	c.Data["json"] = response
-	err = c.ServeJSON()
+	payload, ok := response.(*jsonapi.ManyPayload)
+	if !ok {
+		c.RenderGenericError(ErrorInvalidPayloaderType)
+	}
+
+	if meta != nil {
+		payload.Meta = meta
+	}
+
+	if links != nil {
+		payload.Links = links
+	}
+
+	c.renderJSON(payload, status)
+}
+
+func (c *BaseController) RenderJSON(data interface{}, status int) {
+	response, err := jsonapi.Marshal(data)
+	if err != nil {
+		c.RenderGenericError(err)
+
+		return
+	}
+
+	c.renderJSON(response, status)
+}
+
+func (c *BaseController) renderJSON(payloader interface{}, status int) {
+	c.Ctx.ResponseWriter.WriteHeader(status)
+
+	c.Data["json"] = payloader
+	err := c.ServeJSON()
 	if err != nil {
 		c.RenderGenericError(err)
 	}
@@ -75,7 +112,6 @@ func (c *BaseController) RenderUnauthorizedError(err error) {
 }
 
 func (c *BaseController) RenderError(title string, detail string, status int, code string) {
-	c.Ctx.Output.Header("Content-Type", ContentType)
 	c.Ctx.ResponseWriter.WriteHeader(status)
 
 	writer := c.Ctx.ResponseWriter
@@ -88,6 +124,8 @@ func (c *BaseController) RenderError(title string, detail string, status int, co
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 	}
+
+	c.StopRun()
 }
 
 func (c *BaseController) handleAuthorizeRequest() {
@@ -98,15 +136,11 @@ func (c *BaseController) handleAuthorizeRequest() {
 		err := c.validateBearerToken()
 		if err != nil {
 			c.RenderUnauthorizedError(err)
-
-			return
 		}
 
 		err = c.validateExistingUser()
 		if err != nil {
 			c.RenderUnauthorizedError(err)
-
-			return
 		}
 	}
 }
