@@ -106,7 +106,7 @@ func (c *KeywordController) TextSearch() {
 // @Description create new scrapping result by CSV file
 // @Success 201
 // @Param file formData file true
-// @Failure 500 Internal Server Error
+// @Failure 422 Unprocessable Entity Error
 // @router /api/v1/keyword/upload [post]
 func (c *KeywordController) FileSearch() {
 	file, fileHeader, err := c.GetFile("file")
