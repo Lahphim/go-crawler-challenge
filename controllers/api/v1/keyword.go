@@ -26,12 +26,14 @@ func (c *KeywordController) NestPrepare() {
 func (c *KeywordController) URLMapping() {
 	c.Mapping("Index", c.Index)
 	c.Mapping("TextSearch", c.TextSearch)
+	c.Mapping("FileSearch", c.FileSearch)
 }
 
 // actionPolicyMapping maps keyword controller actions to policies
 func (c *KeywordController) actionPolicyMapping() {
 	c.MappingPolicy("Index", Policy{RequireAuthenticatedUser: true})
 	c.MappingPolicy("TextSearch", Policy{RequireAuthenticatedUser: true})
+	c.MappingPolicy("FileSearch", Policy{RequireAuthenticatedUser: true})
 }
 
 // Index handles keyword list
@@ -97,4 +99,26 @@ func (c *KeywordController) TextSearch() {
 	serializer := v1serializers.KeywordScraper{Message: "Scraping a keyword :)"}
 
 	c.RenderJSON(serializer.Data(), http.StatusCreated)
+}
+
+// FileSearch handles keyword for scrapping
+// @Title FileSearch
+// @Description create new scrapping result by CSV file
+// @Success 201
+// @Param file formData file true
+// @Failure 422 Unprocessable Entity Error
+// @router /api/v1/keyword/upload [post]
+func (c *KeywordController) FileSearch() {
+	file, fileHeader, err := c.GetFile("file")
+	if err != nil {
+		c.RenderUnprocessableEntityError(ErrorUploadFileFailed)
+	}
+
+	fileForm := form.FileSearchForm{File: file, FileHeader: fileHeader, User: c.CurrentUser}
+	err = fileForm.Save()
+	if err != nil {
+		c.RenderUnprocessableEntityError(err)
+	}
+
+	c.RenderJSON(nil, http.StatusNoContent)
 }

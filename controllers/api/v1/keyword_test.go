@@ -276,4 +276,162 @@ var _ = Describe("KeywordController", func() {
 			})
 		})
 	})
+
+	Describe("POST /api/v1/keyword/upload", func() {
+		Context("given a valid access token", func() {
+			Context("given a valid upload file", func() {
+				It("returns status 204", func() {
+					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+					user := FabricateUser(faker.Email(), faker.Password())
+					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/valid.csv", "text/csv")
+					headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+
+					response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+					Expect(response.StatusCode).To(Equal(http.StatusNoContent))
+				})
+
+				It("creates keyword list", func() {
+					oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+					user := FabricateUser(faker.Email(), faker.Password())
+					accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+					headers, body := CreateMultipartRequestInfo("tests/fixtures/files/valid.csv", "text/csv")
+					headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+					queryList := map[string]interface{}{"user_id": user.Id}
+
+					totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
+					if err != nil {
+						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+					}
+
+					_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+					totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
+					if err != nil {
+						Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+					}
+
+					Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically(">", 0))
+				})
+			})
+
+			Context("given an INVALID upload file", func() {
+				Context("given an empty upload file", func() {
+					It("returns status 422", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+						Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
+					})
+
+					It("does NOT create any new keywords", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+						queryList := map[string]interface{}{"user_id": user.Id}
+
+						totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+						totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically("==", 0))
+					})
+
+					It("matches with INVALID schema", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+						Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+					})
+				})
+
+				Context("given a different upload file format", func() {
+					It("returns status 422", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+						Expect(response.StatusCode).To(Equal(http.StatusUnprocessableEntity))
+					})
+
+					It("does NOT create any new keywords", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+						queryList := map[string]interface{}{"user_id": user.Id}
+
+						totalRowsBeforeRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						_ = MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+						totalRowsAfterRequest, err := models.CountAllKeyword(queryList)
+						if err != nil {
+							Fail(fmt.Sprintf("Count all keyword failed: %v", err.Error()))
+						}
+
+						Expect(totalRowsAfterRequest - totalRowsBeforeRequest).To(BeNumerically("==", 0))
+					})
+
+					It("matches with INVALID schema", func() {
+						oauthClient := FabricateOauthClient(faker.UUIDHyphenated(), faker.Password())
+						user := FabricateUser(faker.Email(), faker.Password())
+						accessToken := FabricatorAccessToken(oauthClient.ID, user.Id)
+						headers, body := CreateMultipartRequestInfo("tests/fixtures/files/text.txt", "text/plain")
+						headers.Add("Authorization", fmt.Sprintf("Bearer %v", accessToken))
+
+						response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, body, nil)
+
+						Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+					})
+				})
+			})
+		})
+
+		Context("given an INVALID access token", func() {
+			It("returns status 401", func() {
+				accessToken := "INVALID"
+				headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+
+				response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+				Expect(response.StatusCode).To(Equal(http.StatusUnauthorized))
+			})
+
+			It("matches with INVALID schema", func() {
+				accessToken := "INVALID"
+				headers := http.Header{"Authorization": {fmt.Sprintf("Bearer %v", accessToken)}}
+
+				response := MakeAuthenticatedRequest("POST", "/api/v1/keyword/upload", headers, nil, nil)
+
+				Expect(response).To(MatchJSONSchema("keyword/upload/invalid"))
+			})
+		})
+	})
 })

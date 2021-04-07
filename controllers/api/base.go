@@ -79,6 +79,10 @@ func (c *BaseController) RenderJSONList(data interface{}, meta *jsonapi.Meta, li
 }
 
 func (c *BaseController) RenderJSON(data interface{}, status int) {
+	if data == nil {
+		c.renderJSON(nil, status)
+	}
+
 	response, err := jsonapi.Marshal(data)
 	if err != nil {
 		c.RenderGenericError(err)
@@ -115,6 +119,12 @@ func (c *BaseController) RenderUnauthorizedError(err error) {
 	statusCode := http.StatusUnauthorized
 
 	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "unauthorized_error")
+}
+
+func (c *BaseController) RenderUnprocessableEntityError(err error) {
+	statusCode := http.StatusUnprocessableEntity
+
+	c.RenderError(http.StatusText(statusCode), err.Error(), statusCode, "unprocessable_entity_error")
 }
 
 func (c *BaseController) RenderError(title string, detail string, status int, code string) {
